@@ -1,1 +1,1 @@
-# ProyectoII-Inventario
+# ProyectoII-SistemaActivos
