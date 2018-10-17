@@ -25,7 +25,6 @@ DROP TABLE IF EXISTS `activo_universitario`;
 CREATE TABLE `activo_universitario` (
   `activos_universitario_id` int(11) NOT NULL AUTO_INCREMENT,
   `activo_universitario_bien` int(11) DEFAULT NULL,
-  `activo_universitario_solicitud` int(11) DEFAULT NULL,
   `activo_universitario_categoria` int(11) DEFAULT NULL,
   `activo_universitario_responsable` int(11) DEFAULT NULL,
   `activo_universitario_codigo` varchar(50) DEFAULT NULL,
@@ -34,15 +33,13 @@ CREATE TABLE `activo_universitario` (
   PRIMARY KEY (`activos_universitario_id`),
   UNIQUE KEY `activos_universitario_id_UNIQUE` (`activos_universitario_id`),
   KEY `fk_bien_activo_idx` (`activo_universitario_bien`),
-  KEY `fk_solicitud_activo_idx` (`activo_universitario_solicitud`),
   KEY `fk_categoria_idx` (`activo_universitario_categoria`),
-  KEY `fk_funcionario_idx` (`activo_universitario_responsable`),
   KEY `fk_dependencia_activo_idx` (`activo_universitario_dependencia`),
+  KEY `fk_funcionario_activo_idx` (`activo_universitario_responsable`),
   CONSTRAINT `fk_bien_activo` FOREIGN KEY (`activo_universitario_bien`) REFERENCES `bien` (`bien_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_categoria_activo` FOREIGN KEY (`activo_universitario_categoria`) REFERENCES `categoria` (`categoria_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_dependencia_activo` FOREIGN KEY (`activo_universitario_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_funcionario_activo` FOREIGN KEY (`activo_universitario_responsable`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_solicitud_activo` FOREIGN KEY (`activo_universitario_solicitud`) REFERENCES `solicitud` (`solicitud_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_funcionario_activo` FOREIGN KEY (`activo_universitario_responsable`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -68,7 +65,12 @@ CREATE TABLE `bien` (
   `bien_marca` varchar(50) DEFAULT NULL,
   `bien_modelo` varchar(50) DEFAULT NULL,
   `bien_precio` double NOT NULL,
-  PRIMARY KEY (`bien_id`)
+  `bien_solicitud` int(11) NOT NULL,
+  `bien_cantidad` int(11) NOT NULL,
+  PRIMARY KEY (`bien_id`),
+  UNIQUE KEY `bien_id_UNIQUE` (`bien_id`),
+  KEY `fk_solicitud_bien_idx` (`bien_solicitud`),
+  CONSTRAINT `fk_solicitud_bien` FOREIGN KEY (`bien_solicitud`) REFERENCES `solicitud` (`solicitud_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,7 +94,8 @@ CREATE TABLE `categoria` (
   `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
   `categoria_nombre` varchar(50) NOT NULL,
   `categoria_descripcion` varchar(100) NOT NULL,
-  PRIMARY KEY (`categoria_id`)
+  PRIMARY KEY (`categoria_id`),
+  UNIQUE KEY `categoria_id_UNIQUE` (`categoria_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -119,6 +122,7 @@ CREATE TABLE `comprobante` (
   `comprobante_cant_bienes` int(11) NOT NULL,
   `comprobante_monto_total` double NOT NULL,
   PRIMARY KEY (`comprobante_id`),
+  UNIQUE KEY `comprobante_id_UNIQUE` (`comprobante_id`),
   KEY `fk_adquisicion_comprobante_idx` (`comprobante_tipo_de_adquisicion`),
   CONSTRAINT `fk_adquisicion_comprobante` FOREIGN KEY (`comprobante_tipo_de_adquisicion`) REFERENCES `tipodeadquisicion` (`tipoDeAdquisicion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -145,6 +149,7 @@ CREATE TABLE `dependencia` (
   `dependencia_nombre` varchar(50) NOT NULL,
   `dependencia_administrador` int(11) DEFAULT NULL,
   PRIMARY KEY (`dependencia_id`),
+  UNIQUE KEY `dependencia_id_UNIQUE` (`dependencia_id`),
   KEY `fk_funcionario_dependencia_idx` (`dependencia_administrador`),
   CONSTRAINT `fk_funcionario_dependencia` FOREIGN KEY (`dependencia_administrador`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -172,6 +177,7 @@ CREATE TABLE `funcionario` (
   `funcionario_recibe_solicitud` tinyint(1) DEFAULT NULL,
   `funcionario_labor` int(11) DEFAULT NULL,
   PRIMARY KEY (`funcionario_id`),
+  UNIQUE KEY `funcionario_id_UNIQUE` (`funcionario_id`),
   KEY `fk_labor_funcionario_idx` (`funcionario_labor`),
   CONSTRAINT `fk_labor_funcionario` FOREIGN KEY (`funcionario_labor`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -252,17 +258,16 @@ CREATE TABLE `solicitud` (
   `solicitud_estado` varchar(50) DEFAULT NULL,
   `solicitud_registrador_de_bienes` int(11) DEFAULT NULL,
   `solicitud_dependencia` int(11) DEFAULT NULL,
-  `solicitud_tramite_asociado` int(11) DEFAULT NULL,
   `solicitud_descripcion_de_rechazo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`solicitud_id`),
+  UNIQUE KEY `solicitud_id_UNIQUE` (`solicitud_id`),
+  UNIQUE KEY `solicitud_comprobante_UNIQUE` (`solicitud_comprobante`),
   KEY `fk_dependencia_solicitud_idx` (`solicitud_dependencia`),
   KEY `fk_registrado_solicitud_idx` (`solicitud_registrador_de_bienes`),
   KEY `fk_comprobante_solicitud_idx` (`solicitud_comprobante`),
-  KEY `fk_tramite_solicitud_idx` (`solicitud_tramite_asociado`),
   CONSTRAINT `fk_comprobante_solicitud` FOREIGN KEY (`solicitud_comprobante`) REFERENCES `comprobante` (`comprobante_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_dependencia_solicitud` FOREIGN KEY (`solicitud_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_registrado_solicitud` FOREIGN KEY (`solicitud_registrador_de_bienes`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tramite_solicitud` FOREIGN KEY (`solicitud_tramite_asociado`) REFERENCES `tramites` (`tramites_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_registrado_solicitud` FOREIGN KEY (`solicitud_registrador_de_bienes`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -286,7 +291,8 @@ CREATE TABLE `tipodeadquisicion` (
   `tipoDeAdquisicion_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipodeadquisicion_nombre` varchar(50) NOT NULL,
   `tipodeadquisicion_despcripcion` varchar(100) NOT NULL,
-  PRIMARY KEY (`tipoDeAdquisicion_id`)
+  PRIMARY KEY (`tipoDeAdquisicion_id`),
+  UNIQUE KEY `tipoDeAdquisicion_id_UNIQUE` (`tipoDeAdquisicion_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -297,28 +303,6 @@ CREATE TABLE `tipodeadquisicion` (
 LOCK TABLES `tipodeadquisicion` WRITE;
 /*!40000 ALTER TABLE `tipodeadquisicion` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tipodeadquisicion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tramites`
---
-
-DROP TABLE IF EXISTS `tramites`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tramites` (
-  `tramites_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`tramites_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tramites`
---
-
-LOCK TABLES `tramites` WRITE;
-/*!40000 ALTER TABLE `tramites` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tramites` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -333,7 +317,11 @@ CREATE TABLE `usuario` (
   `usuario_username` varchar(50) NOT NULL,
   `usuario_password` varchar(50) NOT NULL,
   `usuario_rol` varchar(50) NOT NULL,
-  PRIMARY KEY (`usuario_id`)
+  `usuario_funcionario` int(11) NOT NULL,
+  PRIMARY KEY (`usuario_id`),
+  UNIQUE KEY `usuario_id_UNIQUE` (`usuario_id`),
+  KEY `fk_funcionario_usuario_idx` (`usuario_funcionario`),
+  CONSTRAINT `fk_funcionario_usuario` FOREIGN KEY (`usuario_funcionario`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -345,6 +333,10 @@ LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'progra3_proy2'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -355,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15  1:10:32
+-- Dump completed on 2018-10-17 12:57:22
