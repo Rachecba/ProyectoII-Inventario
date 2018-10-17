@@ -16,6 +16,46 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `activo_universitario`
+--
+
+DROP TABLE IF EXISTS `activo_universitario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activo_universitario` (
+  `activos_universitario_id` int(11) NOT NULL AUTO_INCREMENT,
+  `activo_universitario_bien` int(11) DEFAULT NULL,
+  `activo_universitario_solicitud` int(11) DEFAULT NULL,
+  `activo_universitario_categoria` int(11) DEFAULT NULL,
+  `activo_universitario_responsable` int(11) DEFAULT NULL,
+  `activo_universitario_codigo` varchar(50) DEFAULT NULL,
+  `activo_universitario_descripcion` varchar(100) DEFAULT NULL,
+  `activo_universitario_dependencia` int(11) DEFAULT NULL,
+  PRIMARY KEY (`activos_universitario_id`),
+  UNIQUE KEY `activos_universitario_id_UNIQUE` (`activos_universitario_id`),
+  KEY `fk_bien_activo_idx` (`activo_universitario_bien`),
+  KEY `fk_solicitud_activo_idx` (`activo_universitario_solicitud`),
+  KEY `fk_categoria_idx` (`activo_universitario_categoria`),
+  KEY `fk_funcionario_idx` (`activo_universitario_responsable`),
+  KEY `fk_dependencia_activo_idx` (`activo_universitario_dependencia`),
+  CONSTRAINT `fk_bien_activo` FOREIGN KEY (`activo_universitario_bien`) REFERENCES `bien` (`bien_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_categoria_activo` FOREIGN KEY (`activo_universitario_categoria`) REFERENCES `categoria` (`categoria_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_dependencia_activo` FOREIGN KEY (`activo_universitario_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_activo` FOREIGN KEY (`activo_universitario_responsable`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_solicitud_activo` FOREIGN KEY (`activo_universitario_solicitud`) REFERENCES `solicitud` (`solicitud_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activo_universitario`
+--
+
+LOCK TABLES `activo_universitario` WRITE;
+/*!40000 ALTER TABLE `activo_universitario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activo_universitario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bien`
 --
 
@@ -28,16 +68,7 @@ CREATE TABLE `bien` (
   `bien_marca` varchar(50) DEFAULT NULL,
   `bien_modelo` varchar(50) DEFAULT NULL,
   `bien_precio` double NOT NULL,
-  `bien_codigo` varchar(100) DEFAULT NULL,
-  `bien_categoria` int(11) DEFAULT NULL,
-  `bien_solicitud` int(11) NOT NULL,
-  `bien_cantidad` int(11) NOT NULL,
-  `bien_activo_universitario` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`bien_id`),
-  KEY `fk_solicitud_bien_idx` (`bien_solicitud`),
-  KEY `fk_categoria_bien_idx` (`bien_categoria`),
-  CONSTRAINT `fk_categoria_bien` FOREIGN KEY (`bien_categoria`) REFERENCES `categoria` (`categoria_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_solicitud_bien` FOREIGN KEY (`bien_solicitud`) REFERENCES `solicitud` (`solicitud_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`bien_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,7 +143,10 @@ DROP TABLE IF EXISTS `dependencia`;
 CREATE TABLE `dependencia` (
   `dependencia_id` int(11) NOT NULL AUTO_INCREMENT,
   `dependencia_nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`dependencia_id`)
+  `dependencia_administrador` int(11) DEFAULT NULL,
+  PRIMARY KEY (`dependencia_id`),
+  KEY `fk_funcionario_dependencia_idx` (`dependencia_administrador`),
+  CONSTRAINT `fk_funcionario_dependencia` FOREIGN KEY (`dependencia_administrador`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -126,28 +160,6 @@ LOCK TABLES `dependencia` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `empleado`
---
-
-DROP TABLE IF EXISTS `empleado`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `empleado` (
-  `empleado_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`empleado_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `empleado`
---
-
-LOCK TABLES `empleado` WRITE;
-/*!40000 ALTER TABLE `empleado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `empleado` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `funcionario`
 --
 
@@ -157,8 +169,11 @@ DROP TABLE IF EXISTS `funcionario`;
 CREATE TABLE `funcionario` (
   `funcionario_id` int(11) NOT NULL AUTO_INCREMENT,
   `funcionario_nombre` varchar(50) NOT NULL,
-  `funcionario_descripcion` varchar(100) NOT NULL,
-  PRIMARY KEY (`funcionario_id`)
+  `funcionario_recibe_solicitud` tinyint(1) DEFAULT NULL,
+  `funcionario_labor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`funcionario_id`),
+  KEY `fk_labor_funcionario_idx` (`funcionario_labor`),
+  CONSTRAINT `fk_labor_funcionario` FOREIGN KEY (`funcionario_labor`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -169,6 +184,59 @@ CREATE TABLE `funcionario` (
 LOCK TABLES `funcionario` WRITE;
 /*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `labor`
+--
+
+DROP TABLE IF EXISTS `labor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `labor` (
+  `labor_id` int(11) NOT NULL AUTO_INCREMENT,
+  `labor_puesto` int(11) DEFAULT NULL,
+  `labor_dependencia` int(11) DEFAULT NULL,
+  PRIMARY KEY (`labor_id`),
+  UNIQUE KEY `labor_id_UNIQUE` (`labor_id`),
+  KEY `fk_puesto_labor_idx` (`labor_puesto`),
+  KEY `fk_dependencia_labor_idx` (`labor_dependencia`),
+  CONSTRAINT `fk_dependencia_labor` FOREIGN KEY (`labor_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_puesto_labor` FOREIGN KEY (`labor_puesto`) REFERENCES `puesto` (`puesto_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `labor`
+--
+
+LOCK TABLES `labor` WRITE;
+/*!40000 ALTER TABLE `labor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `labor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `puesto`
+--
+
+DROP TABLE IF EXISTS `puesto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `puesto` (
+  `puesto_id` int(11) NOT NULL AUTO_INCREMENT,
+  `puesto_nombre` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`puesto_id`),
+  UNIQUE KEY `puesto_id_UNIQUE` (`puesto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `puesto`
+--
+
+LOCK TABLES `puesto` WRITE;
+/*!40000 ALTER TABLE `puesto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `puesto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -185,6 +253,7 @@ CREATE TABLE `solicitud` (
   `solicitud_registrador_de_bienes` int(11) DEFAULT NULL,
   `solicitud_dependencia` int(11) DEFAULT NULL,
   `solicitud_tramite_asociado` int(11) DEFAULT NULL,
+  `solicitud_descripcion_de_rechazo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`solicitud_id`),
   KEY `fk_dependencia_solicitud_idx` (`solicitud_dependencia`),
   KEY `fk_registrado_solicitud_idx` (`solicitud_registrador_de_bienes`),
@@ -192,7 +261,7 @@ CREATE TABLE `solicitud` (
   KEY `fk_tramite_solicitud_idx` (`solicitud_tramite_asociado`),
   CONSTRAINT `fk_comprobante_solicitud` FOREIGN KEY (`solicitud_comprobante`) REFERENCES `comprobante` (`comprobante_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_dependencia_solicitud` FOREIGN KEY (`solicitud_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_registrado_solicitud` FOREIGN KEY (`solicitud_registrador_de_bienes`) REFERENCES `usuario` (`usuario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_registrado_solicitud` FOREIGN KEY (`solicitud_registrador_de_bienes`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tramite_solicitud` FOREIGN KEY (`solicitud_tramite_asociado`) REFERENCES `tramites` (`tramites_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -286,4 +355,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12 15:20:44
+-- Dump completed on 2018-10-15  1:10:32

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SistemaPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>sistema.logic.Comprobante</class>
+    <class>sistema.logic.Categoria</class>
+    <class>sistema.logic.Dependencia</class>
+    <class>sistema.logic.Funcionario</class>
+    <class>sistema.logic.Bien</class>
+    <class>sistema.logic.Labor</class>
+    <class>sistema.logic.ActivoUniversitario</class>
+    <class>sistema.logic.Tipodeadquisicion</class>
+    <class>sistema.logic.Solicitud</class>
+    <class>sistema.logic.Usuario</class>
+    <class>sistema.logic.Puesto</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/progra3_proy2"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>
