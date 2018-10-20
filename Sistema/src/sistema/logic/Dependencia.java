@@ -30,9 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "dependencia")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Dependencia.findAll", query = "SELECT d FROM Dependencia d")
-    , @NamedQuery(name = "Dependencia.findByDependenciaId", query = "SELECT d FROM Dependencia d WHERE d.dependenciaId = :dependenciaId")
-    , @NamedQuery(name = "Dependencia.findByDependenciaNombre", query = "SELECT d FROM Dependencia d WHERE d.dependenciaNombre = :dependenciaNombre")})
+    @NamedQuery(name = "Dependencia.findAll", query = "SELECT d FROM Dependencia d")})
 public class Dependencia implements Serializable {
 
     private static final long serialVersionUID = 1L;

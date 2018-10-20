@@ -29,11 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "tipodeadquisicion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tipodeadquisicion.findAll", query = "SELECT t FROM Tipodeadquisicion t")
-    , @NamedQuery(name = "Tipodeadquisicion.findByTipoDeAdquisicionid", query = "SELECT t FROM Tipodeadquisicion t WHERE t.tipoDeAdquisicionid = :tipoDeAdquisicionid")
-    , @NamedQuery(name = "Tipodeadquisicion.findByTipodeadquisicionNombre", query = "SELECT t FROM Tipodeadquisicion t WHERE t.tipodeadquisicionNombre = :tipodeadquisicionNombre")
-    , @NamedQuery(name = "Tipodeadquisicion.findByTipodeadquisicionDespcripcion", query = "SELECT t FROM Tipodeadquisicion t WHERE t.tipodeadquisicionDespcripcion = :tipodeadquisicionDespcripcion")})
-public class Tipodeadquisicion implements Serializable {
+    @NamedQuery(name = "Tipodeadquisicion.findAll", query = "SELECT t FROM Tipodeadquisicion t")})
+public class TipoDeAdquisicion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,14 +47,14 @@ public class Tipodeadquisicion implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comprobanteTipoDeAdquisicion")
     private Collection<Comprobante> comprobanteCollection;
 
-    public Tipodeadquisicion() {
+    public TipoDeAdquisicion() {
     }
 
-    public Tipodeadquisicion(Integer tipoDeAdquisicionid) {
+    public TipoDeAdquisicion(Integer tipoDeAdquisicionid) {
         this.tipoDeAdquisicionid = tipoDeAdquisicionid;
     }
 
-    public Tipodeadquisicion(Integer tipoDeAdquisicionid, String tipodeadquisicionNombre, String tipodeadquisicionDespcripcion) {
+    public TipoDeAdquisicion(Integer tipoDeAdquisicionid, String tipodeadquisicionNombre, String tipodeadquisicionDespcripcion) {
         this.tipoDeAdquisicionid = tipoDeAdquisicionid;
         this.tipodeadquisicionNombre = tipodeadquisicionNombre;
         this.tipodeadquisicionDespcripcion = tipodeadquisicionDespcripcion;
@@ -106,10 +103,10 @@ public class Tipodeadquisicion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tipodeadquisicion)) {
+        if (!(object instanceof TipoDeAdquisicion)) {
             return false;
         }
-        Tipodeadquisicion other = (Tipodeadquisicion) object;
+        TipoDeAdquisicion other = (TipoDeAdquisicion) object;
         if ((this.tipoDeAdquisicionid == null && other.tipoDeAdquisicionid != null) || (this.tipoDeAdquisicionid != null && !this.tipoDeAdquisicionid.equals(other.tipoDeAdquisicionid))) {
             return false;
         }

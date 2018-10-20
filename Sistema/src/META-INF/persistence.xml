@@ -9,10 +9,10 @@
     <class>sistema.logic.Bien</class>
     <class>sistema.logic.Labor</class>
     <class>sistema.logic.ActivoUniversitario</class>
-    <class>sistema.logic.Tipodeadquisicion</class>
     <class>sistema.logic.Solicitud</class>
     <class>sistema.logic.Usuario</class>
     <class>sistema.logic.Puesto</class>
+    <class>sistema.logic.TipoDeAdquisicion</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/progra3_proy2"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

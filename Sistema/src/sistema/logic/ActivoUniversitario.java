@@ -27,10 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "activo_universitario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ActivoUniversitario.findAll", query = "SELECT a FROM ActivoUniversitario a")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivosUniversitarioId", query = "SELECT a FROM ActivoUniversitario a WHERE a.activosUniversitarioId = :activosUniversitarioId")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivoUniversitarioCodigo", query = "SELECT a FROM ActivoUniversitario a WHERE a.activoUniversitarioCodigo = :activoUniversitarioCodigo")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivoUniversitarioDescripcion", query = "SELECT a FROM ActivoUniversitario a WHERE a.activoUniversitarioDescripcion = :activoUniversitarioDescripcion")})
+    @NamedQuery(name = "ActivoUniversitario.findAll", query = "SELECT a FROM ActivoUniversitario a")})
 public class ActivoUniversitario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,9 +49,9 @@ public class ActivoUniversitario implements Serializable {
     @JoinColumn(name = "activo_universitario_dependencia", referencedColumnName = "dependencia_id")
     @ManyToOne
     private Dependencia activoUniversitarioDependencia;
-    @JoinColumn(name = "activo_universitario_responsable", referencedColumnName = "funcionario_id")
+    @JoinColumn(name = "activo_universitario_responsable", referencedColumnName = "labor_id")
     @ManyToOne
-    private Funcionario activoUniversitarioResponsable;
+    private Labor activoUniversitarioResponsable;
 
     public ActivoUniversitario() {
     }
@@ -111,11 +108,11 @@ public class ActivoUniversitario implements Serializable {
         this.activoUniversitarioDependencia = activoUniversitarioDependencia;
     }
 
-    public Funcionario getActivoUniversitarioResponsable() {
+    public Labor getActivoUniversitarioResponsable() {
         return activoUniversitarioResponsable;
     }
 
-    public void setActivoUniversitarioResponsable(Funcionario activoUniversitarioResponsable) {
+    public void setActivoUniversitarioResponsable(Labor activoUniversitarioResponsable) {
         this.activoUniversitarioResponsable = activoUniversitarioResponsable;
     }
 

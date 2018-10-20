@@ -31,11 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "comprobante")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comprobante.findAll", query = "SELECT c FROM Comprobante c")
-    , @NamedQuery(name = "Comprobante.findByComprobanteId", query = "SELECT c FROM Comprobante c WHERE c.comprobanteId = :comprobanteId")
-    , @NamedQuery(name = "Comprobante.findByComprobanteFechaDeAdquisicion", query = "SELECT c FROM Comprobante c WHERE c.comprobanteFechaDeAdquisicion = :comprobanteFechaDeAdquisicion")
-    , @NamedQuery(name = "Comprobante.findByComprobanteCantBienes", query = "SELECT c FROM Comprobante c WHERE c.comprobanteCantBienes = :comprobanteCantBienes")
-    , @NamedQuery(name = "Comprobante.findByComprobanteMontoTotal", query = "SELECT c FROM Comprobante c WHERE c.comprobanteMontoTotal = :comprobanteMontoTotal")})
+    @NamedQuery(name = "Comprobante.findAll", query = "SELECT c FROM Comprobante c")})
 public class Comprobante implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,7 +54,7 @@ public class Comprobante implements Serializable {
     private Solicitud solicitud;
     @JoinColumn(name = "comprobante_tipo_de_adquisicion", referencedColumnName = "tipoDeAdquisicion_id")
     @ManyToOne(optional = false)
-    private Tipodeadquisicion comprobanteTipoDeAdquisicion;
+    private TipoDeAdquisicion comprobanteTipoDeAdquisicion;
 
     public Comprobante() {
     }
@@ -114,11 +110,11 @@ public class Comprobante implements Serializable {
         this.solicitud = solicitud;
     }
 
-    public Tipodeadquisicion getComprobanteTipoDeAdquisicion() {
+    public TipoDeAdquisicion getComprobanteTipoDeAdquisicion() {
         return comprobanteTipoDeAdquisicion;
     }
 
-    public void setComprobanteTipoDeAdquisicion(Tipodeadquisicion comprobanteTipoDeAdquisicion) {
+    public void setComprobanteTipoDeAdquisicion(TipoDeAdquisicion comprobanteTipoDeAdquisicion) {
         this.comprobanteTipoDeAdquisicion = comprobanteTipoDeAdquisicion;
     }
 

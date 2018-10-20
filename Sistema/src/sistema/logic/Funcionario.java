@@ -31,10 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "funcionario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")
-    , @NamedQuery(name = "Funcionario.findByFuncionarioId", query = "SELECT f FROM Funcionario f WHERE f.funcionarioId = :funcionarioId")
-    , @NamedQuery(name = "Funcionario.findByFuncionarioNombre", query = "SELECT f FROM Funcionario f WHERE f.funcionarioNombre = :funcionarioNombre")
-    , @NamedQuery(name = "Funcionario.findByFuncionarioRecibeSolicitud", query = "SELECT f FROM Funcionario f WHERE f.funcionarioRecibeSolicitud = :funcionarioRecibeSolicitud")})
+    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")})
 public class Funcionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +45,6 @@ public class Funcionario implements Serializable {
     private String funcionarioNombre;
     @Column(name = "funcionario_recibe_solicitud")
     private Boolean funcionarioRecibeSolicitud;
-    @OneToMany(mappedBy = "activoUniversitarioResponsable")
-    private Collection<ActivoUniversitario> activoUniversitarioCollection;
     @OneToMany(mappedBy = "solicitudRegistradorDeBienes")
     private Collection<Solicitud> solicitudCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioFuncionario")
@@ -94,15 +89,6 @@ public class Funcionario implements Serializable {
 
     public void setFuncionarioRecibeSolicitud(Boolean funcionarioRecibeSolicitud) {
         this.funcionarioRecibeSolicitud = funcionarioRecibeSolicitud;
-    }
-
-    @XmlTransient
-    public Collection<ActivoUniversitario> getActivoUniversitarioCollection() {
-        return activoUniversitarioCollection;
-    }
-
-    public void setActivoUniversitarioCollection(Collection<ActivoUniversitario> activoUniversitarioCollection) {
-        this.activoUniversitarioCollection = activoUniversitarioCollection;
     }
 
     @XmlTransient

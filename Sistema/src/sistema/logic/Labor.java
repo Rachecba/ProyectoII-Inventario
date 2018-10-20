@@ -30,8 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "labor")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Labor.findAll", query = "SELECT l FROM Labor l")
-    , @NamedQuery(name = "Labor.findByLaborId", query = "SELECT l FROM Labor l WHERE l.laborId = :laborId")})
+    @NamedQuery(name = "Labor.findAll", query = "SELECT l FROM Labor l")})
 public class Labor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +39,8 @@ public class Labor implements Serializable {
     @Basic(optional = false)
     @Column(name = "labor_id")
     private Integer laborId;
+    @OneToMany(mappedBy = "activoUniversitarioResponsable")
+    private Collection<ActivoUniversitario> activoUniversitarioCollection;
     @OneToMany(mappedBy = "funcionarioLabor")
     private Collection<Funcionario> funcionarioCollection;
     @JoinColumn(name = "labor_dependencia", referencedColumnName = "dependencia_id")
@@ -62,6 +63,15 @@ public class Labor implements Serializable {
 
     public void setLaborId(Integer laborId) {
         this.laborId = laborId;
+    }
+
+    @XmlTransient
+    public Collection<ActivoUniversitario> getActivoUniversitarioCollection() {
+        return activoUniversitarioCollection;
+    }
+
+    public void setActivoUniversitarioCollection(Collection<ActivoUniversitario> activoUniversitarioCollection) {
+        this.activoUniversitarioCollection = activoUniversitarioCollection;
     }
 
     @XmlTransient
