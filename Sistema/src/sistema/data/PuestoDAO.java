@@ -6,14 +6,10 @@
 package sistema.data;
 
 import java.io.Serializable;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import sistema.logic.Labor;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import sistema.exceptions.NonexistentEntityException;
@@ -142,47 +138,10 @@ public class PuestoDAO implements Serializable {
         }
     }
 
-    public List<Puesto> findPuestoEntities() {
-        return findPuestoEntities(true, -1, -1);
-    }
-
-    public List<Puesto> findPuestoEntities(int maxResults, int firstResult) {
-        return findPuestoEntities(false, maxResults, firstResult);
-    }
-
-    private List<Puesto> findPuestoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Puesto.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     public Puesto findPuesto(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Puesto.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
-    public int getPuestoCount() {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Puesto> rt = cq.from(Puesto.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
