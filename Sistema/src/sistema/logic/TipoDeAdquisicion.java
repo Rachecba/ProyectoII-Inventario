@@ -6,9 +6,7 @@
 package sistema.logic;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,87 +14,77 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author leaca
  */
 @Entity
-@Table(name = "tipodeadquisicion")
+@Table(name = "tipo_de_adquisicion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tipodeadquisicion.findAll", query = "SELECT t FROM Tipodeadquisicion t")})
+    @NamedQuery(name = "TipoDeAdquisicion.findAll", query = "SELECT t FROM TipoDeAdquisicion t")
+    , @NamedQuery(name = "TipoDeAdquisicion.findByTipoDeAdquisicionId", query = "SELECT t FROM TipoDeAdquisicion t WHERE t.tipoDeAdquisicionId = :tipoDeAdquisicionId")
+    , @NamedQuery(name = "TipoDeAdquisicion.findByTipoDeAdquisicionNombre", query = "SELECT t FROM TipoDeAdquisicion t WHERE t.tipoDeAdquisicionNombre = :tipoDeAdquisicionNombre")
+    , @NamedQuery(name = "TipoDeAdquisicion.findByTipoDeAdquisicionDespcripcion", query = "SELECT t FROM TipoDeAdquisicion t WHERE t.tipoDeAdquisicionDespcripcion = :tipoDeAdquisicionDespcripcion")})
 public class TipoDeAdquisicion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "tipoDeAdquisicion_id")
-    private Integer tipoDeAdquisicionid;
+    @Column(name = "tipo_de_adquisicion_id")
+    private Integer tipoDeAdquisicionId;
     @Basic(optional = false)
-    @Column(name = "tipodeadquisicion_nombre")
-    private String tipodeadquisicionNombre;
+    @Column(name = "tipo_de_adquisicion_nombre")
+    private String tipoDeAdquisicionNombre;
     @Basic(optional = false)
-    @Column(name = "tipodeadquisicion_despcripcion")
-    private String tipodeadquisicionDespcripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comprobanteTipoDeAdquisicion")
-    private Collection<Comprobante> comprobanteCollection;
+    @Column(name = "tipo_de_adquisicion_despcripcion")
+    private String tipoDeAdquisicionDespcripcion;
 
     public TipoDeAdquisicion() {
     }
 
-    public TipoDeAdquisicion(Integer tipoDeAdquisicionid) {
-        this.tipoDeAdquisicionid = tipoDeAdquisicionid;
+    public TipoDeAdquisicion(Integer tipoDeAdquisicionId) {
+        this.tipoDeAdquisicionId = tipoDeAdquisicionId;
     }
 
-    public TipoDeAdquisicion(Integer tipoDeAdquisicionid, String tipodeadquisicionNombre, String tipodeadquisicionDespcripcion) {
-        this.tipoDeAdquisicionid = tipoDeAdquisicionid;
-        this.tipodeadquisicionNombre = tipodeadquisicionNombre;
-        this.tipodeadquisicionDespcripcion = tipodeadquisicionDespcripcion;
+    public TipoDeAdquisicion(Integer tipoDeAdquisicionId, String tipoDeAdquisicionNombre, String tipoDeAdquisicionDespcripcion) {
+        this.tipoDeAdquisicionId = tipoDeAdquisicionId;
+        this.tipoDeAdquisicionNombre = tipoDeAdquisicionNombre;
+        this.tipoDeAdquisicionDespcripcion = tipoDeAdquisicionDespcripcion;
     }
 
-    public Integer getTipoDeAdquisicionid() {
-        return tipoDeAdquisicionid;
+    public Integer getTipoDeAdquisicionId() {
+        return tipoDeAdquisicionId;
     }
 
-    public void setTipoDeAdquisicionid(Integer tipoDeAdquisicionid) {
-        this.tipoDeAdquisicionid = tipoDeAdquisicionid;
+    public void setTipoDeAdquisicionId(Integer tipoDeAdquisicionId) {
+        this.tipoDeAdquisicionId = tipoDeAdquisicionId;
     }
 
-    public String getTipodeadquisicionNombre() {
-        return tipodeadquisicionNombre;
+    public String getTipoDeAdquisicionNombre() {
+        return tipoDeAdquisicionNombre;
     }
 
-    public void setTipodeadquisicionNombre(String tipodeadquisicionNombre) {
-        this.tipodeadquisicionNombre = tipodeadquisicionNombre;
+    public void setTipoDeAdquisicionNombre(String tipoDeAdquisicionNombre) {
+        this.tipoDeAdquisicionNombre = tipoDeAdquisicionNombre;
     }
 
-    public String getTipodeadquisicionDespcripcion() {
-        return tipodeadquisicionDespcripcion;
+    public String getTipoDeAdquisicionDespcripcion() {
+        return tipoDeAdquisicionDespcripcion;
     }
 
-    public void setTipodeadquisicionDespcripcion(String tipodeadquisicionDespcripcion) {
-        this.tipodeadquisicionDespcripcion = tipodeadquisicionDespcripcion;
-    }
-
-    @XmlTransient
-    public Collection<Comprobante> getComprobanteCollection() {
-        return comprobanteCollection;
-    }
-
-    public void setComprobanteCollection(Collection<Comprobante> comprobanteCollection) {
-        this.comprobanteCollection = comprobanteCollection;
+    public void setTipoDeAdquisicionDespcripcion(String tipoDeAdquisicionDespcripcion) {
+        this.tipoDeAdquisicionDespcripcion = tipoDeAdquisicionDespcripcion;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (tipoDeAdquisicionid != null ? tipoDeAdquisicionid.hashCode() : 0);
+        hash += (tipoDeAdquisicionId != null ? tipoDeAdquisicionId.hashCode() : 0);
         return hash;
     }
 
@@ -107,7 +95,7 @@ public class TipoDeAdquisicion implements Serializable {
             return false;
         }
         TipoDeAdquisicion other = (TipoDeAdquisicion) object;
-        if ((this.tipoDeAdquisicionid == null && other.tipoDeAdquisicionid != null) || (this.tipoDeAdquisicionid != null && !this.tipoDeAdquisicionid.equals(other.tipoDeAdquisicionid))) {
+        if ((this.tipoDeAdquisicionId == null && other.tipoDeAdquisicionId != null) || (this.tipoDeAdquisicionId != null && !this.tipoDeAdquisicionId.equals(other.tipoDeAdquisicionId))) {
             return false;
         }
         return true;
@@ -115,7 +103,7 @@ public class TipoDeAdquisicion implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Tipodeadquisicion[ tipoDeAdquisicionid=" + tipoDeAdquisicionid + " ]";
+        return "sistema.logic.TipoDeAdquisicion[ tipoDeAdquisicionId=" + tipoDeAdquisicionId + " ]";
     }
     
 }

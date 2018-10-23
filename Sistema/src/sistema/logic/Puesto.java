@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "puesto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Puesto.findAll", query = "SELECT p FROM Puesto p")})
+    @NamedQuery(name = "Puesto.findAll", query = "SELECT obj FROM Puesto obj")})
 public class Puesto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,23 +75,8 @@ public class Puesto implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (puestoId != null ? puestoId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Puesto)) {
-            return false;
-        }
-        Puesto other = (Puesto) object;
-        if ((this.puestoId == null && other.puestoId != null) || (this.puestoId != null && !this.puestoId.equals(other.puestoId))) {
-            return false;
-        }
-        return true;
+    public String toString() {
+        return "Puesto{" + "puestoId=" + puestoId + ", puestoNombre=" + puestoNombre + "}";
     }
     
 }

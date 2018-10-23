@@ -6,145 +6,65 @@
 package sistema.data;
 
 import java.io.Serializable;
-import javax.persistence.EntityNotFoundException;
-import sistema.logic.Labor;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import sistema.exceptions.NonexistentEntityException;
+import javax.persistence.Query;
 import sistema.logic.Puesto;
 
 /**
  *
  * @author leaca
  */
-public class PuestoDAO implements Serializable {
+public class PuestoDAO extends AbstractFacade<Puesto> implements Serializable{
 
+    private final EntityManagerFactory emf;
+    
+    private EntityManager em;
+    
     public PuestoDAO(EntityManagerFactory emf) {
+        super(Puesto.class);
         this.emf = emf;
+        em = getEntityManager();
     }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
+    
+    @Override
+    protected final EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
-    public void create(Puesto puesto) {
-        if (puesto.getLaborCollection() == null) {
-            puesto.setLaborCollection(new ArrayList<Labor>());
-        }
-        EntityManager em = null;
+    
+    public void create(Puesto obj){
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Collection<Labor> attachedLaborCollection = new ArrayList<Labor>();
-            for (Labor laborCollectionLaborToAttach : puesto.getLaborCollection()) {
-                laborCollectionLaborToAttach = em.getReference(laborCollectionLaborToAttach.getClass(), laborCollectionLaborToAttach.getLaborId());
-                attachedLaborCollection.add(laborCollectionLaborToAttach);
-            }
-            puesto.setLaborCollection(attachedLaborCollection);
-            em.persist(puesto);
-            for (Labor laborCollectionLabor : puesto.getLaborCollection()) {
-                Puesto oldLaborPuestoOfLaborCollectionLabor = laborCollectionLabor.getLaborPuesto();
-                laborCollectionLabor.setLaborPuesto(puesto);
-                laborCollectionLabor = em.merge(laborCollectionLabor);
-                if (oldLaborPuestoOfLaborCollectionLabor != null) {
-                    oldLaborPuestoOfLaborCollectionLabor.getLaborCollection().remove(laborCollectionLabor);
-                    oldLaborPuestoOfLaborCollectionLabor = em.merge(oldLaborPuestoOfLaborCollectionLabor);
-                }
-            }
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public void edit(Puesto puesto) throws NonexistentEntityException, Exception {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Puesto persistentPuesto = em.find(Puesto.class, puesto.getPuestoId());
-            Collection<Labor> laborCollectionOld = persistentPuesto.getLaborCollection();
-            Collection<Labor> laborCollectionNew = puesto.getLaborCollection();
-            Collection<Labor> attachedLaborCollectionNew = new ArrayList<Labor>();
-            for (Labor laborCollectionNewLaborToAttach : laborCollectionNew) {
-                laborCollectionNewLaborToAttach = em.getReference(laborCollectionNewLaborToAttach.getClass(), laborCollectionNewLaborToAttach.getLaborId());
-                attachedLaborCollectionNew.add(laborCollectionNewLaborToAttach);
-            }
-            laborCollectionNew = attachedLaborCollectionNew;
-            puesto.setLaborCollection(laborCollectionNew);
-            puesto = em.merge(puesto);
-            for (Labor laborCollectionOldLabor : laborCollectionOld) {
-                if (!laborCollectionNew.contains(laborCollectionOldLabor)) {
-                    laborCollectionOldLabor.setLaborPuesto(null);
-                    laborCollectionOldLabor = em.merge(laborCollectionOldLabor);
-                }
-            }
-            for (Labor laborCollectionNewLabor : laborCollectionNew) {
-                if (!laborCollectionOld.contains(laborCollectionNewLabor)) {
-                    Puesto oldLaborPuestoOfLaborCollectionNewLabor = laborCollectionNewLabor.getLaborPuesto();
-                    laborCollectionNewLabor.setLaborPuesto(puesto);
-                    laborCollectionNewLabor = em.merge(laborCollectionNewLabor);
-                    if (oldLaborPuestoOfLaborCollectionNewLabor != null && !oldLaborPuestoOfLaborCollectionNewLabor.equals(puesto)) {
-                        oldLaborPuestoOfLaborCollectionNewLabor.getLaborCollection().remove(laborCollectionNewLabor);
-                        oldLaborPuestoOfLaborCollectionNewLabor = em.merge(oldLaborPuestoOfLaborCollectionNewLabor);
-                    }
-                }
-            }
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = puesto.getPuestoId();
-                if (findPuesto(id) == null) {
-                    throw new NonexistentEntityException("The puesto with id " + id + " no longer exists.");
-                }
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public void destroy(Integer id) throws NonexistentEntityException {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Puesto puesto;
-            try {
-                puesto = em.getReference(Puesto.class, id);
-                puesto.getPuestoId();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The puesto with id " + id + " no longer exists.", enfe);
-            }
-            Collection<Labor> laborCollection = puesto.getLaborCollection();
-            for (Labor laborCollectionLabor : laborCollection) {
-                laborCollectionLabor.setLaborPuesto(null);
-                laborCollectionLabor = em.merge(laborCollectionLabor);
-            }
-            em.remove(puesto);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
-
-    public Puesto findPuesto(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
-            return em.find(Puesto.class, id);
-        } finally {
-            em.close();
+            super.persist(obj);
+        } catch (Exception e) {
+            System.out.print("Error al crear el puesto.\n\n Error:" + e + "\n\n");
         }
     }
     
+    public void edit(Puesto obj){
+        try {
+            super.merge(obj);
+        } catch (Exception e) {
+            System.out.print("Error al editando el puesto.\n\n Error:" + e + "\n\n");
+        }
+    }
+    
+    public void delete(Puesto obj){
+        try {
+            super.remove(obj);
+        } catch (Exception e) {
+            System.out.print("Error al borrando el puesto.\n\n Error:" + e + "\n\n");
+        }
+    }
+    
+    @Override
+    public List<Puesto> findAll(){
+        try {
+            Query q = em.createQuery("Select obj from Puesto obj");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperando los puestos.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
 }

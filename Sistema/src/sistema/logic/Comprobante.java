@@ -52,7 +52,7 @@ public class Comprobante implements Serializable {
     private double comprobanteMontoTotal;
     @OneToOne(mappedBy = "solicitudComprobante")
     private Solicitud solicitud;
-    @JoinColumn(name = "comprobante_tipo_de_adquisicion", referencedColumnName = "tipoDeAdquisicion_id")
+    @JoinColumn(name = "comprobante_tipo_de_adquisicion", referencedColumnName = "tipo_de_adquisicion_id")
     @ManyToOne(optional = false)
     private TipoDeAdquisicion comprobanteTipoDeAdquisicion;
 

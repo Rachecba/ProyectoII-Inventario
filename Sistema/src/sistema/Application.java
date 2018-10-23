@@ -1,6 +1,7 @@
 package sistema;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import sistema.data.PuestoDAO;
 import sistema.logic.Model;
 import sistema.logic.Puesto;
@@ -30,18 +31,16 @@ import sistema.presentation.solicitudes.SolicitudesView;
  */
 public class Application {
 
-    private static final String PERSISTENCE_UNIT_NAME = "todos";
-    private static EntityManagerFactory factory;
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Puesto p = new Puesto();
-        PuestoDAO pDao = new PuestoDAO(factory);
-        p.setPuestoNombre("Puesto1");
-        
-        pDao.create(p);
+//        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "SistemaPU" );
+//        PuestoDAO pDao = new PuestoDAO(emfactory);
+//        for(Puesto p : pDao.findAll()){
+//            System.out.print(p.toString() + "\n\n");
+//        }
+                
         
         //-----------------------------------------------------------------
         Model mainModel = Model.instance();
