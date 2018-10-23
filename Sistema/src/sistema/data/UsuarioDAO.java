@@ -67,5 +67,16 @@ public class UsuarioDAO extends AbstractFacade<Usuario> implements Serializable{
         }
         return null;
     }
+    
+    public Usuario obtenerUsuario(String userName){
+        try {
+            Query q = em.createQuery("Select u from Usuario u where u.usuarioUsername = :userName")
+                    .setParameter("userName", userName);
+            return (Usuario) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.print("Error recuperando usuario" + e);
+        }
+        return null;
+    }
 }
  

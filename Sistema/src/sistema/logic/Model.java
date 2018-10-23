@@ -45,10 +45,10 @@ public class Model {
       
      public Model(){}
      
-     public Usuario getUsuario(String user, String pass) throws Exception{
-         Usuario usuario = usuarioDao.getUsuario(user);
+     public Usuario getUsuario(String userName, String pass) throws Exception{
+         Usuario usuario = usuarioDao.obtenerUsuario(userName);
          
-        if (usuario.getClave().equals(pass)){ //verifica si la clave del nuevo usuario y la del parametro, son iguales.
+        if (usuario.getUsuarioPassword().equals(pass)){ //verifica si la clave del nuevo usuario y la del parametro, son iguales.
             return usuario;
         }
         else{
