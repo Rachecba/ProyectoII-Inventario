@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.data;
+package sistema.presentation.funcionarios;
 
 /**
  *
- * @author leaca
+ * @author Rachel
  */
-public class UsuarioDAO {
-
+public class FuncionariosController {
+    
+    
+    
+     public void ocultar(){
+       // view.setVisible(false);
+    }
 }
- 

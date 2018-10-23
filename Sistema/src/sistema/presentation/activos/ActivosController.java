@@ -3,13 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.data;
+package sistema.presentation.activos;
 
 /**
  *
- * @author leaca
+ * @author Rachel
  */
-public class UsuarioDAO {
-
+public class ActivosController {
+    
+    
+    
+    
+     public void ocultar(){
+       // view.setVisible(false);
+    }
+    
 }
- 

@@ -3,13 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.data;
+package sistema.presentation.articulos;
 
 /**
  *
- * @author leaca
+ * @author Rachel
  */
-public class UsuarioDAO {
-
+public class ArticulosController {
+    
+    
+    
+    
+     public void ocultar(){
+       // view.setVisible(false);
+    }
+    
 }
- 

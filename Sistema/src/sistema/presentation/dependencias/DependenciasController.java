@@ -3,13 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.data;
+package sistema.presentation.dependencias;
 
 /**
  *
- * @author leaca
+ * @author Rachel
  */
-public class UsuarioDAO {
-
+public class DependenciasController {
+    
+    
+    
+     public void ocultar(){
+       // view.setVisible(false);
+    }
+    
 }
- 
