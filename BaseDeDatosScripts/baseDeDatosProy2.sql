@@ -29,17 +29,15 @@ CREATE TABLE `activo_universitario` (
   `activo_universitario_responsable` int(11) DEFAULT NULL,
   `activo_universitario_codigo` varchar(50) DEFAULT NULL,
   `activo_universitario_descripcion` varchar(100) DEFAULT NULL,
-  `activo_universitario_dependencia` int(11) DEFAULT NULL,
+  `activo_universitario_registrado` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`activos_universitario_id`),
   UNIQUE KEY `activos_universitario_id_UNIQUE` (`activos_universitario_id`),
   KEY `fk_bien_activo_idx` (`activo_universitario_bien`),
   KEY `fk_categoria_idx` (`activo_universitario_categoria`),
-  KEY `fk_dependencia_activo_idx` (`activo_universitario_dependencia`),
   KEY `fk_funcionario_activo_idx` (`activo_universitario_responsable`),
   CONSTRAINT `fk_bien_activo` FOREIGN KEY (`activo_universitario_bien`) REFERENCES `bien` (`bien_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_categoria_activo` FOREIGN KEY (`activo_universitario_categoria`) REFERENCES `categoria` (`categoria_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_dependencia_activo` FOREIGN KEY (`activo_universitario_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_funcionario_activo` FOREIGN KEY (`activo_universitario_responsable`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_labor_activo` FOREIGN KEY (`activo_universitario_responsable`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -124,7 +122,7 @@ CREATE TABLE `comprobante` (
   PRIMARY KEY (`comprobante_id`),
   UNIQUE KEY `comprobante_id_UNIQUE` (`comprobante_id`),
   KEY `fk_adquisicion_comprobante_idx` (`comprobante_tipo_de_adquisicion`),
-  CONSTRAINT `fk_adquisicion_comprobante` FOREIGN KEY (`comprobante_tipo_de_adquisicion`) REFERENCES `tipodeadquisicion` (`tipoDeAdquisicion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_adquisicion_comprobante` FOREIGN KEY (`comprobante_tipo_de_adquisicion`) REFERENCES `tipo_de_adquisicion` (`tipo_de_adquisicion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,11 +173,8 @@ CREATE TABLE `funcionario` (
   `funcionario_id` int(11) NOT NULL AUTO_INCREMENT,
   `funcionario_nombre` varchar(50) NOT NULL,
   `funcionario_recibe_solicitud` tinyint(1) DEFAULT NULL,
-  `funcionario_labor` int(11) DEFAULT NULL,
   PRIMARY KEY (`funcionario_id`),
-  UNIQUE KEY `funcionario_id_UNIQUE` (`funcionario_id`),
-  KEY `fk_labor_funcionario_idx` (`funcionario_labor`),
-  CONSTRAINT `fk_labor_funcionario` FOREIGN KEY (`funcionario_labor`) REFERENCES `labor` (`labor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  UNIQUE KEY `funcionario_id_UNIQUE` (`funcionario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,13 +196,16 @@ DROP TABLE IF EXISTS `labor`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `labor` (
   `labor_id` int(11) NOT NULL AUTO_INCREMENT,
-  `labor_puesto` int(11) DEFAULT NULL,
-  `labor_dependencia` int(11) DEFAULT NULL,
+  `labor_puesto` int(11) NOT NULL,
+  `labor_dependencia` int(11) NOT NULL,
+  `labor_funcionario` int(11) NOT NULL,
   PRIMARY KEY (`labor_id`),
   UNIQUE KEY `labor_id_UNIQUE` (`labor_id`),
   KEY `fk_puesto_labor_idx` (`labor_puesto`),
   KEY `fk_dependencia_labor_idx` (`labor_dependencia`),
+  KEY `fk_funcionario_labor_idx` (`labor_funcionario`),
   CONSTRAINT `fk_dependencia_labor` FOREIGN KEY (`labor_dependencia`) REFERENCES `dependencia` (`dependencia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_labor` FOREIGN KEY (`labor_funcionario`) REFERENCES `funcionario` (`funcionario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_puesto_labor` FOREIGN KEY (`labor_puesto`) REFERENCES `puesto` (`puesto_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -233,7 +231,7 @@ CREATE TABLE `puesto` (
   `puesto_nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`puesto_id`),
   UNIQUE KEY `puesto_id_UNIQUE` (`puesto_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,6 +240,7 @@ CREATE TABLE `puesto` (
 
 LOCK TABLES `puesto` WRITE;
 /*!40000 ALTER TABLE `puesto` DISABLE KEYS */;
+INSERT INTO `puesto` VALUES (6,'1'),(7,'2'),(8,'3'),(9,'4'),(10,'6'),(11,'67');
 /*!40000 ALTER TABLE `puesto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,28 +280,28 @@ LOCK TABLES `solicitud` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tipodeadquisicion`
+-- Table structure for table `tipo_de_adquisicion`
 --
 
-DROP TABLE IF EXISTS `tipodeadquisicion`;
+DROP TABLE IF EXISTS `tipo_de_adquisicion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tipodeadquisicion` (
-  `tipoDeAdquisicion_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipodeadquisicion_nombre` varchar(50) NOT NULL,
-  `tipodeadquisicion_despcripcion` varchar(100) NOT NULL,
-  PRIMARY KEY (`tipoDeAdquisicion_id`),
-  UNIQUE KEY `tipoDeAdquisicion_id_UNIQUE` (`tipoDeAdquisicion_id`)
+CREATE TABLE `tipo_de_adquisicion` (
+  `tipo_de_adquisicion_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_de_adquisicion_nombre` varchar(50) NOT NULL,
+  `tipo_de_adquisicion_despcripcion` varchar(100) NOT NULL,
+  PRIMARY KEY (`tipo_de_adquisicion_id`),
+  UNIQUE KEY `tipoDeAdquisicion_id_UNIQUE` (`tipo_de_adquisicion_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tipodeadquisicion`
+-- Dumping data for table `tipo_de_adquisicion`
 --
 
-LOCK TABLES `tipodeadquisicion` WRITE;
-/*!40000 ALTER TABLE `tipodeadquisicion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipodeadquisicion` ENABLE KEYS */;
+LOCK TABLES `tipo_de_adquisicion` WRITE;
+/*!40000 ALTER TABLE `tipo_de_adquisicion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tipo_de_adquisicion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -333,10 +332,6 @@ LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'progra3_proy2'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -347,4 +342,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-17 12:57:22
+-- Dump completed on 2018-10-23 19:19:05
