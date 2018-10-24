@@ -64,17 +64,21 @@ public class LoginView extends javax.swing.JFrame implements Observer{
         loginBttn = new javax.swing.JButton();
         exitBttn = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Login");
+        setMinimumSize(new java.awt.Dimension(284, 200));
+        setPreferredSize(new java.awt.Dimension(284, 132));
+
         userLbl.setText("Username");
 
         passLbl.setText("Password");
 
-        passFld.addActionListener(new java.awt.event.ActionListener() {
+        loginBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/login/login.png"))); // NOI18N
+        loginBttn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passFldActionPerformed(evt);
+                loginBttnActionPerformed(evt);
             }
         });
-
-        loginBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/login/login.png"))); // NOI18N
 
         exitBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/login/exit.png"))); // NOI18N
         exitBttn.addActionListener(new java.awt.event.ActionListener() {
@@ -83,15 +87,15 @@ public class LoginView extends javax.swing.JFrame implements Observer{
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(userLbl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -99,11 +103,11 @@ public class LoginView extends javax.swing.JFrame implements Observer{
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(passLbl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(passFld, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(passFld))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(71, 71, 71)
                         .addComponent(loginBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(32, 32, 32)
                         .addComponent(exitBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -126,8 +130,12 @@ public class LoginView extends javax.swing.JFrame implements Observer{
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passFldActionPerformed
-        if(this.validar()){
+    private void exitBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBttnActionPerformed
+       this.controller.exit();
+    }//GEN-LAST:event_exitBttnActionPerformed
+
+    private void loginBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBttnActionPerformed
+           if(this.validar()){
             try{
                 controller.login(this.usuario());
             }
@@ -137,16 +145,12 @@ public class LoginView extends javax.swing.JFrame implements Observer{
         }else{
             this.mensaje("Complete todo los datos");
         }
-    }//GEN-LAST:event_passFldActionPerformed
-
-    private void exitBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBttnActionPerformed
-       this.controller.exit();
-    }//GEN-LAST:event_exitBttnActionPerformed
+    }//GEN-LAST:event_loginBttnActionPerformed
 
     public Usuario usuario(){
         Usuario login = new Usuario();
         login.setUsuarioUsername(this.userFld.getText());
-        login.setUsuarioPassword(Arrays.toString(this.passFld.getPassword()));
+        login.setUsuarioPassword(new String(this.passFld.getPassword()));
         
         return login;
     }
@@ -179,7 +183,7 @@ public class LoginView extends javax.swing.JFrame implements Observer{
     
     public void llenarDatos(Usuario act){
         this.userFld.setText(act.getUsuarioUsername());
-        this.passFld.setText(act.getUsuarioPassword());
+        //this.passFld.setText(act.getUsuarioPassword());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

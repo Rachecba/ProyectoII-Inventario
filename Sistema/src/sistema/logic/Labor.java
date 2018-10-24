@@ -41,7 +41,7 @@ public class Labor implements Serializable {
     private Integer laborId;
     @OneToMany(mappedBy = "activoUniversitarioResponsable")
     private Collection<ActivoUniversitario> activoUniversitarioCollection;
-    @OneToMany(mappedBy = "funcionarioLabor")
+    //@OneToMany(mappedBy = "funcionarioLabor")
     private Collection<Funcionario> funcionarioCollection;
     @JoinColumn(name = "labor_dependencia", referencedColumnName = "dependencia_id")
     @ManyToOne
