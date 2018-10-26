@@ -5,6 +5,8 @@
  */
 package sistema.logic;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import sistema.data.ActivoUniversitarioDAO;
 import sistema.data.BienDAO;
 import sistema.data.CategoriaDAO;
@@ -43,7 +45,20 @@ public class Model {
         return uniqueInstance; 
     }
       
-     public Model(){}
+     public Model(){
+         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "SistemaPU" );
+         activoDao = new ActivoUniversitarioDAO(emfactory);
+         bienDao = new BienDAO(emfactory);
+         categoriaDao = new CategoriaDAO(emfactory);
+         comprobanteDao = new ComprobanteDAO(emfactory);
+         dependenciaDao = new DependenciaDAO(emfactory);
+         funcionarioDao = new FuncionarioDAO(emfactory);
+         laborDao = new LaborDAO(emfactory);
+         puestoDao = new PuestoDAO(emfactory);
+         solicitudDao = new SolicitudDAO(emfactory);
+         tipoAdquisicionDao = new TipoDeAdquisicionDAO(emfactory);
+         usuarioDao = new UsuarioDAO(emfactory);
+     }
      
      public Usuario getUsuario(String userName, String pass) throws Exception{
          Usuario usuario = usuarioDao.obtenerUsuario(userName);

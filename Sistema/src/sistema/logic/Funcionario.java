@@ -49,9 +49,9 @@ public class Funcionario implements Serializable {
     private Collection<Solicitud> solicitudCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioFuncionario")
     private Collection<Usuario> usuarioCollection;
-    @JoinColumn(name = "funcionario_labor", referencedColumnName = "labor_id")
-    @ManyToOne
-    private Labor funcionarioLabor;
+//    @JoinColumn(name = "funcionario_labor", referencedColumnName = "labor_id")
+//    @ManyToOne
+//    private Labor funcionarioLabor;
     @OneToMany(mappedBy = "dependenciaAdministrador")
     private Collection<Dependencia> dependenciaCollection;
 
@@ -109,13 +109,13 @@ public class Funcionario implements Serializable {
         this.usuarioCollection = usuarioCollection;
     }
 
-    public Labor getFuncionarioLabor() {
-        return funcionarioLabor;
-    }
-
-    public void setFuncionarioLabor(Labor funcionarioLabor) {
-        this.funcionarioLabor = funcionarioLabor;
-    }
+//    public Labor getFuncionarioLabor() {
+//        return funcionarioLabor;
+//    }
+//
+//    public void setFuncionarioLabor(Labor funcionarioLabor) {
+//        this.funcionarioLabor = funcionarioLabor;
+//    }
 
     @XmlTransient
     public Collection<Dependencia> getDependenciaCollection() {

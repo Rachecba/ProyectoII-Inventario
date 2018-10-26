@@ -57,7 +57,6 @@ public class PrincipalView extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         salir = new javax.swing.JMenu();
@@ -68,8 +67,6 @@ public class PrincipalView extends javax.swing.JFrame implements Observer {
         funcionarios = new javax.swing.JMenu();
         dependencias = new javax.swing.JMenu();
         ayuda = new javax.swing.JMenu();
-
-        jMenuItem1.setText("jMenuItem1");
 
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
@@ -85,6 +82,11 @@ public class PrincipalView extends javax.swing.JFrame implements Observer {
         salir.setText("Salir");
 
         logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
         salir.add(logout);
 
         jMenuBar1.add(salir);
@@ -117,13 +119,22 @@ public class PrincipalView extends javax.swing.JFrame implements Observer {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane)
+            .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        this.controller.exit();
+    }//GEN-LAST:event_logoutActionPerformed
+
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (model.getUsuario() != null){
+           this.setTitle("Username: "+model.getUsuario().getUsuarioUsername());
+       }
+       else{
+           this.setTitle("Sistema");
+       }       
     }
 
 
@@ -135,7 +146,6 @@ public class PrincipalView extends javax.swing.JFrame implements Observer {
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu funcionarios;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenu salir;
     private javax.swing.JMenu solicitudes;

@@ -55,30 +55,35 @@ public class Application {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView, mainModel, sesion);
         LOGIN_CONTROLLER = loginController;
+        loginView.setVisible(true);
         
      //   ActivosModel activosModel = new ActivosModel();
-        ActivosView activosView = new ActivosView();
-        
+//        ActivosView activosView = new ActivosView();
+//        principalView.addInternalFrame(activosView);
      //   ActivosController activosController = new ActivosController(activosModel, activosView, mainMode, sesion);
      //   ACTIVOS_CONTROLLER = activosController;
      
      //   ArticulosModel articulosModel = new ArticulosModel();
      //   ArticulosView articulosView = new ArticulosView();
+     //   principalView.addInternalFrame(articulosView);
      //   ArticulosController articulosController = new ArticulosController();
      //   ARTICULOS_CONTROLLER = articulosController;
         
 //        DependenciasModel dependenciasModel = new DependenciasModel();
 //        DependenciasView dependenciasView = new DependenciasView();
+//        principalView.addInternalFrame(dependenciasView);
 //        DependenciasController dependenciasController = new DependenciasController();
 //        DEPENDENCIAS_CONTROLLER = dependenciasController;
 
 //        FuncionariosModel funcionariosModel = new FuncionariosModel();
 //        FuncionariosView funcionariosView = new FuncionariosView();
+//        principalView.addInternalFrame(funcionariosView);
 //        FuncionariosController funcionariosController = new FuncionariosController();
 //        FUNCIONARIOS_CONTROLLER = funcionariosController;
         
  //       SolicitudesModel solicitudesModel = new SolicitudesModel();
- //      SolicitudesView solicitudesView = new SolicitudesView();
+ //       SolicitudesView solicitudesView = new SolicitudesView();
+ //       principalView.addInternalFrame(solicitudesView);
  //       SolicitudesController solicitudesController = new SolicitudesController();
  //       SOLICITUDES_CONTROLLER solicitudesController;
  
