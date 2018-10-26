@@ -41,6 +41,8 @@ public class Funcionario implements Serializable {
     @Column(name = "funcionario_id")
     private Integer funcionarioId;
     @Basic(optional = false)
+    @Column(name = "funcionario_cedula")
+    private String funcionarioCedula;
     @Column(name = "funcionario_nombre")
     private String funcionarioNombre;
     @Column(name = "funcionario_recibe_solicitud")

@@ -10,6 +10,8 @@ import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
 import sistema.presentation.dependencias.DependenciasController;
 import sistema.presentation.funcionarios.FuncionariosController;
+import sistema.presentation.funcionarios.FuncionariosModel;
+import sistema.presentation.funcionarios.FuncionariosView;
 import sistema.presentation.login.LoginController;
 import sistema.presentation.login.LoginModel;
 import sistema.presentation.login.LoginView;
@@ -19,21 +21,12 @@ import sistema.presentation.principal.PrincipalView;
 import sistema.presentation.solicitudes.SolicitudesController;
 import sistema.presentation.solicitudes.SolicitudesView;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Rachel
  */
 public class Application {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
 //        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "SistemaPU" );
 //        PuestoDAO pDao = new PuestoDAO(emfactory);
@@ -75,11 +68,11 @@ public class Application {
 //        DependenciasController dependenciasController = new DependenciasController();
 //        DEPENDENCIAS_CONTROLLER = dependenciasController;
 
-//        FuncionariosModel funcionariosModel = new FuncionariosModel();
-//        FuncionariosView funcionariosView = new FuncionariosView();
-//        principalView.addInternalFrame(funcionariosView);
-//        FuncionariosController funcionariosController = new FuncionariosController();
-//        FUNCIONARIOS_CONTROLLER = funcionariosController;
+        FuncionariosModel funcionariosModel = new FuncionariosModel();
+        FuncionariosView funcionariosView = new FuncionariosView();
+        principalView.addInternalFrame(funcionariosView);
+        FuncionariosController funcionariosController = new FuncionariosController(funcionariosModel, funcionariosView, mainModel, sesion);
+        FUNCIONARIOS_CONTROLLER = funcionariosController;
         
  //       SolicitudesModel solicitudesModel = new SolicitudesModel();
  //       SolicitudesView solicitudesView = new SolicitudesView();
@@ -98,4 +91,11 @@ public class Application {
         public static DependenciasController DEPENDENCIAS_CONTROLLER;
         public static FuncionariosController FUNCIONARIOS_CONTROLLER;
         public static SolicitudesController SOLICITUDES_CONTROLLER;
+        
+        //-----------------ROLES DE USUARIO--------------------------------
+        public static String ADMINISTRADOR = "Administrador";
+        public static String SECRETARIA = "Secretaria OCCB";
+        public static String JEFE_OCCB = "Jefe OCCB";
+        public static String REGISTRADOR_BIENES = "Registrador de bienes";
+        public static String JEFE_RRHH = "Jefe RRHH";
 }

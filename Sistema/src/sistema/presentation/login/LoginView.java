@@ -128,14 +128,16 @@ public class LoginView extends javax.swing.JFrame implements Observer{
                     .addComponent(exitBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBttnActionPerformed
-       this.controller.exit();
+        this.controller.exit();
     }//GEN-LAST:event_exitBttnActionPerformed
 
     private void loginBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBttnActionPerformed
-           if(this.validar()){
+        if(this.validar()){
             try{
                 controller.login(this.usuario());
             }
@@ -183,7 +185,7 @@ public class LoginView extends javax.swing.JFrame implements Observer{
     
     public void llenarDatos(Usuario act){
         this.userFld.setText(act.getUsuarioUsername());
-        //this.passFld.setText(act.getUsuarioPassword());
+        this.passFld.setText(act.getUsuarioPassword());
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

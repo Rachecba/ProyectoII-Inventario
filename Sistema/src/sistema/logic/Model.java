@@ -5,6 +5,7 @@
  */
 package sistema.logic;
 
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import sistema.data.ActivoUniversitarioDAO;
@@ -71,5 +72,26 @@ public class Model {
         }
      }
      
+     public List<Funcionario> buscarFuncionarios(Funcionario filtro){
+        
+         if(filtro.getFuncionarioNombre() == null){
+             return this.funcionarioDao.findAll();
+         }
+         else{
+             return this.funcionarioDao.findFuncionario(filtro);
+         }
+         
+     }
     
+     public void agregarFuncionario(Funcionario funcionario){
+            this.funcionarioDao.create(funcionario);
+     }
+     
+     public List<Dependencia> getDependenciasBox(){
+         return this.dependenciaDao.findAll();
+     }
+     
+     public Dependencia buscarDependencia(String nombre){
+         return this.dependenciaDao.buscarDependencia(nombre);
+     }
 }

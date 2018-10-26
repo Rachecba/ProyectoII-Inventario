@@ -45,7 +45,7 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
         try {
             super.merge(obj);
         } catch (Exception e) {
-            System.out.print("Error al editando el funcionario.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al editar el funcionario.\n\n Error:" + e + "\n\n");
         }
     }
     
@@ -53,7 +53,7 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
         try {
             super.remove(obj);
         } catch (Exception e) {
-            System.out.print("Error al borrando el funcionario.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al borrar el funcionario.\n\n Error:" + e + "\n\n");
         }
     }
     
@@ -63,7 +63,17 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
             Query q = em.createQuery("Select obj from Funcionario obj");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Error al recuperando los funcionarios.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al recuperar los funcionarios.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    public List<Funcionario> findFuncionario(Funcionario funcionario){
+        try{
+            Query q = em.createQuery("Select f from Funcionario f where f.funcionarioNombre like :filtro").setParameter("filtro", funcionario.getFuncionarioNombre());
+            return q.getResultList();
+        }catch(Exception ex){
+            System.out.print("Error al recuperar los funcionarios. \n\n Error:" + ex + "\n\n");
         }
         return null;
     }

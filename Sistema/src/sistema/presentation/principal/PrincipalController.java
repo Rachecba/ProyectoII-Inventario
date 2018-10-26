@@ -51,23 +51,23 @@ public class PrincipalController {
     // --------------------- ventanas -------------------------------
     
     public void showArticulos(){ 
-        // Application.ARTICULOS_CONTROLLER.show(); 
+        // Application.ARTICULOS_CONTROLLER.mostrar(); 
     }
     
     public void showActivos(){
-        // Application.ACTIVOS_CONTROLLER.show(); 
+        // Application.ACTIVOS_CONTROLLER.mostrar(); 
     }
     
     public void showSolicitudes(){
-        // Application.SOLICITUDES_CONTROLLER.show();
+        // Application.SOLICITUDES_CONTROLLER.mostrar();
     }
     
     public void showDependencias(){ 
-        //Application.DEPENDENCIAS_CONTROLLER.show(); 
+        //Application.DEPENDENCIAS_CONTROLLER.mostrar(); 
     }
     
-    public void showPersonal(){
-        // Application.FUNCIONARIOS_CONTROLLER.show();
+    public void showFuncionarios(){
+         Application.FUNCIONARIOS_CONTROLLER.mostrar();
     }
     
      public void show(Point position){
@@ -91,7 +91,7 @@ public class PrincipalController {
 //         Application.SOLICITUDES_CONTROLLER.reset();
 //         Application.ACTIVOS_CONTROLLER.reset();
 //         Application.ARTICULOS_CONTROLLER.reset();
-//         Application.FUNCIONARIOS_CONTROLLER.reset();
+         Application.FUNCIONARIOS_CONTROLLER.reset();
 //         Application.DEPENDENCIAS_CONTROLLER.reset();
          
          model.reset((Usuario) sesion.getAttribute("Usuario"));
