@@ -57,13 +57,23 @@ public class DependenciaDAO extends AbstractFacade<Dependencia> implements Seria
         }
     }
     
+    public Dependencia buscarDependencia(String nombre){
+         try{
+            Query q = em.createQuery("Select f from Dependencia f where f.dependenciaNombre = :nombre").setParameter("nombre", nombre);
+            return (Dependencia) q.getSingleResult();
+        }catch(Exception ex){
+            System.out.print("Error al recuperar los funcionarios. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
+    
     @Override
     public List<Dependencia> findAll(){
         try {
             Query q = em.createQuery("Select obj from Dependencia obj");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Error al recuperando las dependencias.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al recuperar las dependencias.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
