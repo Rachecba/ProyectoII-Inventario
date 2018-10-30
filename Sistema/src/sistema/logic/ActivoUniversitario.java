@@ -40,15 +40,14 @@ public class ActivoUniversitario implements Serializable {
     private String activoUniversitarioCodigo;
     @Column(name = "activo_universitario_descripcion")
     private String activoUniversitarioDescripcion;
+    @Column(name = "activo_universitario_registrado")
+    private Boolean activoUniversitarioRegistrado;
     @JoinColumn(name = "activo_universitario_bien", referencedColumnName = "bien_id")
     @ManyToOne
     private Bien activoUniversitarioBien;
     @JoinColumn(name = "activo_universitario_categoria", referencedColumnName = "categoria_id")
     @ManyToOne
     private Categoria activoUniversitarioCategoria;
-    @JoinColumn(name = "activo_universitario_dependencia", referencedColumnName = "dependencia_id")
-    @ManyToOne
-    private Dependencia activoUniversitarioDependencia;
     @JoinColumn(name = "activo_universitario_responsable", referencedColumnName = "labor_id")
     @ManyToOne
     private Labor activoUniversitarioResponsable;
@@ -84,6 +83,14 @@ public class ActivoUniversitario implements Serializable {
         this.activoUniversitarioDescripcion = activoUniversitarioDescripcion;
     }
 
+    public Boolean getActivoUniversitarioRegistrado() {
+        return activoUniversitarioRegistrado;
+    }
+
+    public void setActivoUniversitarioRegistrado(Boolean activoUniversitarioRegistrado) {
+        this.activoUniversitarioRegistrado = activoUniversitarioRegistrado;
+    }
+
     public Bien getActivoUniversitarioBien() {
         return activoUniversitarioBien;
     }
@@ -98,14 +105,6 @@ public class ActivoUniversitario implements Serializable {
 
     public void setActivoUniversitarioCategoria(Categoria activoUniversitarioCategoria) {
         this.activoUniversitarioCategoria = activoUniversitarioCategoria;
-    }
-
-    public Dependencia getActivoUniversitarioDependencia() {
-        return activoUniversitarioDependencia;
-    }
-
-    public void setActivoUniversitarioDependencia(Dependencia activoUniversitarioDependencia) {
-        this.activoUniversitarioDependencia = activoUniversitarioDependencia;
     }
 
     public Labor getActivoUniversitarioResponsable() {

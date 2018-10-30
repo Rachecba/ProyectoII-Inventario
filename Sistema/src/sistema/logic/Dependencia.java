@@ -8,6 +8,7 @@ package sistema.logic;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,14 +43,12 @@ public class Dependencia implements Serializable {
     @Basic(optional = false)
     @Column(name = "dependencia_nombre")
     private String dependenciaNombre;
-    @OneToMany(mappedBy = "activoUniversitarioDependencia")
-    private Collection<ActivoUniversitario> activoUniversitarioCollection;
     @OneToMany(mappedBy = "solicitudDependencia")
     private Collection<Solicitud> solicitudCollection;
     @JoinColumn(name = "dependencia_administrador", referencedColumnName = "funcionario_id")
     @ManyToOne
     private Funcionario dependenciaAdministrador;
-    @OneToMany(mappedBy = "laborDependencia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laborDependencia")
     private Collection<Labor> laborCollection;
 
     public Dependencia() {
@@ -78,15 +77,6 @@ public class Dependencia implements Serializable {
 
     public void setDependenciaNombre(String dependenciaNombre) {
         this.dependenciaNombre = dependenciaNombre;
-    }
-
-    @XmlTransient
-    public Collection<ActivoUniversitario> getActivoUniversitarioCollection() {
-        return activoUniversitarioCollection;
-    }
-
-    public void setActivoUniversitarioCollection(Collection<ActivoUniversitario> activoUniversitarioCollection) {
-        this.activoUniversitarioCollection = activoUniversitarioCollection;
     }
 
     @XmlTransient
