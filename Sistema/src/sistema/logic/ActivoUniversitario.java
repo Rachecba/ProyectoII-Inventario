@@ -27,11 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "activo_universitario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ActivoUniversitario.findAll", query = "SELECT a FROM ActivoUniversitario a")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivosUniversitarioId", query = "SELECT a FROM ActivoUniversitario a WHERE a.activosUniversitarioId = :activosUniversitarioId")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivoUniversitarioCodigo", query = "SELECT a FROM ActivoUniversitario a WHERE a.activoUniversitarioCodigo = :activoUniversitarioCodigo")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivoUniversitarioDescripcion", query = "SELECT a FROM ActivoUniversitario a WHERE a.activoUniversitarioDescripcion = :activoUniversitarioDescripcion")
-    , @NamedQuery(name = "ActivoUniversitario.findByActivoUniversitarioRegistrado", query = "SELECT a FROM ActivoUniversitario a WHERE a.activoUniversitarioRegistrado = :activoUniversitarioRegistrado")})
+    @NamedQuery(name = "ActivoUniversitario.findAll", query = "SELECT a FROM ActivoUniversitario a")})
 public class ActivoUniversitario implements Serializable {
 
     private static final long serialVersionUID = 1L;
