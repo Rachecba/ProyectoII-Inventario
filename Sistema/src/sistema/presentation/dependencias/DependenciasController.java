@@ -56,8 +56,8 @@ public class DependenciasController {
              throw new Exception("Dependencia no encontrada");
      }
        
-     public void setTablaFuncionarios(String nombre) throws Exception{
-         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(new Funcionario(), nombre);
+     public void setTablaFuncionarios(Dependencia dependencia) throws Exception{
+         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(new Funcionario(), dependencia);
          model.setFuncionariosTable(funcionarios);
          model.notificar();
          
@@ -84,7 +84,7 @@ public class DependenciasController {
      
      public void buscarFuncionarios(int fila) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(fila);
-         this.setTablaFuncionarios(dependencia.getDependenciaNombre());
+         this.setTablaFuncionarios(dependencia);
      }
      
      public void buscar(Dependencia filtro) throws Exception{
@@ -114,13 +114,13 @@ public class DependenciasController {
              mainModel.eliminarFuncionario(seleccionado);
          }catch(Exception ex){}
          
-         List<Funcionario> lista = mainModel.buscarFuncionarios(new Funcionario(), dependencia.getDependenciaNombre());
+         List<Funcionario> lista = mainModel.buscarFuncionarios(new Funcionario(), dependencia);
          this.model.setFuncionariosTable(lista);
          this.model.notificar();
      }
      
-     public Funcionario buscarFuncionario(String nombre){
-         return mainModel.buscarFuncionario(nombre);
+     public Funcionario buscarFuncionario(Funcionario funcionario){
+         return mainModel.buscarFuncionario(funcionario);
      }
      
      public void agregarDependencia(Dependencia nueva) throws Exception{
@@ -142,7 +142,7 @@ public class DependenciasController {
      public void agregarFuncionario(Funcionario nuevo, int fila) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(fila);
          mainModel.agregarFuncionario(nuevo);
-         this.setTablaFuncionarios(dependencia.getDependenciaNombre());
+         this.setTablaFuncionarios(dependencia);
      }
      
      public void reset(){

@@ -47,7 +47,7 @@ public class FuncionariosController {
          this.funcionariosModel.setModo(modo, seleccionado);
      }
      
-     public void agregar(Funcionario funcionario, String dependencia) throws Exception{
+     public void agregar(Funcionario funcionario, Dependencia dependencia) throws Exception{
          
          switch(this.funcionariosModel.getModo()){
              case Application.AGREGAR:
@@ -64,7 +64,7 @@ public class FuncionariosController {
          
      }
      
-     public void editar(int fila, String dependencia) throws Exception{
+     public void editar(int fila, Dependencia dependencia) throws Exception{
          Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
          this.funcionariosModel.setModo(Application.EDITAR, seleccionado);
          this.funcionariosModel.setFiltro(seleccionado);
@@ -72,7 +72,7 @@ public class FuncionariosController {
          this.setTabla(dependencia);
      }
      
-     public void borrar(int fila, String dependencia) throws Exception{
+     public void borrar(int fila, Dependencia dependencia) throws Exception{
          Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
          
          try{
@@ -84,20 +84,20 @@ public class FuncionariosController {
          this.funcionariosModel.notificar();
      }
      
-     public void buscar(Funcionario funcionario, String dependencia) throws Exception{
+     public void buscar(Funcionario funcionario, Dependencia dependencia) throws Exception{
          funcionariosModel.setFiltro(funcionario);
          this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
          this.setTabla(dependencia);
      }
      
-     public void buscarTodos(String dependencia) throws Exception{
+     public void buscarTodos(Dependencia dependencia) throws Exception{
          Funcionario funcionario = new Funcionario();
          funcionariosModel.setFiltro(funcionario);
          this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
          this.setTabla(dependencia);
      }
      
-     public void setTabla(String dependencia) throws Exception{
+     public void setTabla(Dependencia dependencia) throws Exception{
          List<Funcionario> funcionarios = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
          funcionariosModel.setTable(funcionarios);
          funcionariosModel.notificar();

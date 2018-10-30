@@ -154,8 +154,10 @@ public class Funcionario implements Serializable {
 
     @Override
     public String toString() {
-        return "Funcionario{" + "funcionarioId=" + funcionarioId + ", funcionarioCedula=" + funcionarioCedula + ", funcionarioNombre=" + funcionarioNombre + ", funcionarioRecibeSolicitud=" + funcionarioRecibeSolicitud + ", solicitudCollection=" + solicitudCollection + ", usuarioCollection=" + usuarioCollection + ", dependenciaCollection=" + dependenciaCollection + '}';
+        return funcionarioNombre;
     }
+
+    
 
     
     

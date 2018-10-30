@@ -135,8 +135,6 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
 
         dependenciaLbl.setText("Dependencia");
 
-        dependenciaBox.setEnabled(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -248,7 +246,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
         if(this.searchFld.getText().isEmpty()){ //si el searchFld esta vacio, entonces muestra todos los funcionarios
             try{
-                controller.buscarTodos((String) this.dependenciaBox.getSelectedItem());
+                controller.buscarTodos((Dependencia) this.dependenciaBox.getSelectedItem());
             }
             catch(Exception ex){
                 this.mensaje(ex.getMessage());
@@ -257,7 +255,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         else{ //si no esta vacio, que busque el funcionario por el nombre que ingreso el usuario en el campo de nombre.
             if(this.validar()){
                 try{
-                    controller.buscar(this.filtro(), (String) this.dependenciaBox.getSelectedItem());
+                    controller.buscar(this.filtro(), (Dependencia) this.dependenciaBox.getSelectedItem());
                 }
                 catch(Exception ex){
                     this.mensaje(ex.getMessage());
@@ -272,7 +270,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     private void agregarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBttnActionPerformed
         if(validaAgregar()){
         try{
-            controller.agregar(funcionario(), (String) this.dependenciaBox.getSelectedItem());
+            controller.agregar(funcionario(), (Dependencia) this.dependenciaBox.getSelectedItem());
             this.mensajeAgregado("Funcionario agregado con exito");
         }catch(Exception ex){
             this.mensaje(ex.getMessage());
@@ -286,8 +284,9 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         
         if(fila != -1){
             try {
-                controller.borrar(fila, (String) this.dependenciaBox.getSelectedItem());
+                controller.borrar(fila, (Dependencia) this.dependenciaBox.getSelectedItem());
             } catch (Exception ex) {
+                
                 this.mensaje(ex.getMessage());
             }
         }
@@ -395,11 +394,11 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         this.recibeGroup.clearSelection();
     }
     
-    public void comboBox(){
-        List<String> lista = new ArrayList<String>();
-        lista = controller.getDependencias();        
-        this.dependenciaBox.setModel(new DefaultComboBoxModel(lista.toArray()));
-    }
+//    public void comboBox(){
+//        List<String> lista = new ArrayList<String>();
+//        lista = controller.getDependencias();        
+//        this.dependenciaBox.setModel(new DefaultComboBoxModel(lista.toArray()));
+//    }
     
     public void inicializaPantalla(Funcionario funcionario){
     
@@ -409,9 +408,9 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         this.funcionariosTable.setModel(model.getTable());
         
         this.dependenciaBox.setEnabled(true);
-        this.comboBox();
+       // this.comboBox();
    
-       // this.dependenciaBox.setModel(model.getDependencias());
+        this.dependenciaBox.setModel(model.getDependencias());
         
         if(model.getModo() == Application.EDITAR){
             
