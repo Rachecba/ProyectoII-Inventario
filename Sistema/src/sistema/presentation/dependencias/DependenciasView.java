@@ -42,7 +42,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     }
     
     public DependenciasView() {
-        super("Dependencias", false, true);
+        super("Dependencias", true, true);
         initComponents();
     }
 
@@ -73,7 +73,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         nombreLbl = new javax.swing.JLabel();
         nombreFld = new javax.swing.JTextField();
         adminLbl = new javax.swing.JLabel();
-        adminBox = new javax.swing.JComboBox<>();
+        adminBox = new javax.swing.JComboBox();
         deleteFuncionarioBttn = new javax.swing.JButton();
         cedulaLbl = new javax.swing.JLabel();
         laborLbl = new javax.swing.JLabel();
@@ -168,7 +168,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
 
         adminLbl.setText("Administrador");
 
-        adminBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        adminBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         deleteFuncionarioBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/delete2.png"))); // NOI18N
         deleteFuncionarioBttn.addActionListener(new java.awt.event.ActionListener() {
@@ -426,7 +426,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     
     public Funcionario funcionario(){
         Funcionario nuevo = new Funcionario();
-        nuevo.setFuncionarioCedula(this.cedulaFld.getText());
+        //nuevo.setFuncionarioCedula(this.cedulaFld.getText());
         //nuevo labor
         
         return nuevo;
@@ -440,7 +440,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     }
     
     public Funcionario getAdministrador(){
-         return controller.buscarFuncionario((String) this.adminBox.getSelectedItem());
+         return controller.buscarFuncionario((Funcionario) this.adminBox.getSelectedItem());
     }
     
     public boolean validaAgregar(){
@@ -483,16 +483,16 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         return dependencia;
     }
     
-    public void comboBox(){
-        List<String> lista = new ArrayList<String>();
-        lista = controller.getFuncionarios();        
-        this.adminBox.setModel(new DefaultComboBoxModel(lista.toArray()));
-    }
-    
-    public void comboBoxFuncionarios(){
-        List<String> lista = new ArrayList<String>();
-        lista = controller.getFuncionarios();
-    }
+//    public void comboBox(){
+//        List<String> lista = new ArrayList<String>();
+//        lista = controller.getFuncionarios();        
+//        this.adminBox.setModel(new DefaultComboBoxModel(lista.toArray()));
+//    }
+//    
+//    public void comboBoxFuncionarios(){
+//        List<String> lista = new ArrayList<String>();
+//        lista = controller.getFuncionarios();
+//    }
     
 //    public void limpiarPantalla(){
 //        this.nombreLbl.setForeground(Color.DARK_GRAY);
@@ -516,21 +516,21 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         this.funcionariosTable.setModel(model.getFuncionariosTable());
         
         this.adminBox.setEnabled(true);
-        this.comboBox();
-   
-        //this.adminBox.setModel(model.getFuncionarios());
-       
-       this.cedulaFld.setEditable(false);
-       this.laborFld.setEditable(false);
+        //this.comboBox();
+        
+        this.adminBox.setModel(model.getFuncionarios());
+        
+        this.cedulaFld.setEditable(false);
+        this.laborFld.setEditable(false);
         
         if(model.getModo() == Application.EDITAR){
             this.funcionariosTable.setModel(model.getFuncionariosTable());
-            this.nombreFld.setText(dependencia.getDependenciaNombre()); 
-           // this.nombreFld.setEditable(false);
-           
-           this.adminBox.setSelectedItem(dependencia.getDependenciaAdministrador().getFuncionarioNombre());
-           this.cedulaFld.setEditable(true);
-           this.laborFld.setEditable(true);
+            this.nombreFld.setText(dependencia.getDependenciaNombre());
+            // this.nombreFld.setEditable(false);
+            
+            this.adminBox.setSelectedItem(dependencia.getDependenciaAdministrador());
+            this.cedulaFld.setEditable(true);
+            this.laborFld.setEditable(true);
         }
         
           
@@ -573,7 +573,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     private javax.swing.JLabel addDependenciaLbl;
     private javax.swing.JButton addFuncionarioBttn;
     private javax.swing.JLabel addFuncionarioLbl;
-    private javax.swing.JComboBox<String> adminBox;
+    private javax.swing.JComboBox adminBox;
     private javax.swing.JLabel adminLbl;
     private javax.swing.JTextField cedulaFld;
     private javax.swing.JLabel cedulaLbl;

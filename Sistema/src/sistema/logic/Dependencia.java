@@ -137,7 +137,7 @@ public class Dependencia implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Dependencia[ dependenciaId=" + dependenciaId + " ]";
+        return dependenciaNombre;
     }
     
 }
