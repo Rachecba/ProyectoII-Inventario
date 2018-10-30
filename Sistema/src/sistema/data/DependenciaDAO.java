@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import sistema.logic.Dependencia;
-import sistema.logic.Dependencia;
 
 /**
  *

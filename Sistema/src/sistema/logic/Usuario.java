@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "usuario_id")
-    private String usuarioId;
+    private Integer usuarioId;
     @Basic(optional = false)
     @Column(name = "usuario_username")
     private String usuarioUsername;
@@ -52,22 +52,22 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String usuarioId) {
+    public Usuario(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
 
-    public Usuario(String usuarioId, String usuarioUsername, String usuarioPassword, String usuarioRol) {
+    public Usuario(Integer usuarioId, String usuarioUsername, String usuarioPassword, String usuarioRol) {
         this.usuarioId = usuarioId;
         this.usuarioUsername = usuarioUsername;
         this.usuarioPassword = usuarioPassword;
         this.usuarioRol = usuarioRol;
     }
 
-    public String getUsuarioId() {
+    public Integer getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(String usuarioId) {
+    public void setUsuarioId(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
 

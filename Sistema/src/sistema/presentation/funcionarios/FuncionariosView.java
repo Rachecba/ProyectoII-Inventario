@@ -273,6 +273,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
             controller.agregar(funcionario(), (Dependencia) this.dependenciaBox.getSelectedItem());
             this.mensajeAgregado("Funcionario agregado con exito");
         }catch(Exception ex){
+            ex.printStackTrace();
             this.mensaje(ex.getMessage());
         }}else{
             this.mensaje("Debe ingresar todos los datos");
@@ -330,7 +331,6 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         nuevo.getDependenciaCollection().add(this.getDependencia());
         
         return nuevo;
-        
     }
     
     public Dependencia getDependencia(){

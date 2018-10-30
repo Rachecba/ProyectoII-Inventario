@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.presentation.solicitudes;
+package sistema.presentation.solicitud;
 
+import sistema.presentation.solicitudes.*;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-//import org.eclipse.persistence.sessions.Session; //esto?
+import org.eclipse.persistence.sessions.Session; //esto?
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
-import sistema.Sesion;
 
 /**
  *
  * @author Rachel
  */
-public class SolicitudesController {
+public class SolicitudController {
     
     Model domainModel;
-    Sesion session;   
-    SolicitudesView view;
-    SolicitudesModel model;
+    Session session;   
+    SolicitudView view;
+    SolicitudModel model;
     
-    public SolicitudesController(SolicitudesView view, SolicitudesModel model, Model domainModel,Sesion session) {
+    public SolicitudController(SolicitudView view, SolicitudModel model, Model domainModel,Session session) {
         this.domainModel= domainModel;
         this.session=session;
         
