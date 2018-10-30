@@ -72,26 +72,76 @@ public class Model {
         }
      }
      
-     public List<Funcionario> buscarFuncionarios(Funcionario filtro){
+     public List<Funcionario> buscarFuncionarios(Funcionario filtro, String dependencia){
         
-         if(filtro.getFuncionarioNombre() == null){
-             return this.funcionarioDao.findAll();
+         if(filtro.getFuncionarioCedula() == null){
+             return this.funcionarioDao.findAll(); //arreglar este findAll, es findAll por dependencia
          }
          else{
              return this.funcionarioDao.findFuncionario(filtro);
          }
          
      }
-    
+     
+     public List<Dependencia> buscarDependencias(Dependencia filtro){
+         
+         if(filtro.getDependenciaNombre() == null){
+             return this.dependenciaDao.findAll();
+         }
+         else{
+             return this.dependenciaDao.findDependencias(filtro);
+         }
+     }
+         
      public void agregarFuncionario(Funcionario funcionario){
+         
+         String cedula = funcionario.getFuncionarioCedula();
+         Funcionario existe = this.funcionarioDao.findByCedula(cedula);
+         
+         if(existe != null){
+             funcionario.setFuncionarioId(existe.getFuncionarioId());
+             this.funcionarioDao.edit(funcionario);
+         }
+         else{
             this.funcionarioDao.create(funcionario);
+         }
+     }
+     
+     public void agregarDependencia(Dependencia dependencia){
+         
+         String nombre = dependencia.getDependenciaNombre();
+         Dependencia existe = this.dependenciaDao.findByNombre(nombre);
+         
+         if(existe != null){
+             dependencia.setDependenciaId(existe.getDependenciaId());
+             this.dependenciaDao.edit(dependencia);
+         }
+         else{
+            this.dependenciaDao.create(dependencia);
+         }
+     }
+     
+     public void eliminarFuncionario(Funcionario funcionario) throws Exception{
+         this.funcionarioDao.delete(funcionario);
+     }
+     
+     public void eliminarDependencia(Dependencia dependencia){
+         this.dependenciaDao.delete(dependencia);
      }
      
      public List<Dependencia> getDependenciasBox(){
          return this.dependenciaDao.findAll();
      }
      
+     public List<Funcionario> getFuncionariosBox(){
+         return this.funcionarioDao.findAll();
+     }
+     
      public Dependencia buscarDependencia(String nombre){
          return this.dependenciaDao.buscarDependencia(nombre);
+     }
+     
+     public Funcionario buscarFuncionario(String nombre){
+         return this.funcionarioDao.findByNombre(nombre);
      }
 }

@@ -6,6 +6,7 @@
 package sistema.logic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -58,6 +59,8 @@ public class Funcionario implements Serializable {
     private Collection<Dependencia> dependenciaCollection;
 
     public Funcionario() {
+        dependenciaCollection = new ArrayList<>();
+        
     }
 
     public Funcionario(Integer funcionarioId) {
@@ -111,13 +114,14 @@ public class Funcionario implements Serializable {
         this.usuarioCollection = usuarioCollection;
     }
 
-//    public Labor getFuncionarioLabor() {
-//        return funcionarioLabor;
-//    }
-//
-//    public void setFuncionarioLabor(Labor funcionarioLabor) {
-//        this.funcionarioLabor = funcionarioLabor;
-//    }
+    public String getFuncionarioCedula() {
+        return funcionarioCedula;
+    }
+
+    public void setFuncionarioCedula(String funcionarioCedula) {
+        this.funcionarioCedula = funcionarioCedula;
+    }
+
 
     @XmlTransient
     public Collection<Dependencia> getDependenciaCollection() {
@@ -150,7 +154,9 @@ public class Funcionario implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Funcionario[ funcionarioId=" + funcionarioId + " ]";
+        return "Funcionario{" + "funcionarioId=" + funcionarioId + ", funcionarioCedula=" + funcionarioCedula + ", funcionarioNombre=" + funcionarioNombre + ", funcionarioRecibeSolicitud=" + funcionarioRecibeSolicitud + ", solicitudCollection=" + solicitudCollection + ", usuarioCollection=" + usuarioCollection + ", dependenciaCollection=" + dependenciaCollection + '}';
     }
+
+    
     
 }

@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import sistema.Application;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
 
@@ -65,7 +68,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         siRadio = new javax.swing.JRadioButton();
         noRadio = new javax.swing.JRadioButton();
         dependenciaLbl = new javax.swing.JLabel();
-        dependenciaBox = new javax.swing.JComboBox<>();
+        dependenciaBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setToolTipText("");
@@ -86,6 +89,11 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        funcionariosTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                funcionariosTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(funcionariosTable);
 
         agregarBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/add.png"))); // NOI18N
@@ -96,6 +104,11 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         });
 
         eliminarBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/delete.png"))); // NOI18N
+        eliminarBttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBttnActionPerformed(evt);
+            }
+        });
 
         searchBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/search.png"))); // NOI18N
         searchBttn.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +123,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
 
         nombreLbl.setText("Nombre");
 
-        idLbl.setText("ID");
+        idLbl.setText("Cedula");
 
         recibeLbl.setText("Recibe Solicitudes");
 
@@ -122,7 +135,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
 
         dependenciaLbl.setText("Dependencia");
 
-        dependenciaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        dependenciaBox.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,7 +159,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
                         .addComponent(dependenciaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -154,7 +167,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(57, 57, 57)
                                 .addComponent(idLbl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                                 .addComponent(idFld, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
@@ -235,7 +248,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
         if(this.searchFld.getText().isEmpty()){ //si el searchFld esta vacio, entonces muestra todos los funcionarios
             try{
-                controller.buscarTodos();
+                controller.buscarTodos((String) this.dependenciaBox.getSelectedItem());
             }
             catch(Exception ex){
                 this.mensaje(ex.getMessage());
@@ -244,7 +257,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         else{ //si no esta vacio, que busque el funcionario por el nombre que ingreso el usuario en el campo de nombre.
             if(this.validar()){
                 try{
-                    controller.buscar(this.filtro());
+                    controller.buscar(this.filtro(), (String) this.dependenciaBox.getSelectedItem());
                 }
                 catch(Exception ex){
                     this.mensaje(ex.getMessage());
@@ -259,13 +272,35 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     private void agregarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBttnActionPerformed
         if(validaAgregar()){
         try{
-            controller.agregar(funcionario());
+            controller.agregar(funcionario(), (String) this.dependenciaBox.getSelectedItem());
+            this.mensajeAgregado("Funcionario agregado con exito");
         }catch(Exception ex){
             this.mensaje(ex.getMessage());
         }}else{
             this.mensaje("Debe ingresar todos los datos");
         }
     }//GEN-LAST:event_agregarBttnActionPerformed
+    
+    private void eliminarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBttnActionPerformed
+        int fila = this.funcionariosTable.getSelectedRow();
+        
+        if(fila != -1){
+            try {
+                controller.borrar(fila, (String) this.dependenciaBox.getSelectedItem());
+            } catch (Exception ex) {
+                this.mensaje(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_eliminarBttnActionPerformed
+
+    private void funcionariosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_funcionariosTableMouseClicked
+        if(evt.getClickCount() == 2){
+            int fila = this.funcionariosTable.getSelectedRow();
+            int colm = this.funcionariosTable.getSelectedColumn();
+            
+           controller.setModo(Application.EDITAR, fila);
+        }
+    }//GEN-LAST:event_funcionariosTableMouseClicked
 
     public boolean validaAgregar(){
         boolean valido = true;
@@ -290,7 +325,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     
     public Funcionario funcionario(){
         Funcionario nuevo = new Funcionario();
-        nuevo.setFuncionarioId(Integer.parseInt(this.idFld.getText()));
+        nuevo.setFuncionarioCedula(this.idFld.getText());
         nuevo.setFuncionarioNombre(this.nombreFld.getText());
         nuevo.setFuncionarioRecibeSolicitud(this.recibeSolicitud());
         nuevo.getDependenciaCollection().add(this.getDependencia());
@@ -335,22 +370,62 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
     
-    public void comboBox(){
-        List<String> lista = new ArrayList<String>();
-        lista = controller.getDependencias();
-        
-        this.dependenciaBox.setModel(new DefaultComboBoxModel(lista.toArray()));  
+    public void mensajeAgregado(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
     }
     
     @Override
     public void update(Observable o, Object arg) {
+        this.limpiarPantalla();
         Funcionario filtro = model.getFiltro();
+        this.inicializaPantalla(filtro);
         
-        if(filtro.getFuncionarioNombre() != null)
-            this.searchFld.setText(filtro.getFuncionarioNombre());
+    }
+    
+    public void limpiarPantalla(){
+        this.nombreLbl.setForeground(Color.DARK_GRAY);
+        this.idLbl.setForeground(Color.DARK_GRAY);
+        this.recibeLbl.setForeground(Color.DARK_GRAY);
+        
+        this.idFld.setText("");
+        this.idFld.setEditable(true);
+        
+        this.nombreFld.setText("");
+        
+        this.recibeGroup.clearSelection();
+    }
+    
+    public void comboBox(){
+        List<String> lista = new ArrayList<String>();
+        lista = controller.getDependencias();        
+        this.dependenciaBox.setModel(new DefaultComboBoxModel(lista.toArray()));
+    }
+    
+    public void inicializaPantalla(Funcionario funcionario){
+    
+        if(funcionario.getFuncionarioNombre() != null)
+            this.searchFld.setText(funcionario.getFuncionarioNombre());
         
         this.funcionariosTable.setModel(model.getTable());
+        
+        this.dependenciaBox.setEnabled(true);
         this.comboBox();
+   
+       // this.dependenciaBox.setModel(model.getDependencias());
+        
+        if(model.getModo() == Application.EDITAR){
+            
+            this.idFld.setText(funcionario.getFuncionarioCedula());
+            this.idFld.setEditable(false);
+            
+            this.nombreFld.setText(funcionario.getFuncionarioNombre());
+            
+            if(funcionario.getFuncionarioRecibeSolicitud())
+                this.siRadio.setSelected(true);
+            else
+                this.noRadio.setSelected(true);
+        }
+    
     }
 
 
@@ -358,7 +433,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     private javax.swing.JLabel SearchLbl;
     private javax.swing.JLabel addFuncionarioLbl;
     private javax.swing.JButton agregarBttn;
-    private javax.swing.JComboBox<String> dependenciaBox;
+    public javax.swing.JComboBox dependenciaBox;
     private javax.swing.JLabel dependenciaLbl;
     private javax.swing.JButton eliminarBttn;
     private javax.swing.JTable funcionariosTable;

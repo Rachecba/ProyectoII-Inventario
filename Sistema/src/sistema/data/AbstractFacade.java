@@ -8,6 +8,8 @@ package sistema.data;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import static org.eclipse.persistence.config.ExclusiveConnectionMode.Transactional;
+import static org.eclipse.persistence.sessions.server.ConnectionPolicy.ExclusiveMode.Transactional;
 
 /**
  *

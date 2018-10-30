@@ -10,7 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import sistema.logic.Funcionario;
+import static org.eclipse.persistence.config.ExclusiveConnectionMode.Transactional;
+import static org.eclipse.persistence.sessions.server.ConnectionPolicy.ExclusiveMode.Transactional;
 import sistema.logic.Funcionario;
 
 /**
@@ -49,12 +50,8 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
         }
     }
     
-    public void delete(Funcionario obj){
-        try {
-            super.remove(obj);
-        } catch (Exception e) {
-            System.out.print("Error al borrar el funcionario.\n\n Error:" + e + "\n\n");
-        }
+    public void delete(Funcionario obj) throws Exception{
+        super.remove(obj);
     }
     
     @Override
@@ -70,10 +67,30 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
     
     public List<Funcionario> findFuncionario(Funcionario funcionario){
         try{
-            Query q = em.createQuery("Select f from Funcionario f where f.funcionarioNombre like :filtro").setParameter("filtro", funcionario.getFuncionarioNombre());
+            Query q = em.createQuery("Select f from Funcionario f where f.funcionarioNombre like concat ('%',:filtro,'%')").setParameter("filtro", funcionario.getFuncionarioNombre());
             return q.getResultList();
         }catch(Exception ex){
             System.out.print("Error al recuperar los funcionarios. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
+    
+    public Funcionario findByCedula(String cedula){
+        try {
+            Query q = em.createQuery("SELECT f FROM Funcionario f WHERE f.funcionarioCedula = :ced").setParameter("ced", cedula);
+            return (Funcionario) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por cedula: " + ex);
+        }
+        return null;
+    }
+    
+    public Funcionario findByNombre(String nombre){
+        try {
+            Query q = em.createQuery("SELECT f FROM Funcionario f WHERE f.funcionarioNombre = :nombre").setParameter("nombre", nombre);
+            return (Funcionario) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por nombre: " + ex);
         }
         return null;
     }

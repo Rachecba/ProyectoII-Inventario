@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import sistema.Application;
+import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
 
 /**
@@ -18,6 +22,8 @@ import sistema.logic.Funcionario;
 public class FuncionariosModel extends Observable {
     Funcionario filtro;
     FuncionariosTableModel table;
+    ComboBoxModel<Dependencia> dependencias;
+    int modo;
     
     public FuncionariosModel(){
         this.inicializa();
@@ -32,20 +38,41 @@ public class FuncionariosModel extends Observable {
         filtro = new Funcionario();
         List<Funcionario> funcionarios = new ArrayList<>();
         //seleccionado = null;
+        this.setModo(Application.AGREGAR, filtro);
         this.setTable(funcionarios);
         this.notificar();
     }
-//    
-//    public List<String> getDependencias(){
-//        
-//    }
+    
+    public void inicializaDependencias(List<Dependencia> dependencias){
+        this.setDependencias(dependencias);
+        this.setFiltro(new Funcionario());
+    }
+
+    public ComboBoxModel<Dependencia> getDependencias() {
+        return dependencias;
+    }
+
+    public int getModo() {
+        return modo;
+    }
+
+    public void setDependencias(List<Dependencia> dependencias) {
+        this.dependencias = new DefaultComboBoxModel(dependencias.toArray());
+        this.notificar();
+    }
+
+    public void setModo(int modo, Funcionario actual) {
+        this.modo = modo;
+        this.setFiltro(actual);
+        this.notificar();
+    }
     
     public FuncionariosTableModel getTable() {
         return table;
     }
    
     public void setTable(List<Funcionario> funcionarios){
-        int[] columnas = {FuncionariosTableModel.ID, FuncionariosTableModel.NOMBRE};
+        int[] columnas = {FuncionariosTableModel.CEDULA, FuncionariosTableModel.NOMBRE};
         table = new FuncionariosTableModel(funcionarios, columnas); //creo de nuevo la tabla.
     }
 
