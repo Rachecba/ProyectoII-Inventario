@@ -8,9 +8,10 @@ package sistema.presentation.solicitudes;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.persistence.sessions.Session; //esto?
+//import org.eclipse.persistence.sessions.Session; //esto?
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
+import sistema.Sesion;
 
 /**
  *
@@ -19,11 +20,11 @@ import sistema.logic.Solicitud;
 public class SolicitudesController {
     
     Model domainModel;
-    Session session;   
+    Sesion session;   
     SolicitudesView view;
     SolicitudesModel model;
     
-    public SolicitudesController(SolicitudesView view, SolicitudesModel model, Model domainModel,Session session) {
+    public SolicitudesController(SolicitudesView view, SolicitudesModel model, Model domainModel,Sesion session) {
         this.domainModel= domainModel;
         this.session=session;
         
