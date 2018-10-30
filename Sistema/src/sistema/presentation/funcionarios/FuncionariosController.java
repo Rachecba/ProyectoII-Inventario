@@ -25,8 +25,9 @@ public class FuncionariosController {
     
     public FuncionariosController(FuncionariosModel fm, FuncionariosView fv, Model mm, Sesion s){
         funcionariosModel = fm;
-        funcionariosView = fv;
         mainModel = mm;
+        this.funcionariosModel.inicializaDependencias(mainModel.getDependenciasBox());
+        funcionariosView = fv;
         sesion = s;
         
         funcionariosView.setController(this);
@@ -41,24 +42,63 @@ public class FuncionariosController {
          funcionariosView.setVisible(true);
      }
      
-     public void agregar(Funcionario funcionario) throws Exception{
-       mainModel.agregarFuncionario(funcionario);
-       this.setTabla();
+     public void setModo(int modo, int fila){
+         Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
+         this.funcionariosModel.setModo(modo, seleccionado);
      }
      
-     public void buscar(Funcionario funcionario) throws Exception{
+     public void agregar(Funcionario funcionario, String dependencia) throws Exception{
+         
+         switch(this.funcionariosModel.getModo()){
+             case Application.AGREGAR:
+                 mainModel.agregarFuncionario(funcionario);
+                 this.funcionariosModel.setFiltro(funcionario);
+                 this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
+                 this.setTabla(dependencia);
+                 
+             case Application.EDITAR:
+                 mainModel.agregarFuncionario(funcionario);
+                 this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
+                 this.setTabla(dependencia);
+         }
+         
+     }
+     
+     public void editar(int fila, String dependencia) throws Exception{
+         Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
+         this.funcionariosModel.setModo(Application.EDITAR, seleccionado);
+         this.funcionariosModel.setFiltro(seleccionado);
+         this.funcionariosModel.notificar();
+         this.setTabla(dependencia);
+     }
+     
+     public void borrar(int fila, String dependencia) throws Exception{
+         Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
+         
+         try{
+             mainModel.eliminarFuncionario(seleccionado);
+         }catch(Exception ex){}
+         
+         List<Funcionario> lista = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
+         this.funcionariosModel.setTable(lista);
+         this.funcionariosModel.notificar();
+     }
+     
+     public void buscar(Funcionario funcionario, String dependencia) throws Exception{
          funcionariosModel.setFiltro(funcionario);
-         this.setTabla();
+         this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
+         this.setTabla(dependencia);
      }
      
-     public void buscarTodos() throws Exception{
+     public void buscarTodos(String dependencia) throws Exception{
          Funcionario funcionario = new Funcionario();
          funcionariosModel.setFiltro(funcionario);
-         this.setTabla();
+         this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
+         this.setTabla(dependencia);
      }
      
-     public void setTabla() throws Exception{
-         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(funcionariosModel.getFiltro());
+     public void setTabla(String dependencia) throws Exception{
+         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
          funcionariosModel.setTable(funcionarios);
          funcionariosModel.notificar();
          

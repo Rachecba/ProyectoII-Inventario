@@ -9,6 +9,8 @@ import sistema.presentation.activos.ActivosController;
 import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
 import sistema.presentation.dependencias.DependenciasController;
+import sistema.presentation.dependencias.DependenciasModel;
+import sistema.presentation.dependencias.DependenciasView;
 import sistema.presentation.funcionarios.FuncionariosController;
 import sistema.presentation.funcionarios.FuncionariosModel;
 import sistema.presentation.funcionarios.FuncionariosView;
@@ -62,11 +64,11 @@ public class Application {
      //   ArticulosController articulosController = new ArticulosController();
      //   ARTICULOS_CONTROLLER = articulosController;
         
-//        DependenciasModel dependenciasModel = new DependenciasModel();
-//        DependenciasView dependenciasView = new DependenciasView();
-//        principalView.addInternalFrame(dependenciasView);
-//        DependenciasController dependenciasController = new DependenciasController();
-//        DEPENDENCIAS_CONTROLLER = dependenciasController;
+        DependenciasModel dependenciasModel = new DependenciasModel();
+        DependenciasView dependenciasView = new DependenciasView();
+        principalView.addInternalFrame(dependenciasView);
+        DependenciasController dependenciasController = new DependenciasController(dependenciasModel, dependenciasView, mainModel, sesion);
+        DEPENDENCIAS_CONTROLLER = dependenciasController;
 
         FuncionariosModel funcionariosModel = new FuncionariosModel();
         FuncionariosView funcionariosView = new FuncionariosView();
@@ -98,4 +100,10 @@ public class Application {
         public static String JEFE_OCCB = "Jefe OCCB";
         public static String REGISTRADOR_BIENES = "Registrador de bienes";
         public static String JEFE_RRHH = "Jefe RRHH";
+        
+        //---------------MODOS-------------------
+        public static  final int AGREGAR=0; //depende de los permisos del usuario
+        public static final int EDITAR=1;
+        public static final int CONSULTAR=2;
+        public static final int EDITAR_FUNCIONARIO = 3; //para editar funcionario en la pantalla de dependencias
 }

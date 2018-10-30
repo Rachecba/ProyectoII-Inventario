@@ -56,12 +56,10 @@ public class PrincipalView extends JFrame implements Observer {
         funcionarios = new javax.swing.JMenu();
         verFuncionarios = new javax.swing.JMenuItem();
         dependencias = new javax.swing.JMenu();
+        verDependencias = new javax.swing.JMenuItem();
         ayuda = new javax.swing.JMenu();
 
-        getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
-        getContentPane().add(desktopPane);
-
-        /*javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
         desktopPaneLayout.setHorizontalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,7 +68,7 @@ public class PrincipalView extends JFrame implements Observer {
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 257, Short.MAX_VALUE)
-        );*/
+        );
 
         salir.setText("Salir");
 
@@ -107,6 +105,16 @@ public class PrincipalView extends JFrame implements Observer {
         jMenuBar1.add(funcionarios);
 
         dependencias.setText("Dependencias");
+
+        verDependencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/university.png"))); // NOI18N
+        verDependencias.setText("Ver Dependencias");
+        verDependencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verDependenciasActionPerformed(evt);
+            }
+        });
+        dependencias.add(verDependencias);
+
         jMenuBar1.add(dependencias);
 
         ayuda.setText("Ayuda");
@@ -114,7 +122,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         setJMenuBar(jMenuBar1);
 
-      /*  javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,9 +131,7 @@ public class PrincipalView extends JFrame implements Observer {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
-        );*/
-
-        pack();
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -135,6 +141,10 @@ public class PrincipalView extends JFrame implements Observer {
     private void verFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verFuncionariosActionPerformed
         controller.showFuncionarios();
     }//GEN-LAST:event_verFuncionariosActionPerformed
+
+    private void verDependenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDependenciasActionPerformed
+        controller.showDependencias();
+    }//GEN-LAST:event_verDependenciasActionPerformed
 
     @Override
     public void update(Observable o, Object arg) {
@@ -155,6 +165,7 @@ public class PrincipalView extends JFrame implements Observer {
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenu salir;
     private javax.swing.JMenu solicitudes;
+    private javax.swing.JMenuItem verDependencias;
     private javax.swing.JMenuItem verFuncionarios;
     // End of variables declaration//GEN-END:variables
 }

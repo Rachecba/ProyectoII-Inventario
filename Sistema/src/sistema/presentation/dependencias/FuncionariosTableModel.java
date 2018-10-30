@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.presentation.funcionarios;
+package sistema.presentation.dependencias;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,7 +14,7 @@ import sistema.logic.Funcionario;
  * @author Rachel
  */
 public class FuncionariosTableModel extends AbstractTableModel{
-
+     
     List<Funcionario> filas;
     int[] columnas;
     String[] nombres;
@@ -31,20 +31,15 @@ public class FuncionariosTableModel extends AbstractTableModel{
         nombres[CEDULA] = "Cedula";
         nombres[NOMBRE] = "Nombre";
     }
-    
-    @Override
-    public String getColumnName(int col){
-        return nombres[columnas[col]];
-    }
-    
-    @Override
+
+     @Override
     public int getRowCount() {
-        return filas.size();
+       return filas.size();
     }
 
     @Override
     public int getColumnCount() {
-        return columnas.length;
+       return columnas.length;
     }
     
     public Funcionario getRowAt(int fila){
@@ -53,7 +48,7 @@ public class FuncionariosTableModel extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-      Funcionario funcionario = filas.get(rowIndex);
+        Funcionario funcionario = filas.get(rowIndex);
       
       switch(columnas[columnIndex]){
           case CEDULA: 
@@ -63,6 +58,11 @@ public class FuncionariosTableModel extends AbstractTableModel{
           default:
               return "";
       }
+    }
+    
+     @Override
+    public String getColumnName(int col){
+        return nombres[columnas[col]];
     }
     
 }

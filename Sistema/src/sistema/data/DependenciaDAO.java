@@ -45,7 +45,7 @@ public class DependenciaDAO extends AbstractFacade<Dependencia> implements Seria
         try {
             super.merge(obj);
         } catch (Exception e) {
-            System.out.print("Error al editando la dependencia.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al editar la dependencia.\n\n Error:" + e + "\n\n");
         }
     }
     
@@ -53,7 +53,7 @@ public class DependenciaDAO extends AbstractFacade<Dependencia> implements Seria
         try {
             super.remove(obj);
         } catch (Exception e) {
-            System.out.print("Error al borrando la dependencia.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al borrar la dependencia.\n\n Error:" + e + "\n\n");
         }
     }
     
@@ -63,6 +63,26 @@ public class DependenciaDAO extends AbstractFacade<Dependencia> implements Seria
             return (Dependencia) q.getSingleResult();
         }catch(Exception ex){
             System.out.print("Error al recuperar los funcionarios. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
+    
+    public List<Dependencia> findDependencias(Dependencia filtro){
+         try{
+            Query q = em.createQuery("Select f from Dependencia f where f.dependenciaNombre like concat ('%',:nombre,'%')").setParameter("nombre", filtro.getDependenciaNombre());
+            return q.getResultList();
+        }catch(Exception ex){
+            System.out.print("Error al recuperar las dependencias. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
+    
+    public Dependencia findByNombre(String nombre){
+         try {
+            Query q = em.createQuery("SELECT f FROM Dependencia f WHERE f.dependenciaNombre = :nombre").setParameter("nombre", nombre);
+            return (Dependencia) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por nombre: " + ex);
         }
         return null;
     }

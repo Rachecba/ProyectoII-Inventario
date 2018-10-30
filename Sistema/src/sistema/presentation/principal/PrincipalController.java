@@ -63,7 +63,7 @@ public class PrincipalController {
     }
     
     public void showDependencias(){ 
-        //Application.DEPENDENCIAS_CONTROLLER.mostrar(); 
+        Application.DEPENDENCIAS_CONTROLLER.mostrar(); 
     }
     
     public void showFuncionarios(){
@@ -92,7 +92,7 @@ public class PrincipalController {
 //         Application.ACTIVOS_CONTROLLER.reset();
 //         Application.ARTICULOS_CONTROLLER.reset();
          Application.FUNCIONARIOS_CONTROLLER.reset();
-//         Application.DEPENDENCIAS_CONTROLLER.reset();
+         Application.DEPENDENCIAS_CONTROLLER.reset();
          
          model.reset((Usuario) sesion.getAttribute("Usuario"));
      }
