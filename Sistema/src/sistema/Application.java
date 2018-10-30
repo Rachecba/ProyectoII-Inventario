@@ -1,5 +1,6 @@
 package sistema;
 
+import java.awt.Color;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import sistema.data.PuestoDAO;
@@ -98,4 +99,8 @@ public class Application {
         public static String JEFE_OCCB = "Jefe OCCB";
         public static String REGISTRADOR_BIENES = "Registrador de bienes";
         public static String JEFE_RRHH = "Jefe RRHH";
+        
+        //------------------COLORES--------------------
+        public static final Color COLOR_ERROR = Color.red;
+        public static final Color COLOR_OK=Color.black;    
 }

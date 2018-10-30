@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema.presentation.solicitudes;
+package sistema.presentation.solicitud;
 
+import sistema.presentation.solicitudes.*;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,14 @@ import sistema.logic.Solicitud;
  *
  * @author Rachel
  */
-public class SolicitudesController {
+public class SolicitudController {
     
     Model domainModel;
     Session session;   
-    SolicitudesView view;
-    SolicitudesModel model;
+    SolicitudView view;
+    SolicitudModel model;
     
-    public SolicitudesController(SolicitudesView view, SolicitudesModel model, Model domainModel,Session session) {
+    public SolicitudController(SolicitudView view, SolicitudModel model, Model domainModel,Session session) {
         this.domainModel= domainModel;
         this.session=session;
         

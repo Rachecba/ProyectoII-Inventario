@@ -8,6 +8,7 @@ package sistema.logic;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "puesto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Puesto.findAll", query = "SELECT obj FROM Puesto obj")})
+    @NamedQuery(name = "Puesto.findAll", query = "SELECT p FROM Puesto p")
+    , @NamedQuery(name = "Puesto.findByPuestoId", query = "SELECT p FROM Puesto p WHERE p.puestoId = :puestoId")
+    , @NamedQuery(name = "Puesto.findByPuestoNombre", query = "SELECT p FROM Puesto p WHERE p.puestoNombre = :puestoNombre")})
 public class Puesto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +42,7 @@ public class Puesto implements Serializable {
     private Integer puestoId;
     @Column(name = "puesto_nombre")
     private String puestoNombre;
-    @OneToMany(mappedBy = "laborPuesto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laborPuesto")
     private Collection<Labor> laborCollection;
 
     public Puesto() {
@@ -75,8 +78,28 @@ public class Puesto implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (puestoId != null ? puestoId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Puesto)) {
+            return false;
+        }
+        Puesto other = (Puesto) object;
+        if ((this.puestoId == null && other.puestoId != null) || (this.puestoId != null && !this.puestoId.equals(other.puestoId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "Puesto{" + "puestoId=" + puestoId + ", puestoNombre=" + puestoNombre + "}";
+        return "sistema.logic.Puesto[ puestoId=" + puestoId + " ]";
     }
     
 }

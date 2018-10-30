@@ -5,8 +5,10 @@
  */
 package sistema.presentation.solicitudes;
 
-import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
+import sistema.Application;
+import sistema.logic.Solicitud;
 
 /**
  *
@@ -14,11 +16,68 @@ import java.util.Observer;
  */
 public class SolicitudesView extends javax.swing.JInternalFrame implements Observer {
 
+    SolicitudesController controller;
+    SolicitudesModel model;
+
+    public SolicitudesController getController() {
+        return controller;
+    }
+
+    public void setController(SolicitudesController controller) {
+        this.controller = controller;
+    }
+
+    public SolicitudesModel getModel() {
+        return model;
+    }
+
+    public void setModel(SolicitudesModel model) {
+        this.model = model;
+    }
+    
+    @Override
+    public void update(java.util.Observable updatedModel,Object parametros){
+        this.limpiarErrores();
+        Solicitud filtro = model.getFilter();
+        this.fromEstado(filtro);
+        solicitudesTable.setModel(model.getSolicitudes());
+    }
+    
     /**
      * Creates new form SolicitudesView
      */
     public SolicitudesView() {
+        super("",false,true);
         initComponents();
+    }
+    
+    public void limpiarErrores(){
+        this.searchFld.setForeground(Application.COLOR_OK);
+    }  
+    
+    boolean validar(){
+        boolean error=false;
+        
+        this.searchFld.setForeground(Application.COLOR_OK); 
+        if (this.searchFld.getText().isEmpty()){
+            this.searchFld.setForeground(Application.COLOR_ERROR);
+            error=true;            
+        }
+        return !error;
+    }
+    
+    public void fromEstado(Solicitud filtro){
+      searchFld.setText(filtro.getSolicitudEstado()); 
+   }   
+   
+    Solicitud toEstado(){
+        Solicitud result = new Solicitud();
+        result.setSolicitudEstado(searchFld.getText());
+        return result;
+    }
+    
+    void errorMessage(String error){
+        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
     }
 
     /**
@@ -35,6 +94,9 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         jScrollPane1 = new javax.swing.JScrollPane();
         solicitudesTable = new javax.swing.JTable();
         searchBttn = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        printButton = new javax.swing.JButton();
 
         searchLbl.setText("Search");
 
@@ -49,9 +111,31 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        solicitudesTable.setRowHeight(25);
         jScrollPane1.setViewportView(solicitudesTable);
 
-        searchBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/search.png"))); // NOI18N
+        searchBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/search.png"))); // NOI18N
+        searchBttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBttnActionPerformed(evt);
+            }
+        });
+
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/add.png"))); // NOI18N
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/close.png"))); // NOI18N
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/print.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,11 +149,16 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(163, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(addButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,20 +169,54 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(searchLbl))
                     .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(addButton)
+                        .addGap(32, 32, 32)
+                        .addComponent(cancelButton)
+                        .addGap(35, 35, 35)
+                        .addComponent(printButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
+        if(this.validar()){
+            try {
+                controller.buscar(this.toEstado());
+            } catch (Exception ex) {
+                errorMessage(ex.getMessage());
+            }
+        }
+        else{
+            errorMessage("Debe indicar algún dato");
+        }     
+    }//GEN-LAST:event_searchBttnActionPerformed
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        try {
+            controller.preAgregar(this.addButton.getLocationOnScreen());
+        } catch (Exception ex) {
+            errorMessage(ex.getMessage());
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        int row = this.solicitudesTable.getSelectedRow();
+        if (row!=-1){
+            controller.cancelarSolicitud(row);
+        }
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton printButton;
     private javax.swing.JButton searchBttn;
     private javax.swing.JTextField searchFld;
     private javax.swing.JLabel searchLbl;

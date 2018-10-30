@@ -261,6 +261,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         try{
             controller.agregar(funcionario());
         }catch(Exception ex){
+            ex.printStackTrace();
             this.mensaje(ex.getMessage());
         }}else{
             this.mensaje("Debe ingresar todos los datos");
@@ -290,13 +291,12 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     
     public Funcionario funcionario(){
         Funcionario nuevo = new Funcionario();
-        nuevo.setFuncionarioId(Integer.parseInt(this.idFld.getText()));
+        nuevo.setFuncionarioCedula(this.idFld.getText());
         nuevo.setFuncionarioNombre(this.nombreFld.getText());
         nuevo.setFuncionarioRecibeSolicitud(this.recibeSolicitud());
         nuevo.getDependenciaCollection().add(this.getDependencia());
         
         return nuevo;
-        
     }
     
     public Dependencia getDependencia(){

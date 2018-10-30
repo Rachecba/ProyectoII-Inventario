@@ -6,7 +6,9 @@
 package sistema.logic;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +47,8 @@ public class TipoDeAdquisicion implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo_de_adquisicion_despcripcion")
     private String tipoDeAdquisicionDespcripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comprobanteTipoDeAdquisicion")
+    private Collection<Comprobante> comprobanteCollection;
 
     public TipoDeAdquisicion() {
     }
@@ -79,6 +85,15 @@ public class TipoDeAdquisicion implements Serializable {
 
     public void setTipoDeAdquisicionDespcripcion(String tipoDeAdquisicionDespcripcion) {
         this.tipoDeAdquisicionDespcripcion = tipoDeAdquisicionDespcripcion;
+    }
+
+    @XmlTransient
+    public Collection<Comprobante> getComprobanteCollection() {
+        return comprobanteCollection;
+    }
+
+    public void setComprobanteCollection(Collection<Comprobante> comprobanteCollection) {
+        this.comprobanteCollection = comprobanteCollection;
     }
 
     @Override

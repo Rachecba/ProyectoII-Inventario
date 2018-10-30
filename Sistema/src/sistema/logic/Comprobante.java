@@ -31,7 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "comprobante")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comprobante.findAll", query = "SELECT c FROM Comprobante c")})
+    @NamedQuery(name = "Comprobante.findAll", query = "SELECT c FROM Comprobante c")
+    , @NamedQuery(name = "Comprobante.findByComprobanteId", query = "SELECT c FROM Comprobante c WHERE c.comprobanteId = :comprobanteId")
+    , @NamedQuery(name = "Comprobante.findByComprobanteFechaDeAdquisicion", query = "SELECT c FROM Comprobante c WHERE c.comprobanteFechaDeAdquisicion = :comprobanteFechaDeAdquisicion")
+    , @NamedQuery(name = "Comprobante.findByComprobanteCantBienes", query = "SELECT c FROM Comprobante c WHERE c.comprobanteCantBienes = :comprobanteCantBienes")
+    , @NamedQuery(name = "Comprobante.findByComprobanteMontoTotal", query = "SELECT c FROM Comprobante c WHERE c.comprobanteMontoTotal = :comprobanteMontoTotal")})
 public class Comprobante implements Serializable {
 
     private static final long serialVersionUID = 1L;

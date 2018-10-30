@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,7 +29,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "funcionario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")})
+    @NamedQuery(name = "Funcionario.findAll", query = "SELECT f FROM Funcionario f")
+    , @NamedQuery(name = "Funcionario.findByFuncionarioId", query = "SELECT f FROM Funcionario f WHERE f.funcionarioId = :funcionarioId")
+    , @NamedQuery(name = "Funcionario.findByFuncionarioNombre", query = "SELECT f FROM Funcionario f WHERE f.funcionarioNombre = :funcionarioNombre")
+    , @NamedQuery(name = "Funcionario.findByFuncionarioRecibeSolicitud", query = "SELECT f FROM Funcionario f WHERE f.funcionarioRecibeSolicitud = :funcionarioRecibeSolicitud")
+    , @NamedQuery(name = "Funcionario.findByFuncionarioCedula", query = "SELECT f FROM Funcionario f WHERE f.funcionarioCedula = :funcionarioCedula")})
 public class Funcionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,21 +43,21 @@ public class Funcionario implements Serializable {
     @Column(name = "funcionario_id")
     private Integer funcionarioId;
     @Basic(optional = false)
-    @Column(name = "funcionario_cedula")
-    private String funcionarioCedula;
     @Column(name = "funcionario_nombre")
     private String funcionarioNombre;
     @Column(name = "funcionario_recibe_solicitud")
     private Boolean funcionarioRecibeSolicitud;
+    @Basic(optional = false)
+    @Column(name = "funcionario_cedula")
+    private String funcionarioCedula;
     @OneToMany(mappedBy = "solicitudRegistradorDeBienes")
     private Collection<Solicitud> solicitudCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioFuncionario")
     private Collection<Usuario> usuarioCollection;
-//    @JoinColumn(name = "funcionario_labor", referencedColumnName = "labor_id")
-//    @ManyToOne
-//    private Labor funcionarioLabor;
     @OneToMany(mappedBy = "dependenciaAdministrador")
     private Collection<Dependencia> dependenciaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "laborFuncionario")
+    private Collection<Labor> laborCollection;
 
     public Funcionario() {
     }
@@ -64,9 +66,10 @@ public class Funcionario implements Serializable {
         this.funcionarioId = funcionarioId;
     }
 
-    public Funcionario(Integer funcionarioId, String funcionarioNombre) {
+    public Funcionario(Integer funcionarioId, String funcionarioNombre, String funcionarioCedula) {
         this.funcionarioId = funcionarioId;
         this.funcionarioNombre = funcionarioNombre;
+        this.funcionarioCedula = funcionarioCedula;
     }
 
     public Integer getFuncionarioId() {
@@ -93,6 +96,14 @@ public class Funcionario implements Serializable {
         this.funcionarioRecibeSolicitud = funcionarioRecibeSolicitud;
     }
 
+    public String getFuncionarioCedula() {
+        return funcionarioCedula;
+    }
+
+    public void setFuncionarioCedula(String funcionarioCedula) {
+        this.funcionarioCedula = funcionarioCedula;
+    }
+
     @XmlTransient
     public Collection<Solicitud> getSolicitudCollection() {
         return solicitudCollection;
@@ -111,14 +122,6 @@ public class Funcionario implements Serializable {
         this.usuarioCollection = usuarioCollection;
     }
 
-//    public Labor getFuncionarioLabor() {
-//        return funcionarioLabor;
-//    }
-//
-//    public void setFuncionarioLabor(Labor funcionarioLabor) {
-//        this.funcionarioLabor = funcionarioLabor;
-//    }
-
     @XmlTransient
     public Collection<Dependencia> getDependenciaCollection() {
         return dependenciaCollection;
@@ -126,6 +129,15 @@ public class Funcionario implements Serializable {
 
     public void setDependenciaCollection(Collection<Dependencia> dependenciaCollection) {
         this.dependenciaCollection = dependenciaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Labor> getLaborCollection() {
+        return laborCollection;
+    }
+
+    public void setLaborCollection(Collection<Labor> laborCollection) {
+        this.laborCollection = laborCollection;
     }
 
     @Override

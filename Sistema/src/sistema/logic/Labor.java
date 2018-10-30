@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "labor")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Labor.findAll", query = "SELECT l FROM Labor l")})
+    @NamedQuery(name = "Labor.findAll", query = "SELECT l FROM Labor l")
+    , @NamedQuery(name = "Labor.findByLaborId", query = "SELECT l FROM Labor l WHERE l.laborId = :laborId")})
 public class Labor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,13 +42,14 @@ public class Labor implements Serializable {
     private Integer laborId;
     @OneToMany(mappedBy = "activoUniversitarioResponsable")
     private Collection<ActivoUniversitario> activoUniversitarioCollection;
-    //@OneToMany(mappedBy = "funcionarioLabor")
-    private Collection<Funcionario> funcionarioCollection;
     @JoinColumn(name = "labor_dependencia", referencedColumnName = "dependencia_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Dependencia laborDependencia;
+    @JoinColumn(name = "labor_funcionario", referencedColumnName = "funcionario_id")
+    @ManyToOne(optional = false)
+    private Funcionario laborFuncionario;
     @JoinColumn(name = "labor_puesto", referencedColumnName = "puesto_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Puesto laborPuesto;
 
     public Labor() {
@@ -74,21 +76,20 @@ public class Labor implements Serializable {
         this.activoUniversitarioCollection = activoUniversitarioCollection;
     }
 
-    @XmlTransient
-    public Collection<Funcionario> getFuncionarioCollection() {
-        return funcionarioCollection;
-    }
-
-    public void setFuncionarioCollection(Collection<Funcionario> funcionarioCollection) {
-        this.funcionarioCollection = funcionarioCollection;
-    }
-
     public Dependencia getLaborDependencia() {
         return laborDependencia;
     }
 
     public void setLaborDependencia(Dependencia laborDependencia) {
         this.laborDependencia = laborDependencia;
+    }
+
+    public Funcionario getLaborFuncionario() {
+        return laborFuncionario;
+    }
+
+    public void setLaborFuncionario(Funcionario laborFuncionario) {
+        this.laborFuncionario = laborFuncionario;
     }
 
     public Puesto getLaborPuesto() {

@@ -10,7 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import sistema.logic.Funcionario;
+import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
 
 /**
@@ -70,11 +70,21 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
     
     public List<Funcionario> findFuncionario(Funcionario funcionario){
         try{
-            Query q = em.createQuery("Select f from Funcionario f where f.funcionarioNombre like :filtro").setParameter("filtro", funcionario.getFuncionarioNombre());
+            Query q = em.createQuery("Select f from Funcionario f where f.funcionarioNombre LIKE CONCAT('%',:filtro,'%')").setParameter("filtro", funcionario.getFuncionarioNombre());
             return q.getResultList();
         }catch(Exception ex){
             System.out.print("Error al recuperar los funcionarios. \n\n Error:" + ex + "\n\n");
         }
         return null;
+    }
+    
+    public List<Funcionario> findFuncionariosPorDependencia(Dependencia dependencia){
+        try {
+            Query q = em.createQuery("Select f from Funcionario f, Dependencia d, Labor l where f.funcionarioId = l.laborFuncionario.funcionarioId and d.dependenciaId = l.laborDependencia.dependenciaId and d.dependenciaNombre = :nombreDep").setParameter("nombreDep", dependencia.getDependenciaNombre());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar los funcionarios. \n\n Error:" + e + "\n\n");
+            return null;
+        }
     }
 }
