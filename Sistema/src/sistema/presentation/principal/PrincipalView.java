@@ -3,6 +3,8 @@ package sistema.presentation.principal;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JFrame;
 
@@ -95,6 +97,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         verFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/people.png"))); // NOI18N
         verFuncionarios.setText("Ver Funcionarios");
+        verFuncionarios.setEnabled(false);
         verFuncionarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verFuncionariosActionPerformed(evt);
@@ -108,6 +111,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         verDependencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/university.png"))); // NOI18N
         verDependencias.setText("Ver Dependencias");
+        verDependencias.setEnabled(false);
         verDependencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verDependenciasActionPerformed(evt);
@@ -146,10 +150,22 @@ public class PrincipalView extends JFrame implements Observer {
         controller.showDependencias();
     }//GEN-LAST:event_verDependenciasActionPerformed
 
+    public void inicializaPermisos() throws Exception{
+        if(controller.permisoJefeRRHH()){
+            this.verDependencias.setEnabled(true);
+            this.verFuncionarios.setEnabled(true);
+        }
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         if (model.getUsuario() != null){
            this.setTitle("Username: "+model.getUsuario().getUsuarioUsername());
+            try {
+                this.inicializaPermisos();
+            } catch (Exception ex) {
+                Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+            }
        }     
     }
 

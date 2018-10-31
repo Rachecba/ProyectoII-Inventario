@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
+import java.util.logging.   Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -502,18 +502,9 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
 //        lista = controller.getFuncionarios();
 //    }
     
-//    public void limpiarPantalla(){
-//        this.nombreLbl.setForeground(Color.DARK_GRAY);
-//        this.idLbl.setForeground(Color.DARK_GRAY);
-//        this.recibeLbl.setForeground(Color.DARK_GRAY);
-//        
-//        this.idFld.setText("");
-//        this.idFld.setEditable(true);
-//        
-//        this.nombreFld.setText("");
-//        
-//        this.recibeGroup.clearSelection();
-//    }
+    public void limpiarPantalla(){
+        this.nombreLbl.setForeground(Application.COLOR_OK);
+    }
     
     public void inicializaPantalla(Dependencia dependencia){
     
@@ -612,7 +603,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
 
     @Override
     public void update(Observable o, Object arg) {
-    //  this.limpiarPantalla();
+      this.limpiarPantalla();
       Dependencia filtro = model.getFiltro();
       this.inicializaPantalla(filtro);
     }

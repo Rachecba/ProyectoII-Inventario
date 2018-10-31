@@ -121,7 +121,7 @@ public class Labor implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Labor[ laborId=" + laborId + " ]";
+        return this.laborPuesto.getPuestoNombre();
     }
     
 }

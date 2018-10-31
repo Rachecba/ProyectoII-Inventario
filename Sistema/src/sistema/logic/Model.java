@@ -112,7 +112,7 @@ public class Model {
         }
     }
     
-    public void agregarDependencia(Dependencia dependencia){
+    public void agregarDependencia(Dependencia dependencia, Labor labor){
         
         String nombre = dependencia.getDependenciaNombre();
         Dependencia existe = this.dependenciaDao.findByNombre(nombre);
@@ -120,9 +120,11 @@ public class Model {
         if(existe != null){
             dependencia.setDependenciaId(existe.getDependenciaId());
             this.dependenciaDao.edit(dependencia);
+            this.laborDao.edit(labor);
         }
         else{
             this.dependenciaDao.create(dependencia);
+            this.laborDao.create(labor);
          }
      }
     
@@ -162,6 +164,10 @@ public class Model {
      
      public Funcionario buscarFuncionario(Funcionario funcionario){
          return this.funcionarioDao.findByNombre(funcionario.getFuncionarioNombre());
+     }
+     
+     public Puesto buscarPuesto(String nombre){
+         return this.puestoDao.findPuesto(nombre);
      }
     
     public List<Solicitud> searchSolicitud(Solicitud filtro){

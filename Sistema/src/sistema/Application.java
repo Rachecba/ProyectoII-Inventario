@@ -101,6 +101,7 @@ public class Application {
         public static String JEFE_OCCB = "Jefe OCCB";
         public static String REGISTRADOR_BIENES = "Registrador de bienes";
         public static String JEFE_RRHH = "Jefe RRHH";
+        public static  final String  NO_AUTORIZADO="No Autorizado!";
         
         //---------------MODOS-------------------
         public static  final int AGREGAR=0; //depende de los permisos del usuario

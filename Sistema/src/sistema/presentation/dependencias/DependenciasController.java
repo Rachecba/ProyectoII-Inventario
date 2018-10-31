@@ -13,6 +13,7 @@ import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
 import sistema.logic.Labor;
 import sistema.logic.Model;
+import sistema.logic.Puesto;
 
 /**
  *
@@ -63,7 +64,8 @@ public class DependenciasController {
          model.setFuncionariosTable(labores);
          model.notificar();
          
-         if(labores.isEmpty())
+         
+         if(model.getModo() == Application.EDITAR && labores.isEmpty())
              throw new Exception("Funcionarios no encontrados");
      }
      
@@ -85,6 +87,7 @@ public class DependenciasController {
          Dependencia dependencia = new Dependencia();
          model.setFiltro(dependencia);
          this.model.setModo(Application.AGREGAR, dependencia);
+         this.setTablaFuncionarios(new Dependencia());
          this.setTablaDependencia();
      }
      
@@ -96,6 +99,7 @@ public class DependenciasController {
      public void buscar(Dependencia filtro) throws Exception{
          model.setFiltro(filtro);
          model.setModo(Application.AGREGAR, filtro);
+         this.setTablaFuncionarios(new Dependencia());
          this.setTablaDependencia();
      }
      
@@ -133,17 +137,30 @@ public class DependenciasController {
          
          switch(this.model.getModo()){
              case Application.AGREGAR:
-                 mainModel.agregarDependencia(nueva);
+                 mainModel.agregarDependencia(nueva, this.crearLabor(nueva));
                  this.model.setFiltro(nueva);
                  this.model.setModo(Application.AGREGAR, nueva);
                  this.setTablaDependencia();
                  
              case Application.EDITAR:
-                 mainModel.agregarDependencia(nueva);
+                 mainModel.agregarDependencia(nueva, this.crearLabor(nueva));
                  this.model.setModo(Application.AGREGAR, nueva);
                  this.setTablaDependencia();
          }
      }
+     
+      public Labor crearLabor(Dependencia dependencia){
+        Labor labor = new Labor();
+        labor.setLaborDependencia(dependencia);
+        labor.setLaborFuncionario(dependencia.getDependenciaAdministrador());
+        labor.setLaborPuesto(this.getPuesto());
+        
+        return labor;
+    }
+      
+      public Puesto getPuesto(){
+         return mainModel.buscarPuesto("Administrador");
+      }
      
      public void agregarLabor(Labor nuevo, int fila) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(fila);

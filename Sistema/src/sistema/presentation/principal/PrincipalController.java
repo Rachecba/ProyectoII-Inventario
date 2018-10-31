@@ -6,6 +6,7 @@
 package sistema.presentation.principal;
 
 import java.awt.Point;
+import java.util.Arrays;
 import sistema.Application;
 import sistema.Sesion;
 import sistema.logic.Model;
@@ -47,6 +48,19 @@ public class PrincipalController {
     public void setModel(PrincipalModel model) {
         this.model = model;
     }
+    
+    //---------------------- permisos -------------------------------
+    
+    public boolean permisoJefeRRHH() throws Exception{
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.JEFE_RRHH).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de jefeRRHH
+            return false;
+            //throw new Exception(Application.NO_AUTORIZADO);
+        }
+        else
+            return true;
+    }
+   
     
     // --------------------- ventanas -------------------------------
     

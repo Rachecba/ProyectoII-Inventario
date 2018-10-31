@@ -67,4 +67,14 @@ public class PuestoDAO extends AbstractFacade<Puesto> implements Serializable{
         }
         return null;
     }
+    
+    public Puesto findPuesto(String nombre){
+        try {
+            Query q = em.createQuery("Select obj from Puesto obj where obj.puestoNombre = :nombre").setParameter("nombre", nombre);
+            return (Puesto) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar el puesto.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
 }

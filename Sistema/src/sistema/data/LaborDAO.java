@@ -71,7 +71,7 @@ private final EntityManagerFactory emf;
     
     public List<Labor> findLabores(Dependencia dependencia){
         try {
-            Query q = em.createQuery("Select obj from Labor obj where obj.laborDependencia = :dependencia").setParameter("dependencia", dependencia.getDependenciaNombre());
+            Query q = em.createQuery("Select obj from Labor obj where obj.laborDependencia = :dependencia").setParameter("dependencia", dependencia);
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperar las labores.\n\n Error:" + e + "\n\n");

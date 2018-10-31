@@ -45,6 +45,7 @@
                   <Image iconType="3" name="/sistema/presentation/iconos/generales/people.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Funcionarios"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verFuncionariosActionPerformed"/>
@@ -63,6 +64,7 @@
                   <Image iconType="3" name="/sistema/presentation/iconos/generales/university.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Dependencias"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verDependenciasActionPerformed"/>
