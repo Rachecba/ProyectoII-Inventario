@@ -334,7 +334,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
     }
     
     public Dependencia getDependencia(){
-        return controller.buscarDependencia((String) this.dependenciaBox.getSelectedItem());
+        return (Dependencia) this.dependenciaBox.getSelectedItem();
     }
     
     public boolean recibeSolicitud(){

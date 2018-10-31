@@ -49,8 +49,13 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
         }
     }
     
-    public void delete(Funcionario obj) throws Exception{
-        super.remove(obj);
+    public void delete(Funcionario obj) {//throws Exception{
+        try{
+            super.remove(obj);
+        } catch (Exception e) {
+            
+            System.out.print("Error al borrar la dependencia.\n\n Error:" + e + "\n\n");
+        }
     }
     
     @Override

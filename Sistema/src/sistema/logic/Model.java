@@ -75,10 +75,10 @@ public class Model {
     public List<Funcionario> buscarFuncionarios(Funcionario filtro, Dependencia dependencia){
         
         if(filtro.getFuncionarioCedula() == null){
-            return this.funcionarioDao.findAll(); //arreglar este findAll, es findAll por dependencia
+            return this.funcionarioDao.findAll(); //findFuncionariosPorDependencia(dependencia); //arreglar este findAll, es findAll por dependencia
         }
         else{
-            return this.funcionarioDao.findFuncionario(filtro);
+            return this.funcionarioDao.findFuncionario(filtro); //find funcionario por dependencia
         }
         
     }

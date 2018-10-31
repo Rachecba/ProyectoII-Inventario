@@ -106,7 +106,6 @@ public class Application {
         public static  final int AGREGAR=0; //depende de los permisos del usuario
         public static final int EDITAR=1;
         public static final int CONSULTAR=2;
-        public static final int EDITAR_FUNCIONARIO = 3; //para editar funcionario en la pantalla de dependencias
 
         //------------------COLORES--------------------
         public static final Color COLOR_ERROR = Color.red;
