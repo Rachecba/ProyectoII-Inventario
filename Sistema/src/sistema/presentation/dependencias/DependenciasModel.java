@@ -14,6 +14,8 @@ import javax.swing.DefaultComboBoxModel;
 import sistema.Application;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
+import sistema.logic.Labor;
+import sistema.logic.Puesto;
 
 /**
  *
@@ -23,6 +25,7 @@ public class DependenciasModel extends Observable{
     DependenciasTableModel dependenciasTable;
     FuncionariosTableModel funcionariosTable;
     ComboBoxModel<Funcionario> funcionarios;
+    ComboBoxModel<Puesto> puestos;
     int modo;
     Dependencia filtro;
     
@@ -33,10 +36,10 @@ public class DependenciasModel extends Observable{
      public void inicializa(){
         filtro = new Dependencia();
         List<Dependencia> dependencias = new ArrayList<>();
-        List<Funcionario> funcionarios = new ArrayList<>();
+        List<Labor> labores = new ArrayList<>();
         //seleccionado = null;
         this.setModo(Application.AGREGAR, filtro);
-        this.setFuncionariosTable(funcionarios);
+        this.setFuncionariosTable(labores);
         this.setDependenciasTable(dependencias);
         this.notificar();
     }
@@ -50,6 +53,10 @@ public class DependenciasModel extends Observable{
         this.setFuncionarios(funcionarios);
         this.setFiltro(new Dependencia());
     }
+     
+     public void inicializaPuestos(List<Puesto> puestos){
+         this.setPuestos(puestos);
+     }
      
      public void setModo(int modo, Dependencia actual) {
         this.modo = modo;
@@ -68,6 +75,10 @@ public class DependenciasModel extends Observable{
     public ComboBoxModel<Funcionario> getFuncionarios() {
         return funcionarios;
     }
+    
+    public ComboBoxModel<Puesto> getPuestos(){
+        return puestos;
+    }
 
     public int getModo() {
         return modo;
@@ -82,13 +93,18 @@ public class DependenciasModel extends Observable{
         dependenciasTable = new DependenciasTableModel(dependencias, columnas); 
     }
 
-    public void setFuncionariosTable(List<Funcionario> funcionarios) {
-        int[] columnas = {FuncionariosTableModel.CEDULA, FuncionariosTableModel.NOMBRE};
-        funcionariosTable = new FuncionariosTableModel(funcionarios, columnas); 
+    public void setFuncionariosTable(List<Labor> labores) {
+        int[] columnas = {FuncionariosTableModel.PUESTO, FuncionariosTableModel.FUNCIONARIO};
+        funcionariosTable = new FuncionariosTableModel(labores, columnas); 
     }
 
     public void setFuncionarios(List<Funcionario> funcionarios) {
         this.funcionarios = new DefaultComboBoxModel(funcionarios.toArray());
+        this.notificar();
+    }
+    
+    public void setPuestos(List<Puesto> puestos){
+        this.puestos = new DefaultComboBoxModel(puestos.toArray());
         this.notificar();
     }
 

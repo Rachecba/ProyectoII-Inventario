@@ -11,6 +11,7 @@ import sistema.Application;
 import sistema.Sesion;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
+import sistema.logic.Labor;
 import sistema.logic.Model;
 
 /**
@@ -29,6 +30,7 @@ public class DependenciasController {
         this.view = view;
         this.sesion = sesion;
         this.model.inicializaFuncionarios(mainModel.getFuncionariosBox());
+        this.model.inicializaPuestos(mainModel.getPuestosBox());
         
         view.setController(this);
         view.setModel(model);
@@ -57,11 +59,11 @@ public class DependenciasController {
      }
        
      public void setTablaFuncionarios(Dependencia dependencia) throws Exception{
-         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(new Funcionario(), dependencia);
-         model.setFuncionariosTable(funcionarios);
+         List<Labor> labores = mainModel.buscarLabores(dependencia);
+         model.setFuncionariosTable(labores);
          model.notificar();
          
-         if(funcionarios.isEmpty())
+         if(labores.isEmpty())
              throw new Exception("Funcionarios no encontrados");
      }
      
@@ -74,6 +76,10 @@ public class DependenciasController {
          
          return nombres;
      }
+     
+     public Dependencia getDependencia(int fila){
+         return model.getDependenciasTable().getRowAt(fila);
+    }
      
      public void buscarTodos() throws Exception{
          Dependencia dependencia = new Dependencia();
@@ -108,13 +114,13 @@ public class DependenciasController {
      
      public void borrarFuncionario(int fila, int filaD) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(filaD);
-         Funcionario seleccionado = model.getFuncionariosTable().getRowAt(fila);
+         Labor seleccionado = model.getFuncionariosTable().getRowAt(fila);
          
          try{
-             mainModel.eliminarFuncionario(seleccionado);
+             mainModel.eliminarLabor(seleccionado);
          }catch(Exception ex){}
          
-         List<Funcionario> lista = mainModel.buscarFuncionarios(new Funcionario(), dependencia);
+         List<Labor> lista =  mainModel.buscarLabores(dependencia);
          this.model.setFuncionariosTable(lista);
          this.model.notificar();
      }
@@ -139,9 +145,9 @@ public class DependenciasController {
          }
      }
      
-     public void agregarFuncionario(Funcionario nuevo, int fila) throws Exception{
+     public void agregarLabor(Labor nuevo, int fila) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(fila);
-         mainModel.agregarFuncionario(nuevo);
+         mainModel.agregarLabor(nuevo);
          this.setTablaFuncionarios(dependencia);
      }
      

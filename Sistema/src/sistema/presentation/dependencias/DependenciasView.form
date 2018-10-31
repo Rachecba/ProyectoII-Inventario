@@ -111,17 +111,21 @@
                           <Component id="adminBox" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="cedulaLbl" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cedulaFld" min="-2" pref="132" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                      <Component id="addFuncionarioLbl" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="laborLbl" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="laborFld" min="-2" pref="131" max="-2" attributes="0"/>
-                          <Component id="addFuncionarioLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                          <Component id="puestoLbl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="puestoBox" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="funcionarioLbl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="funcionarioBox" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -158,15 +162,15 @@
                               <Component id="addFuncionarioLbl" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cedulaLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cedulaFld" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="funcionarioLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="funcionarioBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="laborFld" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="laborLbl" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="puestoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="puestoBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="addFuncionarioBttn" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -367,17 +371,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteFuncionarioBttnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="cedulaLbl">
+    <Component class="javax.swing.JLabel" name="funcionarioLbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cedula"/>
+        <Property name="text" type="java.lang.String" value="Funcionario"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="laborLbl">
+    <Component class="javax.swing.JLabel" name="puestoLbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Labor"/>
+        <Property name="text" type="java.lang.String" value="Puesto"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="laborFld">
     </Component>
     <Component class="javax.swing.JButton" name="addFuncionarioBttn">
       <Properties>
@@ -389,7 +391,35 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addFuncionarioBttnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="cedulaFld">
+    <Component class="javax.swing.JComboBox" name="funcionarioBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="puestoBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

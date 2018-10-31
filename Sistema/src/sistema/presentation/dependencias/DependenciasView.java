@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import sistema.Application;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
+import sistema.logic.Labor;
+import sistema.logic.Puesto;
 
 /**
  *
@@ -75,11 +77,11 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         adminLbl = new javax.swing.JLabel();
         adminBox = new javax.swing.JComboBox();
         deleteFuncionarioBttn = new javax.swing.JButton();
-        cedulaLbl = new javax.swing.JLabel();
-        laborLbl = new javax.swing.JLabel();
-        laborFld = new javax.swing.JTextField();
+        funcionarioLbl = new javax.swing.JLabel();
+        puestoLbl = new javax.swing.JLabel();
         addFuncionarioBttn = new javax.swing.JButton();
-        cedulaFld = new javax.swing.JTextField();
+        funcionarioBox = new javax.swing.JComboBox();
+        puestoBox = new javax.swing.JComboBox();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -177,9 +179,9 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
             }
         });
 
-        cedulaLbl.setText("Cedula");
+        funcionarioLbl.setText("Funcionario");
 
-        laborLbl.setText("Labor");
+        puestoLbl.setText("Puesto");
 
         addFuncionarioBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/plus2.png"))); // NOI18N
         addFuncionarioBttn.addActionListener(new java.awt.event.ActionListener() {
@@ -187,6 +189,10 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
                 addFuncionarioBttnActionPerformed(evt);
             }
         });
+
+        funcionarioBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        puestoBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -239,15 +245,18 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
                             .addComponent(addDependenciaBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(adminBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cedulaLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cedulaFld, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(laborLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(laborFld, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addFuncionarioLbl))))
+                        .addGap(45, 45, 45)
+                        .addComponent(addFuncionarioLbl))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addComponent(puestoLbl)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(puestoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(funcionarioLbl)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(funcionarioBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -277,12 +286,12 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
                                 .addComponent(addFuncionarioLbl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cedulaLbl)
-                                    .addComponent(cedulaFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(funcionarioLbl)
+                                    .addComponent(funcionarioBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(laborFld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(laborLbl))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(puestoLbl)
+                                    .addComponent(puestoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(addFuncionarioBttn))
                             .addGroup(layout.createSequentialGroup()
@@ -397,37 +406,36 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     }//GEN-LAST:event_deleteFuncionarioBttnActionPerformed
 
     private void addFuncionarioBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFuncionarioBttnActionPerformed
-        if(validaAgregarFuncionario()){
+        
         try{
-            controller.agregarFuncionario(funcionario(), filaDependencia);
+            controller.agregarLabor(labor(), filaDependencia);
             this.mensajeAgregado("Funcionario agregado con exito");
         }catch(Exception ex){
-            this.mensaje(ex.getMessage());
-        }}else{
-            this.mensaje("Debe ingresar todos los datos");
-        }
+            this.mensaje(ex.getMessage());        
     }//GEN-LAST:event_addFuncionarioBttnActionPerformed
 
-    public boolean validaAgregarFuncionario(){
-        boolean valido = true;
-        
-        if(this.laborFld.getText().isEmpty()){
-            this.laborFld.setForeground(Color.red);
-            valido = false;
-        }
-        
-        if(this.cedulaFld.getText().isEmpty()){
-            this.cedulaFld.setForeground(Color.red);
-            valido = false;
-        }
-        
-        return valido;
     }
+//    public boolean validaAgregarFuncionario(){
+//        boolean valido = true;
+//        
+//        if(this.laborFld.getText().isEmpty()){
+//            this.laborFld.setForeground(Color.red);
+//            valido = false;
+//        }
+//        
+//        if(this.cedulaFld.getText().isEmpty()){
+//            this.cedulaFld.setForeground(Color.red);
+//            valido = false;
+//        }
+//        
+//        return valido;
+//    }
     
-    public Funcionario funcionario(){
-        Funcionario nuevo = new Funcionario();
-        //nuevo.setFuncionarioCedula(this.cedulaFld.getText());
-        //nuevo labor
+    public Labor labor(){
+        Labor nuevo = new Labor();
+        nuevo.setLaborDependencia(controller.getDependencia(this.filaDependencia));
+        nuevo.setLaborFuncionario((Funcionario) this.funcionarioBox.getSelectedItem());
+        nuevo.setLaborPuesto((Puesto) this.puestoBox.getSelectedItem());
         
         return nuevo;
     }
@@ -519,9 +527,11 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         //this.comboBox();
         
         this.adminBox.setModel(model.getFuncionarios());
+        this.funcionarioBox.setModel(model.getFuncionarios());
+        this.puestoBox.setModel(model.getPuestos());
         
-        this.cedulaFld.setEditable(false);
-        this.laborFld.setEditable(false);
+       this.funcionarioBox.setEnabled(false);
+       this.puestoBox.setEnabled(false);
         
         if(model.getModo() == Application.EDITAR){
             this.funcionariosTable.setModel(model.getFuncionariosTable());
@@ -529,8 +539,8 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
             // this.nombreFld.setEditable(false);
             
             this.adminBox.setSelectedItem(dependencia.getDependenciaAdministrador());
-            this.cedulaFld.setEditable(true);
-            this.laborFld.setEditable(true);
+            this.funcionarioBox.setEnabled(true);
+            this.puestoBox.setEnabled(true);
         }
         
           
@@ -575,12 +585,12 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     private javax.swing.JLabel addFuncionarioLbl;
     private javax.swing.JComboBox adminBox;
     private javax.swing.JLabel adminLbl;
-    private javax.swing.JTextField cedulaFld;
-    private javax.swing.JLabel cedulaLbl;
     private javax.swing.JButton deleteDependenciaBttn;
     private javax.swing.JButton deleteFuncionarioBttn;
     private javax.swing.JLabel dependenciasLbl;
     private javax.swing.JTable dependenciasTable;
+    private javax.swing.JComboBox funcionarioBox;
+    private javax.swing.JLabel funcionarioLbl;
     private javax.swing.JLabel funcionariosLbl;
     private javax.swing.JTable funcionariosTable;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
@@ -591,10 +601,10 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField laborFld;
-    private javax.swing.JLabel laborLbl;
     private javax.swing.JTextField nombreFld;
     private javax.swing.JLabel nombreLbl;
+    private javax.swing.JComboBox puestoBox;
+    private javax.swing.JLabel puestoLbl;
     private javax.swing.JButton searchBttn;
     private javax.swing.JTextField searchFld;
     private javax.swing.JLabel searchLbl;

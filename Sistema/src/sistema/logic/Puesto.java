@@ -97,7 +97,7 @@ public class Puesto implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Puesto[ puestoId=" + puestoId + " ]";
+        return this.puestoNombre;
     }
     
 }

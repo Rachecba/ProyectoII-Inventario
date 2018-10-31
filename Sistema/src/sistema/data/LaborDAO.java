@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import sistema.logic.Dependencia;
 import sistema.logic.Labor;
 import sistema.logic.Labor;
 
@@ -67,4 +68,14 @@ private final EntityManagerFactory emf;
         }
         return null;
     }   
+    
+    public List<Labor> findLabores(Dependencia dependencia){
+        try {
+            Query q = em.createQuery("Select obj from Labor obj where obj.laborDependencia = :dependencia").setParameter("dependencia", dependencia.getDependenciaNombre());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar las labores.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
 }

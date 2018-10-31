@@ -83,6 +83,11 @@ public class Model {
         
     }
     
+    public List<Labor> buscarLabores(Dependencia dependencia){
+        
+        return this.laborDao.findLabores(dependencia);
+    }
+    
     public List<Dependencia> buscarDependencias(Dependencia filtro){
         
         if(filtro.getDependenciaNombre() == null){
@@ -120,6 +125,12 @@ public class Model {
             this.dependenciaDao.create(dependencia);
          }
      }
+    
+    public void agregarLabor(Labor labor){
+        
+        //validar agregar labor
+        this.laborDao.create(labor);
+    }
      
      public void eliminarFuncionario(Funcionario funcionario) throws Exception{
          this.funcionarioDao.delete(funcionario);
@@ -129,12 +140,20 @@ public class Model {
          this.dependenciaDao.delete(dependencia);
      }
      
+     public void eliminarLabor(Labor labor){
+         this.laborDao.delete(labor);
+     }
+     
      public List<Dependencia> getDependenciasBox(){
          return this.dependenciaDao.findAll();
      }
      
      public List<Funcionario> getFuncionariosBox(){
          return this.funcionarioDao.findAll();
+     }
+     
+     public List<Puesto> getPuestosBox(){
+         return this.puestoDao.findAll();
      }
      
      public Dependencia buscarDependencia(String nombre){
