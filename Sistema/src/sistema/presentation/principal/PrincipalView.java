@@ -55,6 +55,7 @@ public class PrincipalView extends JFrame implements Observer {
         solicitudes = new javax.swing.JMenu();
         activos = new javax.swing.JMenu();
         articulos = new javax.swing.JMenu();
+        verArticulos = new javax.swing.JMenuItem();
         funcionarios = new javax.swing.JMenu();
         verFuncionarios = new javax.swing.JMenuItem();
         dependencias = new javax.swing.JMenu();
@@ -91,6 +92,16 @@ public class PrincipalView extends JFrame implements Observer {
         jMenuBar1.add(activos);
 
         articulos.setText("Articulos");
+
+        verArticulos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/category.png"))); // NOI18N
+        verArticulos.setText("Ver Articulos");
+        verArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verArticulosActionPerformed(evt);
+            }
+        });
+        articulos.add(verArticulos);
+
         jMenuBar1.add(articulos);
 
         funcionarios.setText("Funcionarios");
@@ -150,6 +161,10 @@ public class PrincipalView extends JFrame implements Observer {
         controller.showDependencias();
     }//GEN-LAST:event_verDependenciasActionPerformed
 
+    private void verArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verArticulosActionPerformed
+        controller.showArticulos();
+    }//GEN-LAST:event_verArticulosActionPerformed
+
     public void inicializaPermisos() throws Exception{
         if(controller.permisoJefeRRHH()){
             this.verDependencias.setEnabled(true);
@@ -159,7 +174,7 @@ public class PrincipalView extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        if (model.getUsuario() != null){
+        if (model.getUsuario().getUsuarioUsername() != null){
            this.setTitle("Username: "+model.getUsuario().getUsuarioUsername());
             try {
                 this.inicializaPermisos();
@@ -181,6 +196,7 @@ public class PrincipalView extends JFrame implements Observer {
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenu salir;
     private javax.swing.JMenu solicitudes;
+    private javax.swing.JMenuItem verArticulos;
     private javax.swing.JMenuItem verDependencias;
     private javax.swing.JMenuItem verFuncionarios;
     // End of variables declaration//GEN-END:variables

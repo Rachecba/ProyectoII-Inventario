@@ -388,13 +388,14 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
            try {
                controller.buscarFuncionarios(filaDependencia);
            } catch (Exception ex) {
-               Logger.getLogger(DependenciasView.class.getName()).log(Level.SEVERE, null, ex);
+               this.mensaje(ex.getMessage());
            }
         }
     }//GEN-LAST:event_dependenciasTableMouseClicked
 
     private void deleteFuncionarioBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFuncionarioBttnActionPerformed
         int fila = this.funcionariosTable.getSelectedRow();
+        
         
         if(fila != -1){
             try {

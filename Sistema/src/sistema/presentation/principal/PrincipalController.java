@@ -51,11 +51,10 @@ public class PrincipalController {
     
     //---------------------- permisos -------------------------------
     
-    public boolean permisoJefeRRHH() throws Exception{
+    public boolean permisoJefeRRHH(){
         Usuario principal = (Usuario) sesion.getAttribute("Usuario");
         if ( !Arrays.asList(Application.JEFE_RRHH).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de jefeRRHH
             return false;
-            //throw new Exception(Application.NO_AUTORIZADO);
         }
         else
             return true;
@@ -65,7 +64,7 @@ public class PrincipalController {
     // --------------------- ventanas -------------------------------
     
     public void showArticulos(){ 
-        // Application.ARTICULOS_CONTROLLER.mostrar(); 
+         Application.ARTICULOS_CONTROLLER.mostrar(); 
     }
     
     public void showActivos(){
@@ -104,7 +103,7 @@ public class PrincipalController {
          //setear las tablas de las ventanas....
 //         Application.SOLICITUDES_CONTROLLER.reset();
 //         Application.ACTIVOS_CONTROLLER.reset();
-//         Application.ARTICULOS_CONTROLLER.reset();
+         Application.ARTICULOS_CONTROLLER.reset();
          Application.FUNCIONARIOS_CONTROLLER.reset();
          Application.DEPENDENCIAS_CONTROLLER.reset();
          

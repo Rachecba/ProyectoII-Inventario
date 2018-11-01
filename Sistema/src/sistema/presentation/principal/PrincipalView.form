@@ -33,6 +33,19 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Articulos"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="verArticulos">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sistema/presentation/iconos/generales/category.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ver Articulos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verArticulosActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="funcionarios">
           <Properties>

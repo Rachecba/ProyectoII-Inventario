@@ -78,4 +78,14 @@ private final EntityManagerFactory emf;
         }
         return null;
     }
+    
+    public Labor findAdmin(Dependencia dependencia){
+         try {
+            Query q = em.createQuery("Select obj from Labor obj where obj.laborDependencia = :dependencia and obj.laborPuesto.puestoNombre = :admin").setParameter("dependencia", dependencia).setParameter("admin", "Administrador");
+            return (Labor) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar labor por admin.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
 }

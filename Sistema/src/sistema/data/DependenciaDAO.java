@@ -96,4 +96,5 @@ public class DependenciaDAO extends AbstractFacade<Dependencia> implements Seria
         }
         return null;
     }
+    
 }

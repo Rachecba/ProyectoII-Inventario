@@ -67,4 +67,24 @@ public class CategoriaDAO extends AbstractFacade<Categoria> implements Serializa
         }
         return null;
     }
+    
+    public List<Categoria> findCategorias(Categoria filtro){
+        try{
+            Query q = em.createQuery("Select f from Categoria f where f.categoriaNombre like concat ('%',:nombre,'%')").setParameter("nombre", filtro.getCategoriaNombre());
+            return q.getResultList();
+        }catch(Exception ex){
+            System.out.print("Error al recuperar las categorias. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
+    
+    public Categoria findByNombre(String nombre){
+        try{
+            Query q = em.createQuery("Select f from Categoria f where f.categoriaNombre = :nombre").setParameter("nombre", nombre);
+            return (Categoria) q.getSingleResult();
+        }catch(Exception ex){
+            System.out.print("Error al recuperar la categoria por nombre. \n\n Error:" + ex + "\n\n");
+        }
+        return null;
+    }
 }

@@ -76,8 +76,8 @@ public class FuncionariosController {
          Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
          
          try{
-             mainModel.eliminarFuncionario(seleccionado);
-         }catch(Exception ex){}
+             mainModel.eliminarFuncionario(seleccionado, dependencia);
+         }catch(Exception ex){ throw ex; }
          
          List<Funcionario> lista = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
          this.funcionariosModel.setTable(lista);

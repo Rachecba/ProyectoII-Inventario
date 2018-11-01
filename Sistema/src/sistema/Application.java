@@ -9,6 +9,8 @@ import sistema.logic.Puesto;
 import sistema.presentation.activos.ActivosController;
 import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
+import sistema.presentation.articulos.ArticulosModel;
+import sistema.presentation.articulos.ArticulosView;
 import sistema.presentation.dependencias.DependenciasController;
 import sistema.presentation.dependencias.DependenciasModel;
 import sistema.presentation.dependencias.DependenciasView;
@@ -59,11 +61,11 @@ public class Application {
      //   ActivosController activosController = new ActivosController(activosModel, activosView, mainMode, sesion);
      //   ACTIVOS_CONTROLLER = activosController;
      
-     //   ArticulosModel articulosModel = new ArticulosModel();
-     //   ArticulosView articulosView = new ArticulosView();
-     //   principalView.addInternalFrame(articulosView);
-     //   ArticulosController articulosController = new ArticulosController();
-     //   ARTICULOS_CONTROLLER = articulosController;
+        ArticulosModel articulosModel = new ArticulosModel();
+        ArticulosView articulosView = new ArticulosView();
+        principalView.addInternalFrame(articulosView);
+        ArticulosController articulosController = new ArticulosController(articulosModel, articulosView, mainModel, sesion);
+        ARTICULOS_CONTROLLER = articulosController;
         
         DependenciasModel dependenciasModel = new DependenciasModel();
         DependenciasView dependenciasView = new DependenciasView();

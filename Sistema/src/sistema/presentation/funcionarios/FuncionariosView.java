@@ -287,7 +287,6 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
             try {
                 controller.borrar(fila, (Dependencia) this.dependenciaBox.getSelectedItem());
             } catch (Exception ex) {
-               // ex.toString().contains(title);
                 this.mensaje(ex.getMessage());
             }
         }

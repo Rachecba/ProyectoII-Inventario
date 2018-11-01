@@ -51,13 +51,13 @@ public class DependenciasController {
      }
      
      public void setTablaDependencia() throws Exception{
-         List<Dependencia> dependencias = mainModel.buscarDependencias(model.getFiltro());
-         model.setDependenciasTable(dependencias);
-         model.notificar();
-         
-         if(dependencias.isEmpty())
-             throw new Exception("Dependencia no encontrada");
-     }
+            List<Dependencia> dependencias = mainModel.buscarDependencias(model.getFiltro());
+            model.setDependenciasTable(dependencias);
+            model.notificar();
+
+            if(dependencias.isEmpty())
+                throw new Exception("Dependencia no encontrada");
+        }
        
      public void setTablaFuncionarios(Dependencia dependencia) throws Exception{
          List<Labor> labores = mainModel.buscarLabores(dependencia);
@@ -105,14 +105,21 @@ public class DependenciasController {
      
      public void borrarDependencia(int fila) throws Exception{
          Dependencia seleccionada = model.getDependenciasTable().getRowAt(fila);
+         model.setModo(Application.AGREGAR, new Dependencia());
          
          try{
              mainModel.eliminarDependencia(seleccionada);
-         }catch(Exception ex){}
+         }catch(Exception ex){
+             System.out.print("Error" + ex);
+         }
          
-         List<Dependencia> lista = mainModel.buscarDependencias(model.getFiltro());
-         this.model.setDependenciasTable(lista);
-         this.model.notificar();
+         this.setTablaFuncionarios(new Dependencia());
+         this.setTablaDependencia();
+         
+//         List<Dependencia> lista = mainModel.buscarDependencias(new Dependencia());
+//         this.setTablaFuncionarios(new Dependencia());
+//         this.model.setDependenciasTable(lista);
+//         this.model.notificar();
      
      }
      
@@ -120,6 +127,9 @@ public class DependenciasController {
          Dependencia dependencia = model.getDependenciasTable().getRowAt(filaD);
          Labor seleccionado = model.getFuncionariosTable().getRowAt(fila);
          
+         if(seleccionado.getLaborPuesto().getPuestoNombre().equals("Administrador"))
+             throw new Exception("No se puede eliminar el admnistrador");
+         else{
          try{
              mainModel.eliminarLabor(seleccionado);
          }catch(Exception ex){}
@@ -127,6 +137,7 @@ public class DependenciasController {
          List<Labor> lista =  mainModel.buscarLabores(dependencia);
          this.model.setFuncionariosTable(lista);
          this.model.notificar();
+         }
      }
      
      public Funcionario buscarFuncionario(Funcionario funcionario){
@@ -141,11 +152,13 @@ public class DependenciasController {
                  this.model.setFiltro(nueva);
                  this.model.setModo(Application.AGREGAR, nueva);
                  this.setTablaDependencia();
+                 break;
                  
              case Application.EDITAR:
                  mainModel.agregarDependencia(nueva, this.crearLabor(nueva));
                  this.model.setModo(Application.AGREGAR, nueva);
                  this.setTablaDependencia();
+                 break;
          }
      }
      
