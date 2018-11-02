@@ -54,10 +54,18 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         
         if(controller.getSession() == true){
             if(controller.permisoRegistrador()){
+                this.separator.setVisible(true);
+                this.bienesTable.setVisible(true);
+                this.bienesLbl.setVisible(true);
+                this.incorporarBttn.setVisible(true);
+                this.categoriaBox.setVisible(true);
+            }
+            else{
                 this.separator.setVisible(false);
                 this.bienesTable.setVisible(false);
                 this.bienesLbl.setVisible(false);
                 this.incorporarBttn.setVisible(false);
+                this.categoriaBox.setVisible(false);
             }
         }
     }
@@ -103,6 +111,8 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         jScrollPane2 = new javax.swing.JScrollPane();
         bienesTable = new javax.swing.JTable();
         incorporarBttn = new javax.swing.JButton();
+        categoriaLbl = new javax.swing.JLabel();
+        categoriaBox = new javax.swing.JComboBox<>();
 
         searchLbl.setText("Search");
 
@@ -174,6 +184,10 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
             }
         });
 
+        categoriaLbl.setText("Selecciona la categoria");
+
+        categoriaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,17 +211,21 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                             .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addGap(60, 60, 60)
                 .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(182, 182, 182)
                         .addComponent(bienesLbl))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(166, 166, 166)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(categoriaLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(categoriaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
                         .addComponent(incorporarBttn)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,10 +258,12 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(incorporarBttn)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(incorporarBttn)
+                            .addComponent(categoriaLbl)
+                            .addComponent(categoriaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(31, Short.MAX_VALUE))))
         );
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
@@ -293,6 +313,8 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     private javax.swing.JLabel bienesLbl;
     private javax.swing.JTable bienesTable;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JComboBox<String> categoriaBox;
+    private javax.swing.JLabel categoriaLbl;
     private javax.swing.JButton incorporarBttn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -109,5 +109,5 @@ public class Application {
 
         //------------------COLORES--------------------
         public static final Color COLOR_ERROR = Color.red;
-        public static final Color COLOR_OK=Color.black;
+        public static final Color COLOR_OK=Color.darkGray;
 }

@@ -26,7 +26,6 @@ public class FuncionariosController {
     public FuncionariosController(FuncionariosModel fm, FuncionariosView fv, Model mm, Sesion s){
         funcionariosModel = fm;
         mainModel = mm;
-        this.funcionariosModel.inicializaDependencias(mainModel.getDependenciasBox());
         funcionariosView = fv;
         sesion = s;
         
@@ -47,76 +46,66 @@ public class FuncionariosController {
          this.funcionariosModel.setModo(modo, seleccionado);
      }
      
-     public void agregar(Funcionario funcionario, Dependencia dependencia) throws Exception{
+     public void agregar(Funcionario funcionario) throws Exception{
          
          switch(this.funcionariosModel.getModo()){
              case Application.AGREGAR:
                  mainModel.agregarFuncionario(funcionario);
                  this.funcionariosModel.setFiltro(funcionario);
                  this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
-                 this.setTabla(dependencia);
+                 this.setTabla();
                  break;
                  
              case Application.EDITAR:
                  mainModel.agregarFuncionario(funcionario);
                  this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
-                 this.setTabla(dependencia);
+                 this.setTabla();
                  break;
                  
          }
          
      }
      
-     public void editar(int fila, Dependencia dependencia) throws Exception{
+     public void editar(int fila) throws Exception{
          Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
          this.funcionariosModel.setModo(Application.EDITAR, seleccionado);
          this.funcionariosModel.setFiltro(seleccionado);
          this.funcionariosModel.notificar();
-         this.setTabla(dependencia);
+         this.setTabla();
      }
      
-     public void borrar(int fila, Dependencia dependencia) throws Exception{
+     public void borrar(int fila) throws Exception{
          Funcionario seleccionado = funcionariosModel.getTable().getRowAt(fila);
          
          try{
-             mainModel.eliminarFuncionario(seleccionado, dependencia);
+             mainModel.eliminarFuncionario(seleccionado);
          }catch(Exception ex){ throw ex; }
          
-         List<Funcionario> lista = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
+         List<Funcionario> lista = mainModel.buscarFuncionarios(funcionariosModel.getFiltro());
          this.funcionariosModel.setTable(lista);
          this.funcionariosModel.notificar();
      }
      
-     public void buscar(Funcionario funcionario, Dependencia dependencia) throws Exception{
+     public void buscar(Funcionario funcionario) throws Exception{
          funcionariosModel.setFiltro(funcionario);
          this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
-         this.setTabla(dependencia);
+         this.setTabla();
      }
      
-     public void buscarTodos(Dependencia dependencia) throws Exception{
+     public void buscarTodos() throws Exception{
          Funcionario funcionario = new Funcionario();
          funcionariosModel.setFiltro(funcionario);
          this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
-         this.setTabla(dependencia);
+         this.setTabla();
      }
      
-     public void setTabla(Dependencia dependencia) throws Exception{
-         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(funcionariosModel.getFiltro(), dependencia);
+     public void setTabla() throws Exception{
+         List<Funcionario> funcionarios = mainModel.buscarFuncionarios(funcionariosModel.getFiltro());
          funcionariosModel.setTable(funcionarios);
          funcionariosModel.notificar();
          
          if(funcionarios.isEmpty())
              throw new Exception("Funcionario no encontrado");
-     }
-     
-     public List<String> getDependencias(){
-         List<String> nombres = new ArrayList<String>();
-         
-         for(Dependencia dependencia :mainModel.getDependenciasBox()){
-             nombres.add(dependencia.getDependenciaNombre());
-         }
-         
-         return nombres;
      }
      
      public Dependencia buscarDependencia(String dependencia){

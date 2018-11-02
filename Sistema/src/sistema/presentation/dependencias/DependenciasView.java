@@ -424,6 +424,7 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
     }//GEN-LAST:event_addFuncionarioBttnActionPerformed
 
     }
+    
 //    public boolean validaAgregarFuncionario(){
 //        boolean valido = true;
 //        
@@ -500,17 +501,6 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         return dependencia;
     }
     
-//    public void comboBox(){
-//        List<String> lista = new ArrayList<String>();
-//        lista = controller.getFuncionarios();        
-//        this.adminBox.setModel(new DefaultComboBoxModel(lista.toArray()));
-//    }
-//    
-//    public void comboBoxFuncionarios(){
-//        List<String> lista = new ArrayList<String>();
-//        lista = controller.getFuncionarios();
-//    }
-    
     public void limpiarPantalla(){
         this.nombreLbl.setForeground(Application.COLOR_OK);
     }
@@ -524,7 +514,6 @@ public class DependenciasView extends javax.swing.JInternalFrame implements Obse
         this.funcionariosTable.setModel(model.getFuncionariosTable());
         
         this.adminBox.setEnabled(true);
-        //this.comboBox();
         
         this.adminBox.setModel(model.getFuncionarios());
         this.funcionarioBox.setModel(model.getFuncionarios());
