@@ -1,13 +1,9 @@
 package sistema;
 
 import java.awt.Color;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import sistema.data.PuestoDAO;
+import static sistema.Application.SOLICITUDES_CONTROLLER;
 import sistema.logic.Model;
-import sistema.logic.Puesto;
 import sistema.presentation.activos.ActivosController;
-import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
 import sistema.presentation.dependencias.DependenciasController;
 import sistema.presentation.dependencias.DependenciasModel;
@@ -22,6 +18,7 @@ import sistema.presentation.principal.PrincipalController;
 import sistema.presentation.principal.PrincipalModel;
 import sistema.presentation.principal.PrincipalView;
 import sistema.presentation.solicitudes.SolicitudesController;
+import sistema.presentation.solicitudes.SolicitudesModel;
 import sistema.presentation.solicitudes.SolicitudesView;
 
 /**
@@ -77,11 +74,11 @@ public class Application {
         FuncionariosController funcionariosController = new FuncionariosController(funcionariosModel, funcionariosView, mainModel, sesion);
         FUNCIONARIOS_CONTROLLER = funcionariosController;
         
- //       SolicitudesModel solicitudesModel = new SolicitudesModel();
- //       SolicitudesView solicitudesView = new SolicitudesView();
- //       principalView.addInternalFrame(solicitudesView);
- //       SolicitudesController solicitudesController = new SolicitudesController();
- //       SOLICITUDES_CONTROLLER solicitudesController;
+        SolicitudesModel solicitudesModel = new SolicitudesModel();
+        SolicitudesView solicitudesView = new SolicitudesView();
+        principalView.addInternalFrame(solicitudesView);
+        SolicitudesController solicitudesController = new SolicitudesController(solicitudesModel,solicitudesView,mainModel,sesion);
+        SOLICITUDES_CONTROLLER = solicitudesController;
  
     }
     

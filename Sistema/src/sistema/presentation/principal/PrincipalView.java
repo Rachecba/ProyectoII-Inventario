@@ -51,6 +51,7 @@ public class PrincipalView extends JFrame implements Observer {
         salir = new javax.swing.JMenu();
         logout = new javax.swing.JMenuItem();
         solicitudes = new javax.swing.JMenu();
+        VerSolicitudes = new javax.swing.JMenuItem();
         activos = new javax.swing.JMenu();
         articulos = new javax.swing.JMenu();
         funcionarios = new javax.swing.JMenu();
@@ -83,6 +84,16 @@ public class PrincipalView extends JFrame implements Observer {
         jMenuBar1.add(salir);
 
         solicitudes.setText("Solicitudes");
+
+        VerSolicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/clipboard.png"))); // NOI18N
+        VerSolicitudes.setText("Ver Solicitudes");
+        VerSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerSolicitudesActionPerformed(evt);
+            }
+        });
+        solicitudes.add(VerSolicitudes);
+
         jMenuBar1.add(solicitudes);
 
         activos.setText("Activos");
@@ -93,7 +104,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         funcionarios.setText("Funcionarios");
 
-        verFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/people.png"))); // NOI18N
+        verFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/user.png"))); // NOI18N
         verFuncionarios.setText("Ver Funcionarios");
         verFuncionarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +156,9 @@ public class PrincipalView extends JFrame implements Observer {
     private void verDependenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDependenciasActionPerformed
         controller.showDependencias();
     }//GEN-LAST:event_verDependenciasActionPerformed
+    private void VerSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSolicitudesActionPerformed
+        controller.showSolicitudes();
+    }//GEN-LAST:event_VerSolicitudesActionPerformed
 
     @Override
     public void update(Observable o, Object arg) {
@@ -155,6 +169,7 @@ public class PrincipalView extends JFrame implements Observer {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem VerSolicitudes;
     private javax.swing.JMenu activos;
     private javax.swing.JMenu articulos;
     private javax.swing.JMenu ayuda;

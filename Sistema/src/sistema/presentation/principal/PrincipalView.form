@@ -23,6 +23,19 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Solicitudes"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="VerSolicitudes">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sistema/presentation/iconos/general/clipboard.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ver Solicitudes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerSolicitudesActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="activos">
           <Properties>
@@ -42,7 +55,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="verFuncionarios">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/sistema/presentation/iconos/generales/people.png"/>
+                  <Image iconType="3" name="/sistema/presentation/iconos/general/user.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Funcionarios"/>
               </Properties>

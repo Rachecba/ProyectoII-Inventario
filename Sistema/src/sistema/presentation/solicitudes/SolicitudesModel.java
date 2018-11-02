@@ -15,7 +15,7 @@ import sistema.logic.Solicitud;
  * @author leaca
  */
 public class SolicitudesModel extends java.util.Observable{
-    Solicitud filter;
+    Solicitud filtro;
     SolicitudesTableModel solicitudes;
 
     public SolicitudesModel() {
@@ -23,36 +23,36 @@ public class SolicitudesModel extends java.util.Observable{
     }
     
     public void reset(){ 
-        filter = new Solicitud();
+        filtro = new Solicitud();
         List<Solicitud> rows = new ArrayList<>();   
-        this.setSolicitudes(rows);
+        this.setTable(rows);
+        this.notificar();
     }
 
-    public Solicitud getFilter() {
-        return filter;
+    public Solicitud getFiltro() {
+        return filtro;
     }
 
-    public void setFilter(Solicitud filter) {
-        this.filter = filter;
+    public void setFiltro(Solicitud filtro) {
+        this.filtro = filtro;
     }
 
     public SolicitudesTableModel getSolicitudes() {
         return solicitudes;
     }
 
-    public void setSolicitudes(List<Solicitud> estados) {
+    public void setTable(List<Solicitud> estados) {
         int[] cols={SolicitudesTableModel.ID,SolicitudesTableModel.COMPROBANTE,SolicitudesTableModel.DEPENDENCIA,SolicitudesTableModel.REGISTRADOR,SolicitudesTableModel.ESTADO};
         this.solicitudes =new SolicitudesTableModel(cols,estados);  
-        this.commit();
     }    
     
     @Override
     public void addObserver(Observer o) {
         super.addObserver(o);
-        this.commit();
+        this.notificar();
     }
 
-    public void commit(){
+    public void notificar(){
         setChanged();
         notifyObservers();       
     }      

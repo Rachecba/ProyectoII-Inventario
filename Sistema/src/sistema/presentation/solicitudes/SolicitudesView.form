@@ -140,6 +140,9 @@
           <Image iconType="3" name="/sistema/presentation/iconos/general/print.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
