@@ -4,6 +4,7 @@ package sistema.presentation.solicitudes;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import sistema.Application;
+import sistema.logic.Funcionario;
 import sistema.logic.Solicitud;
 
 /**
@@ -63,17 +64,6 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     
     public void limpiarErrores(){
         this.searchFld.setForeground(Application.COLOR_OK);
-    }  
-    
-    boolean validar(){
-        boolean error=false;
-        
-        this.searchFld.setForeground(Application.COLOR_OK); 
-        if (this.searchFld.getText().isEmpty()){
-            this.searchFld.setForeground(Application.COLOR_ERROR);
-            error=true;            
-        }
-        return !error;
     }
     
     public void fromEstado(Solicitud filtro){
@@ -86,8 +76,14 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         return result;
     }
     
-    void errorMessage(String error){
+    void mensaje(String error){
         JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
+    }
+    
+    public Solicitud filtro(){
+        Solicitud solicitud = new Solicitud();
+        solicitud.setSolicitudId(Integer.valueOf(this.searchFld.getText()));
+        return solicitud;
     }
 
     @SuppressWarnings("unchecked")
@@ -146,6 +142,11 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         });
 
         printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/print.png"))); // NOI18N
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
 
         separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -245,23 +246,29 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
-        if(this.validar()){
-            try {
-                controller.buscar(this.toEstado());
-            } catch (Exception ex) {
-                errorMessage(ex.getMessage());
+        if(this.searchFld.getText().isEmpty()){
+            try{
+                controller.buscarTodos();
+            }
+            catch(Exception ex){
+                this.mensaje(ex.getMessage());
             }
         }
         else{
-            errorMessage("Debe indicar algún dato");
-        }     
+            try{
+                controller.buscar(this.filtro());
+            }
+            catch(Exception ex){
+                this.mensaje(ex.getMessage());
+            }
+        } 
     }//GEN-LAST:event_searchBttnActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try {
-            controller.preAgregar(this.addButton.getLocationOnScreen());
+            //abrir la otra pantalla
         } catch (Exception ex) {
-            errorMessage(ex.getMessage());
+            mensaje(ex.getMessage());
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -275,6 +282,10 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     private void incorporarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incorporarBttnActionPerformed
         
     }//GEN-LAST:event_incorporarBttnActionPerformed
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        // print
+    }//GEN-LAST:event_printButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

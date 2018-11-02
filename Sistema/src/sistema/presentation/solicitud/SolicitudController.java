@@ -5,11 +5,11 @@
  */
 package sistema.presentation.solicitud;
 
-import sistema.presentation.solicitudes.*;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.persistence.sessions.Session; //esto?
+import sistema.Sesion;
+import sistema.logic.Bien;
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
 
@@ -19,45 +19,55 @@ import sistema.logic.Solicitud;
  */
 public class SolicitudController {
     
-    Model domainModel;
-    Session session;   
-    SolicitudView view;
-    SolicitudModel model;
+    Model mainModel;
+    Sesion sesion;   
+    SolicitudView solicitudView;
+    SolicitudModel solicitudModel;
     
-    public SolicitudController(SolicitudView view, SolicitudModel model, Model domainModel,Session session) {
-        this.domainModel= domainModel;
-        this.session=session;
+    public SolicitudController(SolicitudView solicitudView, SolicitudModel solicitudModel, Model mainModel,Sesion sesion) {
+        this.mainModel= mainModel;
+        this.sesion=sesion;
         
-        this.view = view;
-        this.model = model;
-        view.setController(this);
-        view.setModel(model);
+        this.solicitudView = solicitudView;
+        this.solicitudModel = solicitudModel;
+        solicitudView.setController(this);
+        solicitudView.setModel(solicitudModel);
     }
     
     public void buscar(Solicitud filter) throws Exception{
-        model.setFilter(filter);
+        solicitudModel.setFilter(filter);
         this.buscar();        
     }
     
     public void buscar() throws Exception{        
-        List<Solicitud> rows = new ArrayList(domainModel.searchSolicitud(model.getFilter()));
-        model.setSolicitudes(rows);
-        model.commit();
+        List<Solicitud> rows = new ArrayList(mainModel.searchSolicitud(solicitudModel.getFilter()));
+        solicitudModel.setSolicitudes(rows);
+        solicitudModel.commit();
         if (rows.isEmpty()) throw new Exception("Ningún dato coincide");        
     }
 
-    public void preAgregar(Point at) throws Exception{
-//        Usuario principal = (Usuario) session.getAttribute(Application.USER_ATTRIBUTE);
-//        if ( !Arrays.asList(Application.ROL_MANAGER).contains(principal.getRol())){
-//           throw new Exception(Application.ROL_NOTAUTHORIZED);
-//        }
-//        Application.PERSONA_CONTROLLER.reset(Application.MODO_AGREGAR, new Persona());
-//        Application.PERSONA_CONTROLLER.show(at);
+//    public void agregarSolicitud(Solicitud solicitud) throws Exception{
+//        mainModel.agregarSolicitud(solicitud);
+//        //this.setTabla();
+//    }
+//    
+    public void agregarBien(Bien bien) throws Exception{
+        //mainModel.agregarBien(bien);
+        this.setTablaBienes();
+    }
+    
+    public void setTablaBienes() throws Exception{
+//        List<Bien> bienes = mainModel.buscarBienes();
+//        solicitudModel.setTable(bienes);
+//        solicitudModel.notificar();
+        
+//        if(bienes.isEmpty())
+//            throw new Exception("Bien no encontrado");
     }
     
     public void editar(int row, Point at){
-//        EstadoCivil seleccionada = model.getEstados().getRowAt(row); 
-//        Usuario principal = (Usuario) session.getAttribute(Application.USER_ATTRIBUTE);
+//        EstadoCivil seleccionada = solicitudModel.getEstados().getRowAt(row); 
+//        Usuario principal = (Usuario) sesion.getAttribute(Application.USER_ATTRIBUTE);
 //        int modo;
 //        if ( Arrays.asList(Application.ROL_MANAGER, Application.ROL_SUPERVISOR).contains(principal.getRol())){
 //            modo=Application.MODO_EDITAR;
@@ -70,13 +80,13 @@ public class SolicitudController {
      }
 
     public void borrar(int row){
-//        Persona seleccionada = model.getPersonas().getRowAt(row); 
+//        Persona seleccionada = solicitudModel.getPersonas().getRowAt(row); 
 //        try {
-//            domainModel.deletePersona(seleccionada);
+//            mainModel.deletePersona(seleccionada);
 //        } catch (Exception ex) { }
-//        List<Persona> rowsMod = domainModel.searchPersonas(model.getFilter());
-//        model.setPersonas(rowsMod);
-//        model.commit();
+//        List<Persona> rowsMod = mainModel.searchPersonas(solicitudModel.getFilter());
+//        solicitudModel.setPersonas(rowsMod);
+//        solicitudModel.commit();
     }
     
     public void cancelarSolicitud(int row){
@@ -84,20 +94,23 @@ public class SolicitudController {
     }
 
     public void reset(){
-        model.reset();
+        solicitudModel.reset();
     }
     
     public void show(){
-        view.setVisible(true);
+        solicitudView.setVisible(true);
     }
 
     public void show(Point position){
-        view.setLocation(position);
+        solicitudView.setLocation(position);
         this.show();
     }   
     
     public void ocultar(){
-        view.setVisible(false);
+        solicitudView.setVisible(false);
     }  
     
+    public void borrarBien(int row){
+    
+    }
 }

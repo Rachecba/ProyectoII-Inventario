@@ -97,6 +97,24 @@ public class Model {
             return this.dependenciaDao.findDependencias(filtro);
         }
     }
+     
+     public List<Funcionario> buscarFuncionarios(Funcionario filtro){
+         if(filtro.getFuncionarioNombre() == null){
+             return this.funcionarioDao.findAll();
+         }
+         else{
+             return this.funcionarioDao.findFuncionario(filtro);
+         }
+     }
+     
+     public List<Solicitud> buscarSolicitudes(Solicitud filtro){
+         if(filtro.getSolicitudId()== null){
+             return this.solicitudDao.findAll();
+         }
+         else{
+             return this.solicitudDao.findSolicitudes(filtro);
+         }
+     }
     
     public List<Categoria> buscarCategorias(Categoria filtro){
         

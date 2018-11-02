@@ -72,7 +72,7 @@ public class PrincipalController {
     }
     
     public void showSolicitudes(){
-       //  Application.SOLICITUDES_CONTROLLER.show();
+         Application.SOLICITUDES_CONTROLLER.mostrar();
     }
     
     public void showDependencias(){ 
@@ -101,7 +101,7 @@ public class PrincipalController {
      
      public void reset(){
          //setear las tablas de las ventanas....
-//         Application.SOLICITUDES_CONTROLLER.reset();
+         Application.SOLICITUDES_CONTROLLER.reset();
 //         Application.ACTIVOS_CONTROLLER.reset();
          Application.ARTICULOS_CONTROLLER.reset();
          Application.FUNCIONARIOS_CONTROLLER.reset();

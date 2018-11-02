@@ -17,7 +17,7 @@ import sistema.logic.Solicitud;
  * @author leaca
  */
 public class SolicitudesModel extends java.util.Observable{
-    Solicitud filter;
+    Solicitud filtro;
     SolicitudesTableModel solicitudes;
     BienesTableModel bienes;
     int modo;
@@ -27,27 +27,35 @@ public class SolicitudesModel extends java.util.Observable{
     }
     
     public void reset(){ 
-        filter = new Solicitud();
+        filtro = new Solicitud();
         List<Solicitud> rows = new ArrayList<>();  
         List<Bien> bienes = new ArrayList<>();
-        this.setModo(Application.AGREGAR, filter);
-        this.setSolicitudes(rows);
+        this.setModo(Application.AGREGAR, filtro);
+        this.setTable(rows);
         this.setBienes(bienes);
-        this.commit();
+        this.notificar();
     }
 
     public void setModo(int modo, Solicitud actual) {
         this.modo = modo;
-        this.setFilter(actual);
-        this.commit();
+        this.setFiltro(actual);
+        this.notificar();
     }
     
     public Solicitud getFilter() {
-        return filter;
+        filtro = new Solicitud();
+        List<Solicitud> rows = new ArrayList<>();   
+        this.setTable(rows);
+        this.notificar();
+        return filtro;
     }
 
-    public void setFilter(Solicitud filter) {
-        this.filter = filter;
+    public Solicitud getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(Solicitud filtro) {
+        this.filtro = filtro;
     }
 
     public SolicitudesTableModel getSolicitudes() {
@@ -57,25 +65,24 @@ public class SolicitudesModel extends java.util.Observable{
         return bienes;
     }
 
-    public void setSolicitudes(List<Solicitud> estados) {
+    public void setTable(List<Solicitud> estados) {
         int[] cols={SolicitudesTableModel.ID,SolicitudesTableModel.COMPROBANTE,SolicitudesTableModel.DEPENDENCIA,SolicitudesTableModel.REGISTRADOR,SolicitudesTableModel.ESTADO};
         this.solicitudes =new SolicitudesTableModel(cols,estados);  
-        this.commit();
     }    
     
     public void setBienes(List<Bien> bienes){
         int[] cols={BienesTableModel.SOLICITUD, BienesTableModel.MODELO, BienesTableModel.MARCA, BienesTableModel.PRECIO, BienesTableModel.CANTIDAD, BienesTableModel.DESCRIPCION};
         this.bienes = new BienesTableModel(bienes, cols);  
-        this.commit();
+        this.notificar();
     }
     
     @Override
     public void addObserver(Observer o) {
         super.addObserver(o);
-        this.commit();
+        this.notificar();
     }
 
-    public void commit(){
+    public void notificar(){
         setChanged();
         notifyObservers();       
     }      
