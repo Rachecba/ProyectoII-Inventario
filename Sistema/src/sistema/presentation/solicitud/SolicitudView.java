@@ -502,6 +502,7 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                                     .addComponent(cantidadSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void numSolicitudTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numSolicitudTxtActionPerformed
