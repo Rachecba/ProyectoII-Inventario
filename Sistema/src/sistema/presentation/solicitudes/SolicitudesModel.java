@@ -84,6 +84,6 @@ public class SolicitudesModel extends java.util.Observable{
 
     public void notificar(){
         setChanged();
-        notifyObservers();       
+        //notifyObservers();       
     }      
 }

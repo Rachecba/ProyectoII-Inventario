@@ -243,6 +243,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         .addComponent(incorporarBttn)
                         .addContainerGap(31, Short.MAX_VALUE))))
         );
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
