@@ -24,6 +24,7 @@ import sistema.presentation.principal.PrincipalController;
 import sistema.presentation.principal.PrincipalModel;
 import sistema.presentation.principal.PrincipalView;
 import sistema.presentation.solicitudes.SolicitudesController;
+import sistema.presentation.solicitudes.SolicitudesModel;
 import sistema.presentation.solicitudes.SolicitudesView;
 
 /**
@@ -79,11 +80,11 @@ public class Application {
         FuncionariosController funcionariosController = new FuncionariosController(funcionariosModel, funcionariosView, mainModel, sesion);
         FUNCIONARIOS_CONTROLLER = funcionariosController;
         
- //       SolicitudesModel solicitudesModel = new SolicitudesModel();
- //       SolicitudesView solicitudesView = new SolicitudesView();
- //       principalView.addInternalFrame(solicitudesView);
- //       SolicitudesController solicitudesController = new SolicitudesController();
- //       SOLICITUDES_CONTROLLER solicitudesController;
+//        SolicitudesModel solicitudesModel = new SolicitudesModel();
+//        SolicitudesView solicitudesView = new SolicitudesView();
+//        principalView.addInternalFrame(solicitudesView);
+//        SolicitudesController solicitudesController = new SolicitudesController(solicitudesView, solicitudesModel, mainModel, sesion);
+//        SOLICITUDES_CONTROLLER = solicitudesController;
  
     }
     

@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import sistema.logic.Bien;
+import sistema.logic.Funcionario;
 import sistema.logic.Solicitud;
 
 /**
@@ -77,4 +79,16 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
         return null;
         
     }
+    
+    public List<Solicitud> findPorRegistrador(Solicitud filtro, Funcionario registrador){
+        try {
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE CONCAT('%',:solicitudId,'%') and obj.solicitudRegistradorDeBienes = :registrador").setParameter("solicitudId", filtro.getSolicitudId()).setParameter("registrador", registrador.getFuncionarioNombre());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    
 }

@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,11 +7,14 @@ package sistema.presentation.solicitudes;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import sistema.Application;
 //import org.eclipse.persistence.sessions.Session; //esto?
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
 import sistema.Sesion;
+import sistema.logic.Usuario;
 
 /**
  *
@@ -36,14 +39,18 @@ public class SolicitudesController {
     
     public void buscar(Solicitud filter) throws Exception{
         model.setFilter(filter);
-        this.buscar();        
+        model.setModo(Application.AGREGAR, filter);
+    //    this.setTablaSolicitudes(new Solicitud());
+ //       this.setTablaBienes();
+//        this.buscar();        
     }
     
     public void buscar() throws Exception{        
-        List<Solicitud> rows = new ArrayList(domainModel.searchSolicitud(model.getFilter()));
-        model.setSolicitudes(rows);
-        model.commit();
-        if (rows.isEmpty()) throw new Exception("Ningún dato coincide");        
+//        List<Solicitud> rows = new ArrayList(domainModel.searchSolicitud(model.getFilter()));
+//        model.setSolicitudes(rows);
+//        model.commit();
+//        if (rows.isEmpty()) throw new Exception("Ningún dato coincide");    
+
     }
 
     public void preAgregar(Point at) throws Exception{
@@ -82,6 +89,16 @@ public class SolicitudesController {
     public void cancelarSolicitud(int row){
     
     }
+    
+//    public void setTablaSolicitudes(Dependencia dependencia) throws Exception{
+//         List<Labor> labores = mainModel.buscarLabores(dependencia);
+//         model.setFuncionariosTable(labores);
+//         model.notificar();
+//         
+//         
+//         if(model.getModo() == Application.EDITAR && labores.isEmpty())
+//             throw new Exception("Funcionarios no encontrados");
+//     }
 
     public void reset(){
         model.reset();
@@ -99,5 +116,26 @@ public class SolicitudesController {
     public void ocultar(){
         view.setVisible(false);
     }  
+    
+    public boolean permisoRegistrador(){
+        Usuario principal = (Usuario) session.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return false;
+        }
+        else
+            return true;
+    } 
+    
+    public boolean getSession(){
+        if(session.getAttribute("Usuario") == null)
+            return false;
+        else
+            return true;
+    }
+    
+    public void setModo(int modo, int fila){
+         Solicitud seleccionada = model.getSolicitudes().getRowAt(modo);
+         this.model.setModo(modo, seleccionada);
+     }
     
 }

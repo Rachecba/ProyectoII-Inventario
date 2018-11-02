@@ -75,7 +75,7 @@ public class Model {
     public List<Funcionario> buscarFuncionarios(Funcionario filtro, Dependencia dependencia){
         
         if(filtro.getFuncionarioCedula() == null){
-            return this.funcionarioDao.findAll(); //findFuncionariosPorDependencia(dependencia); //arreglar este findAll, es findAll por dependencia
+            return this.funcionarioDao.findFuncionariosPorDependencia(dependencia); //arreglar este findAll, es findAll por dependencia
         }
         else{
             return this.funcionarioDao.findFuncionario(filtro); //find funcionario por dependencia
@@ -112,8 +112,8 @@ public class Model {
         
         String cedula = funcionario.getFuncionarioCedula();
         Funcionario existe = this.funcionarioDao.findByCedula(cedula);
-        
-        if(existe != null){
+ 
+        if(existe != null){          
             funcionario.setFuncionarioId(existe.getFuncionarioId());
             this.funcionarioDao.edit(funcionario);
         }
@@ -138,10 +138,11 @@ public class Model {
          }
      }
     
-    public void agregarLabor(Labor labor){
-       // Labor existe = this.laborDao.
+    public void agregarLabor(Labor labor, Dependencia dependencia){
+       //Labor existe = this.laborDao.
         
         this.laborDao.create(labor);
+        labor.getLaborFuncionario().getDependenciaCollection().add(dependencia); //agrego el funcionario a la dependencia
     }
     
     public void agregarCategoria(Categoria categoria){
@@ -159,14 +160,17 @@ public class Model {
     }
      
      public void eliminarFuncionario(Funcionario funcionario, Dependencia dependencia) throws Exception{
-         System.out.print(funcionario.getDependenciaCollection().size());
+         //System.out.print("Size Collection>> " + funcionario.getDependenciaCollection().size() + "\n\n");
          
          if(dependencia.getDependenciaAdministrador().equals(funcionario))
              throw new Exception("No se puede eliminar al administrador de la dependencia.");
          else
-            funcionario.getDependenciaCollection().remove(dependencia);
+            funcionario.getDependenciaCollection().remove(dependencia); //elimino al funcionario de la dependencia
          
-         System.out.print(funcionario.getDependenciaCollection().size());
+         if(funcionario.getDependenciaCollection().isEmpty()) //si ya no esta asociado a ninguna dependencia, se puede eliminar el funcionario por completo
+             this.funcionarioDao.delete(funcionario);
+         
+         //System.out.print(funcionario.getDependenciaCollection().size());
      }
      
      public void eliminarDependencia(Dependencia dependencia){
@@ -213,6 +217,14 @@ public class Model {
     
     public List<Solicitud> searchSolicitud(Solicitud filtro){
         return solicitudDao.findSolicitudes(filtro);
+    }
+    
+    public List<Solicitud> buscarSolicitudRegistrador(Solicitud filtro, Funcionario registrador){
+        return this.solicitudDao.findPorRegistrador(filtro, registrador);
+    }
+    
+    public List<Bien> buscarBienes(Solicitud solicitud){
+        return this.bienDao.buscarBienes(solicitud);
     }
     
 }

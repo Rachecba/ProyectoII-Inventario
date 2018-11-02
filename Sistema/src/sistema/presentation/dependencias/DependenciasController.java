@@ -7,7 +7,7 @@ package sistema.presentation.dependencias;
 
 import java.util.ArrayList;
 import java.util.List;
-import sistema.Application;
+import sistema.Application; 
 import sistema.Sesion;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
@@ -177,7 +177,7 @@ public class DependenciasController {
      
      public void agregarLabor(Labor nuevo, int fila) throws Exception{
          Dependencia dependencia = model.getDependenciasTable().getRowAt(fila);
-         mainModel.agregarLabor(nuevo);
+         mainModel.agregarLabor(nuevo, dependencia);
          this.setTablaFuncionarios(dependencia);
      }
      

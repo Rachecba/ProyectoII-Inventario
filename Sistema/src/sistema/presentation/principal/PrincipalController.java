@@ -72,7 +72,7 @@ public class PrincipalController {
     }
     
     public void showSolicitudes(){
-        // Application.SOLICITUDES_CONTROLLER.mostrar();
+       //  Application.SOLICITUDES_CONTROLLER.show();
     }
     
     public void showDependencias(){ 
@@ -89,11 +89,11 @@ public class PrincipalController {
     }    
      
      public void exit(){
-         Application.ACTIVOS_CONTROLLER.ocultar();
+      //   Application.ACTIVOS_CONTROLLER.ocultar();
          Application.ARTICULOS_CONTROLLER.ocultar();
          Application.DEPENDENCIAS_CONTROLLER.ocultar();
          Application.FUNCIONARIOS_CONTROLLER.ocultar();
-         Application.SOLICITUDES_CONTROLLER.ocultar();
+        // Application.SOLICITUDES_CONTROLLER.ocultar();
          
          view.setVisible(false);
          Application.LOGIN_CONTROLLER.logout();

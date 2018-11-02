@@ -53,6 +53,7 @@ public class PrincipalView extends JFrame implements Observer {
         salir = new javax.swing.JMenu();
         logout = new javax.swing.JMenuItem();
         solicitudes = new javax.swing.JMenu();
+        verSolicitudes = new javax.swing.JMenuItem();
         activos = new javax.swing.JMenu();
         articulos = new javax.swing.JMenu();
         verArticulos = new javax.swing.JMenuItem();
@@ -75,6 +76,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         salir.setText("Salir");
 
+        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/exit.png"))); // NOI18N
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +88,15 @@ public class PrincipalView extends JFrame implements Observer {
         jMenuBar1.add(salir);
 
         solicitudes.setText("Solicitudes");
+
+        verSolicitudes.setText("Ver Solicitudes");
+        verSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verSolicitudesActionPerformed(evt);
+            }
+        });
+        solicitudes.add(verSolicitudes);
+
         jMenuBar1.add(solicitudes);
 
         activos.setText("Activos");
@@ -165,6 +176,10 @@ public class PrincipalView extends JFrame implements Observer {
         controller.showArticulos();
     }//GEN-LAST:event_verArticulosActionPerformed
 
+    private void verSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verSolicitudesActionPerformed
+      //  controller.showSolicitudes();
+    }//GEN-LAST:event_verSolicitudesActionPerformed
+
     public void inicializaPermisos() throws Exception{
         if(controller.permisoJefeRRHH()){
             this.verDependencias.setEnabled(true);
@@ -199,5 +214,6 @@ public class PrincipalView extends JFrame implements Observer {
     private javax.swing.JMenuItem verArticulos;
     private javax.swing.JMenuItem verDependencias;
     private javax.swing.JMenuItem verFuncionarios;
+    private javax.swing.JMenuItem verSolicitudes;
     // End of variables declaration//GEN-END:variables
 }

@@ -101,7 +101,7 @@ public class FuncionarioDAO extends AbstractFacade<Funcionario> implements Seria
     
     public List<Funcionario> findFuncionariosPorDependencia(Dependencia dependencia){
         try {
-            Query q = em.createQuery("Select f from Funcionario f, Dependencia d, Labor l where f.funcionarioId = l.laborFuncionario.funcionarioId and d.dependenciaId = l.laborDependencia.dependenciaId and d.dependenciaNombre = :nombreDep").setParameter("nombreDep", dependencia.getDependenciaNombre());
+            Query q = em.createQuery("Select f from Funcionario f right join f.dependenciaCollection dep where dep.dependenciaNombre = :dependencia").setParameter("dependencia", dependencia.getDependenciaNombre());
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperar los funcionarios. \n\n Error:" + e + "\n\n");

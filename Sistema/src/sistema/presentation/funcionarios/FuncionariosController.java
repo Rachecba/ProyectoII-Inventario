@@ -55,11 +55,14 @@ public class FuncionariosController {
                  this.funcionariosModel.setFiltro(funcionario);
                  this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
                  this.setTabla(dependencia);
+                 break;
                  
              case Application.EDITAR:
                  mainModel.agregarFuncionario(funcionario);
                  this.funcionariosModel.setModo(Application.AGREGAR, funcionario);
                  this.setTabla(dependencia);
+                 break;
+                 
          }
          
      }

@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import sistema.logic.Bien;
 import sistema.logic.Bien;
+import sistema.logic.Solicitud;
 
 /**
  *
@@ -65,6 +66,16 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando los bienes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    public List<Bien> buscarBienes(Solicitud solicitud){
+        try {
+            Query q = em.createQuery("Select b from Bien b inner join b.bienSolicitud s where s.solicitudId = :id").setParameter("id", solicitud.getSolicitudId());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar los bienes.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
