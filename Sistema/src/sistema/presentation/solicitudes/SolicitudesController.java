@@ -13,6 +13,8 @@ import sistema.Application;
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
 import sistema.Sesion;
+import sistema.logic.Bien;
+import sistema.logic.Funcionario;
 import sistema.logic.Usuario;
 
 /**
@@ -32,8 +34,10 @@ public class SolicitudesController {
         
         this.solicitudesView = solicitudesView;
         this.solicitudesModel = solicitudesModel;
-        solicitudesView.setController(this);
-        solicitudesView.setModel(solicitudesModel);
+        this.solicitudesModel.inicializaCategorias(mainModel.getCategoriasBox());
+        
+        this.solicitudesView.setController(this);
+        this.solicitudesView.setModel(solicitudesModel);
     }
     
     public void buscar(Solicitud filter) throws Exception{
@@ -48,12 +52,38 @@ public class SolicitudesController {
      }
     
     public void buscar() throws Exception{        
-        List<Solicitud> solicitudes = mainModel.buscarSolicitudes(solicitudesModel.getFiltro());
-         solicitudesModel.setTable(solicitudes);
-         solicitudesModel.notificar();
         
-        if(solicitudes.isEmpty())
-             throw new Exception("Funcionario no encontrado");      
+        if(!this.permisoRegistrador()){ //si es registrador
+            Usuario usuario = (Usuario) sesion.getAttribute("Usuario");
+            Funcionario funcionario = usuario.getUsuarioFuncionario();
+            
+            List<Solicitud> solicitudes = mainModel.buscarSolicitudRegistrador(solicitudesModel.getFiltro(), funcionario);
+            solicitudesModel.setTable(solicitudes);
+            solicitudesModel.notificar();
+            
+            if(solicitudes.isEmpty())
+                throw new Exception("Solicitud no encontrada");
+        }
+        else{
+            if(this.permisoSecretario()){ //es un secretario
+                
+                List<Solicitud> solicitudes = mainModel.buscarSolicitudesSecretario(solicitudesModel.getFiltro());
+                solicitudesModel.setTable(solicitudes);
+                solicitudesModel.notificar();
+                
+                if(solicitudes.isEmpty())
+                    throw new Exception("Solicitud no encontrada");
+            }
+            else{ //es un administrador
+                
+                List<Solicitud> solicitudes = mainModel.buscarSolicitudes(solicitudesModel.getFiltro());
+                solicitudesModel.setTable(solicitudes);
+                solicitudesModel.notificar();
+                
+                if(solicitudes.isEmpty())
+                    throw new Exception("Solicitud no encontrada");
+            }
+        }
     }
 
     public void preAgregar(Point at) throws Exception{
@@ -93,7 +123,35 @@ public class SolicitudesController {
     
     }
     
-//    public void setTablaSolicitudes(Dependencia dependencia) throws Exception{
+    public void buscarBienes(int fila) throws Exception{
+         Solicitud solicitud = solicitudesModel.getSolicitudes().getRowAt(fila);
+         this.setTablaBienes(solicitud);
+        
+    }
+    
+    public void setTablaBienes(Solicitud solicitud) throws Exception{
+         List<Bien> bienes = mainModel.buscarBienes(solicitud);
+         this.solicitudesModel.setBienes(bienes);
+         this.solicitudesModel.notificar();
+         
+         
+         if(this.solicitudesModel.getModo() == Application.EDITAR && bienes.isEmpty())
+             throw new Exception("Bienes no encontrados");
+     }
+     
+    public void changeEstado(int fila, String estado, String rechazo) throws Exception{
+        Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
+        solicitud.setSolicitudEstado(estado);
+        solicitud.setSolicitudDescripcionDeRechazo(rechazo);
+        
+        try{
+        mainModel.cambiarEstadoSolicitud(solicitud);
+        }catch(Exception e){}
+        
+        this.setTablaSolicitudes();
+    }
+    
+    public void setTablaSolicitudes(/*Dependencia dependencia*/) throws Exception{
 //         List<Labor> labores = mainModel.buscarLabores(dependencia);
 //         mainModel.setFuncionariosTable(labores);
 //         mainModel.notificar();
@@ -101,7 +159,7 @@ public class SolicitudesController {
 //         
 //         if(mainModel.getModo() == Application.EDITAR && labores.isEmpty())
 //             throw new Exception("Funcionarios no encontrados");
-//     }
+     }
 
     public void reset(){
         solicitudesModel.reset();
@@ -121,13 +179,24 @@ public class SolicitudesController {
      }
     
     public boolean permisoRegistrador(){
-        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
-        if ( !Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return false;
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
+       
+        if (!Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return true;
         }
         else
-            return true;
+            return false;
     } 
+    
+    public boolean permisoSecretario(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es secretaria es true, si no es, es false
+       
+        if (Arrays.asList(Application.SECRETARIA).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es secretaria
+            return true;
+        }
+        else
+            return false;
+    }
     
     public boolean getSession(){
         if(sesion.getAttribute("Usuario") == null)
@@ -137,8 +206,11 @@ public class SolicitudesController {
     }
     
     public void setModo(int modo, int fila){
-         Solicitud seleccionada = solicitudesModel.getSolicitudes().getRowAt(modo);
+         Solicitud seleccionada = solicitudesModel.getSolicitudes().getRowAt(fila);
          this.solicitudesModel.setModo(modo, seleccionada);
      }
     
+//    public void asignarCategoria(int fila, Categoria categoria){
+//        Bien 
+//    }
 }

@@ -56,7 +56,7 @@ public class SolicitudesTableModel extends AbstractTableModel {
             case COMPROBANTE: return solicitud.getSolicitudComprobante();
             case DEPENDENCIA: return solicitud.getSolicitudDependencia();
             case REGISTRADOR: return solicitud.getSolicitudRegistradorDeBienes();
-            case ESTADO: return Solicitud(solicitud);
+//            case ESTADO: return Solicitud(solicitud);
             default: return "";
         }
     }    

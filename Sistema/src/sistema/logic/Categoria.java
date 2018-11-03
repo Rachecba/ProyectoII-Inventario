@@ -114,7 +114,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Categoria[ categoriaId=" + categoriaId + " ]";
+        return this.categoriaNombre;
     }
     
 }

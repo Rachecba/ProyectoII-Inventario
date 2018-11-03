@@ -116,6 +116,16 @@ public class Model {
              return this.solicitudDao.findSolicitudes(filtro);
          }
      }
+     
+     public List<Solicitud> buscarSolicitudesSecretario(Solicitud filtro){
+         
+         if(filtro.getSolicitudId()== null){
+             return this.solicitudDao.findRecibidasAll();
+         }
+         else{
+             return this.solicitudDao.findRecibidas(filtro);
+         }
+     }
     
     public List<Categoria> buscarCategorias(Categoria filtro){
         
@@ -218,6 +228,10 @@ public class Model {
          return this.puestoDao.findAll();
      }
      
+     public List<Categoria> getCategoriasBox(){
+         return this.categoriaDao.findAll();
+     }
+             
      public Dependencia buscarDependencia(String nombre){
          return this.dependenciaDao.buscarDependencia(nombre);
      }
@@ -235,7 +249,15 @@ public class Model {
     }
     
     public List<Solicitud> buscarSolicitudRegistrador(Solicitud filtro, Funcionario registrador){
-        return this.solicitudDao.findPorRegistrador(filtro, registrador);
+        
+        if(filtro.getSolicitudId() == null)
+            return this.solicitudDao.findPorRegistradorAll(registrador);
+        else
+            return this.solicitudDao.findPorRegistrador(filtro, registrador);
+    }
+    
+    public void cambiarEstadoSolicitud(Solicitud solicitud){
+        this.solicitudDao.edit(solicitud);
     }
     
     public List<Bien> buscarBienes(Solicitud solicitud){

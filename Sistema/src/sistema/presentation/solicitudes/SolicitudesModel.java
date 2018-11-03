@@ -8,8 +8,11 @@ package sistema.presentation.solicitudes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import sistema.Application;
 import sistema.logic.Bien;
+import sistema.logic.Categoria;
 import sistema.logic.Solicitud;
 
 /**
@@ -20,13 +23,14 @@ public class SolicitudesModel extends java.util.Observable{
     Solicitud filtro;
     SolicitudesTableModel solicitudes;
     BienesTableModel bienes;
+    ComboBoxModel<Categoria> categorias;
     int modo;
 
     public SolicitudesModel() {
         this.reset();
     }
     
-    public void reset(){ 
+        public void reset(){ 
         filtro = new Solicitud();
         List<Solicitud> rows = new ArrayList<>();  
         List<Bien> bienes = new ArrayList<>();
@@ -35,18 +39,21 @@ public class SolicitudesModel extends java.util.Observable{
         this.setBienes(bienes);
         this.notificar();
     }
-
-    public void setModo(int modo, Solicitud actual) {
-        this.modo = modo;
-        this.setFiltro(actual);
+    
+    public void inicializaCategorias(List<Categoria> categorias){
+        this.setCategorias(categorias);
+    }
+    
+    public void setCategorias(List<Categoria> categorias){
+        this.categorias = new DefaultComboBoxModel(categorias.toArray());
         this.notificar();
     }
     
+    public ComboBoxModel<Categoria> getCategorias(){
+        return categorias;
+    }
+    
     public Solicitud getFilter() {
-        filtro = new Solicitud();
-        List<Solicitud> rows = new ArrayList<>();   
-        this.setTable(rows);
-        this.notificar();
         return filtro;
     }
 
@@ -61,6 +68,7 @@ public class SolicitudesModel extends java.util.Observable{
     public SolicitudesTableModel getSolicitudes() {
         return solicitudes;
     }
+    
     public BienesTableModel getBienes(){
         return bienes;
     }
@@ -73,9 +81,18 @@ public class SolicitudesModel extends java.util.Observable{
     public void setBienes(List<Bien> bienes){
         int[] cols={BienesTableModel.SOLICITUD, BienesTableModel.MODELO, BienesTableModel.MARCA, BienesTableModel.PRECIO, BienesTableModel.CANTIDAD, BienesTableModel.DESCRIPCION};
         this.bienes = new BienesTableModel(bienes, cols);  
-        this.notificar();
     }
     
+   public int getModo() {
+        return modo;
+    }
+   
+   public void setModo(int modo, Solicitud actual) {
+        this.modo = modo;
+        this.setFiltro(actual);
+        this.notificar();
+    }
+   
     @Override
     public void addObserver(Observer o) {
         super.addObserver(o);
@@ -84,6 +101,6 @@ public class SolicitudesModel extends java.util.Observable{
 
     public void notificar(){
         setChanged();
-        //notifyObservers();       
+        notifyObservers();       
     }      
 }
