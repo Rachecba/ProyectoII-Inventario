@@ -61,7 +61,7 @@ public class BienesTableModel extends AbstractTableModel{
       
       switch(columnas[columnIndex]){
           case SOLICITUD: 
-              return bien.getBienSolicitud().getSolicitudId();
+              return bien.getBienSolicitud().getSolicitud().getSolicitudId();
           case MODELO:
               return bien.getBienModelo();
           case MARCA:
