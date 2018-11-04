@@ -53,7 +53,7 @@ public class SolicitudesController {
          solicitudesModel.notificar();
         
         if(solicitudes.isEmpty())
-             throw new Exception("Funcionario no encontrado");      
+             throw new Exception("No existen solicitudes.");      
     }
 
     public void preAgregar(Point at) throws Exception{

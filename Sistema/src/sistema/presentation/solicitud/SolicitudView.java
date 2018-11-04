@@ -9,13 +9,12 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 import sistema.Application;
 import sistema.logic.Bien;
-import sistema.logic.Funcionario;
 
 /**
  *
  * @author Rachel
  */
-public class SolicitudView extends javax.swing.JInternalFrame implements Observer {
+public final class SolicitudView extends javax.swing.JInternalFrame implements Observer {
 
     SolicitudController controller;
     SolicitudModel model;
@@ -47,9 +46,10 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
     public SolicitudView() {
         super("Solicitudes",false,true);
         initComponents();
+        inicializaPantalla();
     }
     
-    public void initSpecifics(){
+    public void inicializaPantalla(){
         cantBienTxt.setEditable(false);
         totalTxt.setEditable(false);
         
@@ -57,7 +57,12 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
         marcaTxt.setEditable(false);
         modeloTxt.setEditable(false);
         precioTxt.setEditable(false);
+        cantidadSpinner.setEnabled(false);
         
+        crearBien.setEnabled(false);
+        cancelBien.setEnabled(false);
+        
+        this.bienesTable.setModel(model.getBienTableModel());
     }
     
     public void limpiarErrores(){
@@ -141,8 +146,12 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
         return !error;
     }
     
-    void mensaje(String error){
-        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
+    public void mensaje(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void mensajeAgregado(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public Bien bien(){
@@ -348,41 +357,40 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                                         .addGap(7, 7, 7)
                                         .addComponent(agregarBienLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                                        .addComponent(jSeparator3))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(descLabel)
-                                                    .addGap(26, 26, 26)
-                                                    .addComponent(descTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(precioLabel)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(cantidadSpinner)
-                                                        .addComponent(precioTxt))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(marcaLabel)
-                                                        .addGap(66, 66, 66))
+                                                .addComponent(modeloLabel)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                        .addComponent(modeloLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(marcaTxt)
-                                                    .addComponent(modeloTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(crearBien, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cancelBien, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                        .addGap(22, 86, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cantidadLbl)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(precioLabel)
+                                                            .addComponent(cantidadLbl))
+                                                        .addGap(30, 30, 30)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(precioTxt)
+                                                            .addComponent(cantidadSpinner)))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(modeloTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(descLabel)
+                                                                    .addComponent(marcaLabel))
+                                                                .addGap(51, 51, 51)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(marcaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addComponent(descTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                .addGap(53, 53, 53)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(crearBien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(cancelBien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(50, 50, 50))))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(generalInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,24 +455,6 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(infoBienLabel)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cantBienLabel)
-                                .addComponent(cantBienTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(totalLabel)
-                                .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(addButton)
-                                .addGap(26, 26, 26)
-                                .addComponent(deleteButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -483,9 +473,9 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                                             .addComponent(marcaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(marcaLabel)))
                                     .addComponent(crearBien))
+                                .addGap(14, 14, 14)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(modeloTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(modeloLabel))
@@ -493,16 +483,32 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(precioLabel)
                                             .addComponent(precioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cancelBien)))
-                                .addGap(18, 18, 18)
+                                    .addComponent(cancelBien))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cantidadLbl)
-                                    .addComponent(cantidadSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cantidadSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cantidadLbl)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(infoBienLabel)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cantBienLabel)
+                                .addComponent(cantBienTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(totalLabel)
+                                .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(addButton)
+                                .addGap(26, 26, 26)
+                                .addComponent(deleteButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
-    pack();
+		pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void numSolicitudTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numSolicitudTxtActionPerformed
@@ -515,12 +521,18 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
         modeloTxt.setEditable(true);
         precioTxt.setEditable(true);
         cantidadSpinner.setEnabled(true);
+        crearBien.setEnabled(true);
+        cancelBien.setEnabled(true);
         
         numSolicitudTxt.setEditable(false);
         estSolcTxt.setEditable(false);
         tipoDropDown.setEditable(false);
         comprobanteTxt.setEditable(false);
         fechaTxt.setEditable(false);
+        addButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        crearSolicitud.setEnabled(false);
+        cancelarSolicitud.setEnabled(false);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void cancelBienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBienActionPerformed
@@ -529,16 +541,22 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
         modeloTxt.setEditable(false);
         precioTxt.setEditable(false);
         cantidadSpinner.setEnabled(false);
+        crearBien.setEnabled(false);
+        cancelBien.setEnabled(false);
         
         numSolicitudTxt.setEditable(true);
         estSolcTxt.setEditable(true);
         tipoDropDown.setEditable(true);
         comprobanteTxt.setEditable(true);
         fechaTxt.setEditable(true);
+        addButton.setEnabled(true);
+        deleteButton.setEnabled(true);
+        crearSolicitud.setEnabled(true);
+        cancelarSolicitud.setEnabled(true);
     }//GEN-LAST:event_cancelBienActionPerformed
 
     private void crearBienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBienActionPerformed
-        if(validarBien()){
+        if(!validarBien()){
             try{
                 controller.agregarBien(bien());
             }catch(Exception ex){
@@ -546,7 +564,7 @@ public class SolicitudView extends javax.swing.JInternalFrame implements Observe
                 this.mensaje(ex.getMessage());
             }
         }else{
-            this.mensaje("Debe ingresar todos los datos");
+            this.mensaje("Debe ingresar todos los datos que le solicitan");
         }
     }//GEN-LAST:event_crearBienActionPerformed
 

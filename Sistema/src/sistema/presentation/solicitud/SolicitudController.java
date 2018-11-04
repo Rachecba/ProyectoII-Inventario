@@ -6,12 +6,10 @@
 package sistema.presentation.solicitud;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
 import sistema.Sesion;
 import sistema.logic.Bien;
 import sistema.logic.Model;
-import sistema.logic.Solicitud;
 
 /**
  *
@@ -24,7 +22,7 @@ public class SolicitudController {
     SolicitudView solicitudView;
     SolicitudModel solicitudModel;
     
-    public SolicitudController(SolicitudView solicitudView, SolicitudModel solicitudModel, Model mainModel,Sesion sesion) {
+    public SolicitudController(SolicitudModel solicitudModel, SolicitudView solicitudView, Model mainModel,Sesion sesion) {
         this.mainModel= mainModel;
         this.sesion=sesion;
         
@@ -34,83 +32,54 @@ public class SolicitudController {
         solicitudView.setModel(solicitudModel);
     }
     
-    public void buscar(Solicitud filter) throws Exception{
-        solicitudModel.setFilter(filter);
-        this.buscar();        
-    }
+    //BIEN
     
-    public void buscar() throws Exception{        
-        List<Solicitud> rows = new ArrayList(mainModel.searchSolicitud(solicitudModel.getFilter()));
-        solicitudModel.setSolicitudes(rows);
-        solicitudModel.commit();
-        if (rows.isEmpty()) throw new Exception("Ningún dato coincide");        
+    public void setTablaBienes() throws Exception{
+        List<Bien> bienes = mainModel.buscarNuevosBienes();
+        solicitudModel.setBienTableModel(bienes);
+        solicitudModel.notificar();
     }
 
-//    public void agregarSolicitud(Solicitud solicitud) throws Exception{
-//        mainModel.agregarSolicitud(solicitud);
-//        //this.setTabla();
-//    }
-//    
     public void agregarBien(Bien bien) throws Exception{
-        //mainModel.agregarBien(bien);
+        mainModel.agregarBien(bien);
         this.setTablaBienes();
     }
     
-    public void setTablaBienes() throws Exception{
-//        List<Bien> bienes = mainModel.buscarBienes();
-//        solicitudModel.setTable(bienes);
-//        solicitudModel.notificar();
-        
-//        if(bienes.isEmpty())
-//            throw new Exception("Bien no encontrado");
+    public void editarBien(int row, Point at){
+    
+    }
+
+    public void borrarBien(int row){
+    
     }
     
-    public void editar(int row, Point at){
-//        EstadoCivil seleccionada = solicitudModel.getEstados().getRowAt(row); 
-//        Usuario principal = (Usuario) sesion.getAttribute(Application.USER_ATTRIBUTE);
-//        int modo;
-//        if ( Arrays.asList(Application.ROL_MANAGER, Application.ROL_SUPERVISOR).contains(principal.getRol())){
-//            modo=Application.MODO_EDITAR;
-//        }
-//        else{
-//            modo=Application.MODO_CONSULTAR;            
-//        }
-//        Application.PERSONA_CONTROLLER.reset(modo, principal);
-//        Application.PERSONA_CONTROLLER.show(at);
-     }
-
-    public void borrar(int row){
-//        Persona seleccionada = solicitudModel.getPersonas().getRowAt(row); 
-//        try {
-//            mainModel.deletePersona(seleccionada);
-//        } catch (Exception ex) { }
-//        List<Persona> rowsMod = mainModel.searchPersonas(solicitudModel.getFilter());
-//        solicitudModel.setPersonas(rowsMod);
-//        solicitudModel.commit();
-    }
+    //SOLICITUD
     
     public void cancelarSolicitud(int row){
     
-    }
-
-    public void reset(){
-        solicitudModel.reset();
-    }
+    } 
     
-    public void show(){
+    public void crearSolicitud(int row){
+    
+    } 
+    
+    public void editarSolicitud(int row){
+    
+    } 
+    
+    //GENERAL
+    
+    public void mostrar(){
         solicitudView.setVisible(true);
     }
 
     public void show(Point position){
         solicitudView.setLocation(position);
-        this.show();
+        this.mostrar();
     }   
     
     public void ocultar(){
         solicitudView.setVisible(false);
-    }  
-    
-    public void borrarBien(int row){
-    
-    }
+    } 
+
 }
