@@ -30,6 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Bien.findAll", query = "SELECT b FROM Bien b")})
 public class Bien implements Serializable {
 
+    @JoinColumn(name = "bien_categoria", referencedColumnName = "categoria_id")
+    @ManyToOne
+    private Categoria bienCategoria;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -144,6 +148,14 @@ public class Bien implements Serializable {
     @Override
     public String toString() {
         return "sistema.logic.Bien[ bienId=" + bienId + " ]";
+    }
+
+    public Categoria getBienCategoria() {
+        return bienCategoria;
+    }
+
+    public void setBienCategoria(Categoria bienCategoria) {
+        this.bienCategoria = bienCategoria;
     }
     
 }

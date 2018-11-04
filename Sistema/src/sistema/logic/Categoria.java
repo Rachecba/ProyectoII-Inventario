@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")})
 public class Categoria implements Serializable {
 
+    @OneToMany(mappedBy = "bienCategoria")
+    private Collection<Bien> bienCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -115,6 +118,15 @@ public class Categoria implements Serializable {
     @Override
     public String toString() {
         return "sistema.logic.Categoria[ categoriaId=" + categoriaId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Bien> getBienCollection() {
+        return bienCollection;
+    }
+
+    public void setBienCollection(Collection<Bien> bienCollection) {
+        this.bienCollection = bienCollection;
     }
     
 }
