@@ -260,24 +260,24 @@ public class Model {
         this.solicitudDao.edit(solicitud);
     }
     
-    public List<Bien> buscarBienes(Solicitud solicitud){
-        return this.bienDao.buscarBienes(solicitud);
+    public List<Bien> buscarBienes(Comprobante comprobante){
+        return this.bienDao.buscarBienes(comprobante);
     }
     
     public void agregarBien(Bien bien){
-        Bien existe = this.bienDao.buscarBien(bien);
- 
-        if(existe != null){          
-            bien.setBienId(existe.getBienId());
-            this.bienDao.edit(bien);
-        }
-        else{
-            this.bienDao.create(bien);
-        }
+//        Bien existe = this.bienDao.buscarBien(bien);
+// 
+//        if(existe != null){          
+//            bien.setBienId(existe.getBienId());
+//            this.bienDao.edit(bien);
+//        }
+//        else{
+//            this.bienDao.create(bien);
+//        }
     }
     
     public List<Bien> buscarNuevosBienes(){
-        return this.bienDao.buscarNuevosBienes();
+      return null;//  return this.bienDao.buscarNuevosBienes();
     }
     
 }

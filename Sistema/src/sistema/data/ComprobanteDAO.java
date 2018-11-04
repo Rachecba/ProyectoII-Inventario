@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import sistema.logic.Bien;
 import sistema.logic.Comprobante;
 import sistema.logic.Comprobante;
 
@@ -67,4 +68,5 @@ public class ComprobanteDAO extends AbstractFacade<Comprobante> implements Seria
         }
         return null;
     }
+    
 }

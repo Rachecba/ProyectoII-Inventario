@@ -14,6 +14,7 @@ import sistema.logic.Model;
 import sistema.logic.Solicitud;
 import sistema.Sesion;
 import sistema.logic.Bien;
+import sistema.logic.Comprobante;
 import sistema.logic.Funcionario;
 import sistema.logic.Usuario;
 
@@ -125,12 +126,13 @@ public class SolicitudesController {
     
     public void buscarBienes(int fila) throws Exception{
          Solicitud solicitud = solicitudesModel.getSolicitudes().getRowAt(fila);
-         this.setTablaBienes(solicitud);
+         Comprobante comprobante = solicitud.getSolicitudComprobante();
+         this.setTablaBienes(comprobante);
         
     }
     
-    public void setTablaBienes(Solicitud solicitud) throws Exception{
-         List<Bien> bienes = mainModel.buscarBienes(solicitud);
+    public void setTablaBienes(Comprobante comprobante) throws Exception{
+         List<Bien> bienes = mainModel.buscarBienes(comprobante);
          this.solicitudesModel.setBienes(bienes);
          this.solicitudesModel.notificar();
          
