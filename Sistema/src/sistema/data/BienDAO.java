@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import sistema.logic.Bien;
 import sistema.logic.Bien;
+import sistema.logic.Categoria;
 import sistema.logic.Comprobante;
 import sistema.logic.Solicitud;
 
@@ -73,7 +74,7 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
     
    public List<Bien> buscarBienes(Comprobante comprobante){
         try {
-            Query q = em.createQuery("Select obj from Bien obj where obj.bienComprobante.comprobanteId = :id").setParameter("id", comprobante.getComprobanteId());
+            Query q = em.createQuery("Select b from Bien b where b.bienSolicitud = :comprobante").setParameter("comprobante", comprobante);
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperar los bienes.\n\n Error:" + e + "\n\n");
@@ -105,4 +106,6 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
         }
         return null;
     }
+    
+   
 }

@@ -79,7 +79,7 @@ public class SolicitudesModel extends java.util.Observable{
     }    
     
     public void setBienes(List<Bien> bienes){
-        int[] cols={BienesTableModel.SOLICITUD, BienesTableModel.MODELO, BienesTableModel.MARCA, BienesTableModel.PRECIO, BienesTableModel.CANTIDAD, BienesTableModel.DESCRIPCION};
+        int[] cols={BienesTableModel.COMPROBANTE, BienesTableModel.MODELO, BienesTableModel.MARCA, BienesTableModel.PRECIO, BienesTableModel.CANTIDAD, BienesTableModel.DESCRIPCION};
         this.bienes = new BienesTableModel(bienes, cols);  
     }
     

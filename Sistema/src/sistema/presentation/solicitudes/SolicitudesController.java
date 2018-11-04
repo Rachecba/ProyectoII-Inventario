@@ -14,6 +14,7 @@ import sistema.logic.Model;
 import sistema.logic.Solicitud;
 import sistema.Sesion;
 import sistema.logic.Bien;
+import sistema.logic.Categoria;
 import sistema.logic.Comprobante;
 import sistema.logic.Funcionario;
 import sistema.logic.Usuario;
@@ -86,8 +87,8 @@ public class SolicitudesController {
             }
         }
         
-        if(solicitudes.isEmpty())
-             throw new Exception("No existen solicitudes.");      
+//        if(solicitudes.isEmpty())
+//             throw new Exception("No existen solicitudes.");      
     }
 
     public void preAgregar(Point at) throws Exception{
@@ -150,7 +151,7 @@ public class SolicitudesController {
         solicitud.setSolicitudDescripcionDeRechazo(rechazo);
         
         try{
-        mainModel.cambiarEstadoSolicitud(solicitud);
+            mainModel.cambiarEstadoSolicitud(solicitud);
         }catch(Exception e){}
         
         this.setTablaSolicitudes();
@@ -215,7 +216,11 @@ public class SolicitudesController {
          this.solicitudesModel.setModo(modo, seleccionada);
      }
     
-//    public void asignarCategoria(int fila, Categoria categoria){
-//        Bien 
-//    }
+    public void asignarCategoria(int fila, Categoria categoria){
+        Bien bien = this.solicitudesModel.getBienes().getRowAt(fila);
+        
+        try{
+            mainModel.asignarCategoria(bien, categoria);
+        }catch(Exception e){}
+    }
 }

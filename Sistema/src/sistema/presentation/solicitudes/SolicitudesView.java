@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import sistema.Application;
+import sistema.logic.Categoria;
 import sistema.logic.Funcionario;
 import sistema.logic.Solicitud;
 
@@ -64,6 +65,8 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                 this.aceptarBttn.setVisible(false);
                 this.rechazarBttn.setVisible(false);
                 this.saveBttn.setVisible(false);
+                this.rechazoLbl.setVisible(false);
+                this.jScrollPane3.setVisible(false);
                 
                 this.bienesTable.setModel(model.getBienes());
                 this.categoriaBox.setModel(model.getCategorias());
@@ -73,7 +76,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                     this.bienesTable.setModel(model.getBienes());
                     this.categoriaBox.setEnabled(true);
                     
-                this.setSize(1177, 393);    
+                this.setSize(1177, 384);    
             }
             }
             else{
@@ -107,13 +110,14 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                     this.aceptarBttn.setVisible(false);
                     this.rechazarBttn.setVisible(false);
                     this.saveBttn.setVisible(false);
+                    this.rechazoLbl.setVisible(false);
+                    this.jScrollPane3.setVisible(false);
                 
                     this.setSize(489, 393);
                 }
                 }
             }
         }
-    
     
     public void limpiarErrores(){
         this.searchFld.setForeground(Application.COLOR_OK);
@@ -396,7 +400,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         .addComponent(saveBttn)
                         .addGap(29, 29, 29))))
         );
-pack();
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
@@ -461,11 +465,11 @@ pack();
     }//GEN-LAST:event_solicitudesTableMouseClicked
 
     private void categoriaBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaBttnActionPerformed
-//       int fila = this.bienesTable.getSelectedRow();
-//        
-//        if(fila != -1){
-//            controller.asignarCategoria(int fila, (Categoria) this.categoriaBox.getSelectedItem());
-//        }
+       int fila = this.bienesTable.getSelectedRow();
+        
+        if(fila != -1){
+            controller.asignarCategoria(fila, (Categoria) this.categoriaBox.getSelectedItem());
+        }
     }//GEN-LAST:event_categoriaBttnActionPerformed
 
     private void aceptarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBttnActionPerformed

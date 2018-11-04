@@ -280,4 +280,8 @@ public class Model {
       return null;//  return this.bienDao.buscarNuevosBienes();
     }
     
+    public void asignarCategoria(Bien bien, Categoria categoria){
+        
+    }
+    
 }

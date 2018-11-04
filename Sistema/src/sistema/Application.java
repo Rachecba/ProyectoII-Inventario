@@ -86,11 +86,11 @@ public class Application {
         SolicitudesController solicitudesController = new SolicitudesController(solicitudesModel,solicitudesView,mainModel,sesion);
         SOLICITUDES_CONTROLLER = solicitudesController;
         
-        SolicitudModel solicitudModel = new SolicitudModel();
-        SolicitudView solicitudView = new SolicitudView();
-        principalView.addInternalFrame(solicitudView);
-        SolicitudController solicitudController = new SolicitudController(solicitudModel,solicitudView,mainModel,sesion);
-        SOLICITUD_CONTROLLER = solicitudController;
+//        SolicitudModel solicitudModel = new SolicitudModel();
+//        SolicitudView solicitudView = new SolicitudView();
+//        principalView.addInternalFrame(solicitudView);
+//        SolicitudController solicitudController = new SolicitudController(solicitudModel,solicitudView,mainModel,sesion);
+//        SOLICITUD_CONTROLLER = solicitudController;
     }
     
     //-------------------VARIABLES GLOBALES----------------------------
