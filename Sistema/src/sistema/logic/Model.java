@@ -264,4 +264,20 @@ public class Model {
         return this.bienDao.buscarBienes(solicitud);
     }
     
+    public void agregarBien(Bien bien){
+        Bien existe = this.bienDao.buscarBien(bien);
+ 
+        if(existe != null){          
+            bien.setBienId(existe.getBienId());
+            this.bienDao.edit(bien);
+        }
+        else{
+            this.bienDao.create(bien);
+        }
+    }
+    
+    public List<Bien> buscarNuevosBienes(){
+        return this.bienDao.buscarNuevosBienes();
+    }
+    
 }

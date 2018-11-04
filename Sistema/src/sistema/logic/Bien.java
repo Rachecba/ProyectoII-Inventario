@@ -6,7 +6,6 @@
 package sistema.logic;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,11 +48,9 @@ public class Bien implements Serializable {
     @Basic(optional = false)
     @Column(name = "bien_cantidad")
     private int bienCantidad;
-    @OneToMany(mappedBy = "activoUniversitarioBien")
-    private Collection<ActivoUniversitario> activoUniversitarioCollection;
-    @JoinColumn(name = "bien_solicitud", referencedColumnName = "solicitud_id")
-    @ManyToOne(optional = false)
-    private Solicitud bienSolicitud;
+    @JoinColumn(name = "bien_solicitud", referencedColumnName = "comprobante_id")
+    @ManyToOne
+    private Comprobante bienSolicitud;
 
     public Bien() {
     }
@@ -118,20 +113,11 @@ public class Bien implements Serializable {
         this.bienCantidad = bienCantidad;
     }
 
-    @XmlTransient
-    public Collection<ActivoUniversitario> getActivoUniversitarioCollection() {
-        return activoUniversitarioCollection;
-    }
-
-    public void setActivoUniversitarioCollection(Collection<ActivoUniversitario> activoUniversitarioCollection) {
-        this.activoUniversitarioCollection = activoUniversitarioCollection;
-    }
-
-    public Solicitud getBienSolicitud() {
+    public Comprobante getBienSolicitud() {
         return bienSolicitud;
     }
 
-    public void setBienSolicitud(Solicitud bienSolicitud) {
+    public void setBienSolicitud(Comprobante bienSolicitud) {
         this.bienSolicitud = bienSolicitud;
     }
 

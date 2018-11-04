@@ -6,6 +6,7 @@
 package sistema.logic;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,11 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,6 +58,8 @@ public class Comprobante implements Serializable {
     @JoinColumn(name = "comprobante_tipo_de_adquisicion", referencedColumnName = "tipo_de_adquisicion_id")
     @ManyToOne(optional = false)
     private TipoDeAdquisicion comprobanteTipoDeAdquisicion;
+    @OneToMany(mappedBy = "bienSolicitud")
+    private Collection<Bien> bienCollection;
 
     public Comprobante() {
     }
@@ -116,6 +121,15 @@ public class Comprobante implements Serializable {
 
     public void setComprobanteTipoDeAdquisicion(TipoDeAdquisicion comprobanteTipoDeAdquisicion) {
         this.comprobanteTipoDeAdquisicion = comprobanteTipoDeAdquisicion;
+    }
+
+    @XmlTransient
+    public Collection<Bien> getBienCollection() {
+        return bienCollection;
+    }
+
+    public void setBienCollection(Collection<Bien> bienCollection) {
+        this.bienCollection = bienCollection;
     }
 
     @Override
