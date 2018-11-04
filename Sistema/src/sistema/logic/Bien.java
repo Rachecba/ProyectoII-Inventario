@@ -50,7 +50,7 @@ public class Bien implements Serializable {
     private int bienCantidad;
     @JoinColumn(name = "bien_solicitud", referencedColumnName = "comprobante_id")
     @ManyToOne
-    private Comprobante bienSolicitud;
+    private Comprobante bienComprobante;
 
     public Bien() {
     }
@@ -113,12 +113,12 @@ public class Bien implements Serializable {
         this.bienCantidad = bienCantidad;
     }
 
-    public Comprobante getBienSolicitud() {
-        return bienSolicitud;
+    public Comprobante getBienComprobante() {
+        return bienComprobante;
     }
 
-    public void setBienSolicitud(Comprobante bienSolicitud) {
-        this.bienSolicitud = bienSolicitud;
+    public void setBienComprobante(Comprobante bienSolicitud) {
+        this.bienComprobante = bienSolicitud;
     }
 
     @Override
