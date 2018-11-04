@@ -46,7 +46,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
      * Creates new form SolicitudesView
      */
     public SolicitudesView() {
-        super("",false,true);
+        super("Solicitudes",false,true);
         initComponents();
     }
     
@@ -420,7 +420,7 @@ pack();
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try {
-            //abrir la otra pantalla
+            Application.SOLICITUD_CONTROLLER.mostrar();
         } catch (Exception ex) {
             mensaje(ex.getMessage());
         }

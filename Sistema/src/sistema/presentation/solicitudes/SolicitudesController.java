@@ -85,6 +85,9 @@ public class SolicitudesController {
                     throw new Exception("Solicitud no encontrada");
             }
         }
+        
+        if(solicitudes.isEmpty())
+             throw new Exception("No existen solicitudes.");      
     }
 
     public void preAgregar(Point at) throws Exception{

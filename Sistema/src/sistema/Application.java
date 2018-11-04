@@ -1,6 +1,7 @@
 package sistema;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import static sistema.Application.SOLICITUDES_CONTROLLER;
 import sistema.logic.Model;
 import sistema.presentation.activos.ActivosController;
@@ -19,6 +20,9 @@ import sistema.presentation.login.LoginView;
 import sistema.presentation.principal.PrincipalController;
 import sistema.presentation.principal.PrincipalModel;
 import sistema.presentation.principal.PrincipalView;
+import sistema.presentation.solicitud.SolicitudController;
+import sistema.presentation.solicitud.SolicitudModel;
+import sistema.presentation.solicitud.SolicitudView;
 import sistema.presentation.solicitudes.SolicitudesController;
 import sistema.presentation.solicitudes.SolicitudesModel;
 import sistema.presentation.solicitudes.SolicitudesView;
@@ -81,7 +85,12 @@ public class Application {
         principalView.addInternalFrame(solicitudesView);
         SolicitudesController solicitudesController = new SolicitudesController(solicitudesModel,solicitudesView,mainModel,sesion);
         SOLICITUDES_CONTROLLER = solicitudesController;
- 
+        
+        SolicitudModel solicitudModel = new SolicitudModel();
+        SolicitudView solicitudView = new SolicitudView();
+        principalView.addInternalFrame(solicitudView);
+        SolicitudController solicitudController = new SolicitudController(solicitudModel,solicitudView,mainModel,sesion);
+        SOLICITUD_CONTROLLER = solicitudController;
     }
     
     //-------------------VARIABLES GLOBALES----------------------------
@@ -93,6 +102,7 @@ public class Application {
         public static DependenciasController DEPENDENCIAS_CONTROLLER;
         public static FuncionariosController FUNCIONARIOS_CONTROLLER;
         public static SolicitudesController SOLICITUDES_CONTROLLER;
+        public static SolicitudController SOLICITUD_CONTROLLER;
         
         //-----------------ROLES DE USUARIO--------------------------------
         public static String ADMINISTRADOR = "Administrador";

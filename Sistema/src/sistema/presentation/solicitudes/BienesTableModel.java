@@ -20,7 +20,7 @@ public class BienesTableModel extends AbstractTableModel{
     String[] nombres;
     
     //---------Variables fijas-----------
-    public static final int SOLICITUD = 0;
+    public static final int COMPROBANTE = 0;
     public static final int MODELO = 1;
     public static final int MARCA = 2;
     public static final int PRECIO = 3;
@@ -32,7 +32,7 @@ public class BienesTableModel extends AbstractTableModel{
         this.columnas = columnas;
         nombres = new String[6];
         
-        nombres[SOLICITUD] = "Solicitud";
+        nombres[COMPROBANTE] = "Comprobante";
         nombres[MODELO] = "Modelo";
         nombres[MARCA] = "Marca";
         nombres[PRECIO] = "Precio unitario";
@@ -60,8 +60,8 @@ public class BienesTableModel extends AbstractTableModel{
         Bien bien = filas.get(rowIndex);
       
       switch(columnas[columnIndex]){
-          case SOLICITUD: 
-              return bien.getBienComprobante().getSolicitud().getSolicitudId();
+          case COMPROBANTE: 
+              return bien.getBienComprobante().getComprobanteId();
           case MODELO:
               return bien.getBienModelo();
           case MARCA:

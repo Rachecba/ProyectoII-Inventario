@@ -80,4 +80,29 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
         }
         return null;
     }
+    
+    public List<Bien> buscarNuevosBienes(){
+        try {
+            Query q = em.createQuery("Select b from Bien b inner join b.bienSolicitud s where s.solicitudId is null");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar los bienes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    public Bien buscarBien(Bien bien){
+        try {
+            Query q = em.createQuery("SELECT b FROM Bien b where b.bienDescripcion = :desc and b.bienMarca = :marca and b.bienModelo = :modelo and b.bienPrecio = :precio and b.bienCantidad = :cant")
+                    .setParameter("desc", bien.getBienDescripcion())
+                    .setParameter("marca", bien.getBienMarca())
+                    .setParameter("modelo", bien.getBienModelo())
+                    .setParameter("precio", bien.getBienPrecio())
+                    .setParameter("cant", bien.getBienCantidad());
+            return (Bien) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por cedula: " + ex);
+        }
+        return null;
+    }
 }

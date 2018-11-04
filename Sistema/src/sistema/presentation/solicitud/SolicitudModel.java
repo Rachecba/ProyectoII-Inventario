@@ -5,47 +5,46 @@
  */
 package sistema.presentation.solicitud;
 
-import sistema.presentation.solicitudes.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
-import sistema.logic.Solicitud;
+import sistema.logic.Bien;
 
 /**
  *
  * @author leaca
  */
 public class SolicitudModel extends java.util.Observable{
-    Solicitud filter;
-    SolicitudesTableModel solicitudes;
+    BienTableModel bienTableModel;
+    
 
     public SolicitudModel() {
-        this.reset();
+        inicializa();
     }
     
-    public void reset(){ 
-        filter = new Solicitud();
-        List<Solicitud> rows = new ArrayList<>();   
-        this.setSolicitudes(rows);
+    public void inicializa(){
+        //Bien
+        List<Bien> bienes = new ArrayList<>();
+        this.setBienTableModel(bienes);
+        this.notificar();
+    }
+    
+    //BIEN
+    
+    public BienTableModel getBienTableModel() {
+        return bienTableModel;
     }
 
-    public Solicitud getFilter() {
-        return filter;
+    public void setBienTableModel(List<Bien> bienes) {
+        int[] columnas = {BienTableModel.DESCRIPCION,BienTableModel.MARCA,BienTableModel.MODELO,BienTableModel.CANTIDAD,BienTableModel.PRECIO};
+        bienTableModel = new BienTableModel(columnas,bienes);
     }
-
-    public void setFilter(Solicitud filter) {
-        this.filter = filter;
-    }
-
-    public SolicitudesTableModel getSolicitudes() {
-        return solicitudes;
-    }
-
-    public void setSolicitudes(List<Solicitud> estados) {
-        int[] cols={SolicitudesTableModel.ID,SolicitudesTableModel.COMPROBANTE,SolicitudesTableModel.DEPENDENCIA,SolicitudesTableModel.REGISTRADOR,SolicitudesTableModel.ESTADO};
-        this.solicitudes =new SolicitudesTableModel(cols,estados);  
-        this.commit();
-    }    
+    
+    //SOLICITUD
+    
+    
+    
+    //GENERAL
     
     @Override
     public void addObserver(Observer o) {
@@ -56,5 +55,10 @@ public class SolicitudModel extends java.util.Observable{
     public void commit(){
         setChanged();
         notifyObservers();       
-    }      
+    }     
+    
+    public void notificar(){
+        setChanged();
+        notifyObservers();
+    }
 }
