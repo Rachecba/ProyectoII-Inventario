@@ -6,6 +6,7 @@
 package sistema.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,6 +56,16 @@ public class ActivoUniversitarioDAO extends AbstractFacade<ActivoUniversitario> 
             super.remove(obj);
         } catch (Exception e) {
             System.out.print("Error al borrando el activo universitario.\n\n Error:" + e + "\n\n");
+        }
+    }
+    
+    public List<ActivoUniversitario> buscar(ActivoUniversitario obj){
+        try {
+            Query q = em.createQuery("Select obj from ActivoUniversitario obj where obj.activoUniversitarioCodigo = :activoId").setParameter("activoId", obj.getActivoUniversitarioCodigo());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al buscando los activos universitario.\n\n Error:" + e + "\n\n");
+            return null;
         }
     }
     
