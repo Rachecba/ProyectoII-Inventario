@@ -3,8 +3,11 @@ package sistema.presentation.solicitudes;
 
 import java.awt.Color;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistema.Application;
+import sistema.logic.Bien;
 import sistema.logic.Categoria;
 import sistema.logic.Funcionario;
 import sistema.logic.Solicitud;
@@ -140,12 +143,28 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
     }
     
+    void mensajeAgregado(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     public Solicitud filtro(){
         Solicitud solicitud = new Solicitud();
         solicitud.setSolicitudId(Integer.valueOf(this.searchFld.getText()));
         return solicitud;
     }
    
+    public boolean validaIncorporacion(){
+        Solicitud solicitud = controller.getSolicitud(this.filaSolicitud);
+        boolean valido = true;
+        
+        for(Bien bien : solicitud.getSolicitudComprobante().getBienCollection()){
+            if(bien.getBienCategoria() == null){
+                valido = false;    
+                this.categoriaLbl.setForeground(Color.red);}
+        }
+        
+        return valido;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -242,7 +261,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         jScrollPane2.setViewportView(bienesTable);
 
         incorporarBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/folder.png"))); // NOI18N
-        incorporarBttn.setText("Incorporar bien");
+        incorporarBttn.setText("Incorporar bienes");
         incorporarBttn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 incorporarBttnActionPerformed(evt);
@@ -438,12 +457,19 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void incorporarBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incorporarBttnActionPerformed
-//         try{             
-//            controller.incorporarBien(bien(), filaDependencia);
-//            this.mensajeAgregado("Bienes incorporados con exito");
-//        }catch(Exception ex){
-//            this.mensaje(ex.getMessage());        
-//    }      
+         try{           
+             this.controller.getSolicitud(this.filaSolicitud);
+             
+             if(this.validaIncorporacion()){
+                 controller.incorporarBienes(filaSolicitud);
+                 controller.changeEstado(this.filaSolicitud, "Espera de Rotulacion", "");
+                 this.mensajeAgregado("Bienes incorporados con exito.");
+             }else{
+                 this.mensaje("Debe asignarle una categoria a cada bien.");
+             }
+        }catch(Exception ex){
+            this.mensaje(ex.getMessage());        
+    }      
     }//GEN-LAST:event_incorporarBttnActionPerformed
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
@@ -452,12 +478,12 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
 
     private void solicitudesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesTableMouseClicked
        if(evt.getClickCount() == 2){
-            int fila = this.solicitudesTable.getSelectedRow();
+            filaSolicitud = this.solicitudesTable.getSelectedRow();
             
-           controller.setModo(Application.EDITAR, fila);
+           controller.setModo(Application.EDITAR, filaSolicitud);
            
            try {
-               controller.buscarBienes(fila);
+               controller.buscarBienes(filaSolicitud);
            } catch (Exception ex) {
                this.mensaje(ex.getMessage());
            }
@@ -468,7 +494,11 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
        int fila = this.bienesTable.getSelectedRow();
         
         if(fila != -1){
-            controller.asignarCategoria(fila, (Categoria) this.categoriaBox.getSelectedItem());
+           try {
+               controller.asignarCategoria(fila, (Categoria) this.categoriaBox.getSelectedItem(), this.filaSolicitud);
+           } catch (Exception ex) {
+               Logger.getLogger(SolicitudesView.class.getName()).log(Level.SEVERE, null, ex);
+           }
         }
     }//GEN-LAST:event_categoriaBttnActionPerformed
 

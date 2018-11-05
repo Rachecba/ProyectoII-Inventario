@@ -187,6 +187,25 @@ public class Model {
             this.categoriaDao.create(categoria);
         }
     }
+    
+    public void incorporarBienes(Solicitud solicitud){
+        
+        for(Bien bien : solicitud.getSolicitudComprobante().getBienCollection()){
+            for(int i = 0; i < bien.getBienCantidad(); i++){ 
+                ActivoUniversitario nuevo = new ActivoUniversitario();
+                nuevo.setActivoUniversitarioBien(bien);
+                nuevo.setActivoUniversitarioCategoria(bien.getBienCategoria());
+                
+                if(!this.activoDao.getCodigo(bien).isEmpty())
+                    nuevo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo()+1));
+                else
+                    nuevo.setActivoUniversitarioCodigo(String.valueOf("1"));
+                //activo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).getActivoUniversitarioCodigo() + 1));
+                this.activoDao.create(nuevo);
+            //activo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo()+1));
+            }
+        }
+    }
      
      public void eliminarFuncionario(Funcionario funcionario) throws Exception{
          
@@ -281,7 +300,8 @@ public class Model {
     }
     
     public void asignarCategoria(Bien bien, Categoria categoria){
-        
+        bien.setBienCategoria(categoria);
+        this.bienDao.edit(bien);
     }
     
 }

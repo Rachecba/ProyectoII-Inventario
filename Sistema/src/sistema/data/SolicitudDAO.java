@@ -82,7 +82,10 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     
     public List<Solicitud> findPorRegistrador(Solicitud filtro, Funcionario registrador){
         try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE solicitudId and obj.solicitudRegistradorDeBienes = :registrador").setParameter("solicitudId", filtro.getSolicitudId()).setParameter("registrador", registrador);
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE solicitudId and obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado ")
+                    .setParameter("solicitudId", filtro.getSolicitudId())
+                    .setParameter("registrador", registrador)
+                    .setParameter("estado", "Recibida");
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");
@@ -92,7 +95,9 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     
     public List<Solicitud> findPorRegistradorAll(Funcionario registrador){
         try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudRegistradorDeBienes = :registrador").setParameter("registrador", registrador);
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado")
+                    .setParameter("registrador", registrador)
+                    .setParameter("estado", "Recibida");
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");

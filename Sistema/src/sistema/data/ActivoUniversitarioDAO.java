@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import sistema.logic.ActivoUniversitario;
 import sistema.logic.ActivoUniversitario;
+import sistema.logic.Bien;
 
 /**
  *
@@ -61,6 +62,17 @@ public class ActivoUniversitarioDAO extends AbstractFacade<ActivoUniversitario> 
     public List<ActivoUniversitario> findAll(){
         try {
             Query q = em.createQuery("Select obj from ActivoUniversitario obj");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperando los activo universitarios.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    public List<ActivoUniversitario> getCodigo(Bien bien){
+    
+        try {
+            Query q = em.createQuery("Select obj from ActivoUniversitario obj  where obj.activoUniversitarioCategoria = :categoria order by obj.activoUniversitarioCodigo desc").setParameter("categoria", bien.getBienCategoria());
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando los activo universitarios.\n\n Error:" + e + "\n\n");

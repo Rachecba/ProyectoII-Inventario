@@ -26,11 +26,12 @@ public class BienesTableModel extends AbstractTableModel{
     public static final int PRECIO = 3;
     public static final int CANTIDAD = 4;
     public static final int DESCRIPCION = 5;
+    public static final int CATEGORIA = 6;
     
      public BienesTableModel(List<Bien> filas, int[] columnas){
         this.filas = filas;
         this.columnas = columnas;
-        nombres = new String[6];
+        nombres = new String[7];
         
         nombres[COMPROBANTE] = "Comprobante";
         nombres[MODELO] = "Modelo";
@@ -38,6 +39,7 @@ public class BienesTableModel extends AbstractTableModel{
         nombres[PRECIO] = "Precio unitario";
         nombres[CANTIDAD] = "Cantidad";
         nombres[DESCRIPCION] = "Descripcion de bien";
+        nombres[CATEGORIA] = "Categoria";
     }
 
 
@@ -72,6 +74,8 @@ public class BienesTableModel extends AbstractTableModel{
               return bien.getBienCantidad();
           case DESCRIPCION:
               return bien.getBienDescripcion();
+          case CATEGORIA:
+              return bien.getBienCategoria();
           default:
               return "";
       }

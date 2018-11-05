@@ -157,6 +157,10 @@ public class SolicitudesController {
         this.setTablaSolicitudes();
     }
     
+    public Solicitud getSolicitud(int fila){
+        return this.solicitudesModel.getSolicitudes().getRowAt(fila);
+    }
+    
     public void setTablaSolicitudes(/*Dependencia dependencia*/) throws Exception{
 //         List<Labor> labores = mainModel.buscarLabores(dependencia);
 //         mainModel.setFuncionariosTable(labores);
@@ -216,11 +220,21 @@ public class SolicitudesController {
          this.solicitudesModel.setModo(modo, seleccionada);
      }
     
-    public void asignarCategoria(int fila, Categoria categoria){
+    public void asignarCategoria(int fila, Categoria categoria, int filaSolicitud) throws Exception{
         Bien bien = this.solicitudesModel.getBienes().getRowAt(fila);
+        Solicitud solicitud = solicitudesModel.getSolicitudes().getRowAt(filaSolicitud);
+        Comprobante comprobante = solicitud.getSolicitudComprobante();
         
         try{
             mainModel.asignarCategoria(bien, categoria);
         }catch(Exception e){}
+        
+        this.setTablaBienes(comprobante);
+    }
+    
+    public void incorporarBienes(int fila){
+        Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
+        this.mainModel.incorporarBienes(solicitud);
+        
     }
 }
