@@ -82,7 +82,7 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     
     public List<Solicitud> findPorRegistrador(Solicitud filtro, Funcionario registrador){
         try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE solicitudId and obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado ")
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE '%solicitudId%' and obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado ")
                     .setParameter("solicitudId", filtro.getSolicitudId())
                     .setParameter("registrador", registrador)
                     .setParameter("estado", "Recibida");

@@ -130,7 +130,8 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     }
     
     public void fromEstado(Solicitud filtro){
-      searchFld.setText(filtro.getSolicitudEstado()); 
+        if(filtro.getSolicitudId() != null)
+            searchFld.setText(String.valueOf(filtro.getSolicitudId())); 
    }   
    
     Solicitud toEstado(){
@@ -497,7 +498,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
            try {
                controller.asignarCategoria(fila, (Categoria) this.categoriaBox.getSelectedItem(), this.filaSolicitud);
            } catch (Exception ex) {
-               Logger.getLogger(SolicitudesView.class.getName()).log(Level.SEVERE, null, ex);
+               this.mensaje(ex.getMessage());
            }
         }
     }//GEN-LAST:event_categoriaBttnActionPerformed
