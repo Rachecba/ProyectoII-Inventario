@@ -90,4 +90,24 @@ public class ActivoUniversitarioDAO extends AbstractFacade<ActivoUniversitario> 
         }
         return null;
     }
+    
+    public List<ActivoUniversitario> getActivo(String filtro){
+         try {
+            Query q = em.createQuery("Select a from ActivoUniversitario a where a.activosUniversitarioId like :'%id%'").setParameter("id", filtro);
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperando los activo universitarios.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+    
+    public List<ActivoUniversitario> findEtiquetados(){
+        try {
+            Query q = em.createQuery("Select obj from ActivoUniversitario obj where obj.activoUniversitarioRegistrado = :true").setParameter("true", true);
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al buscar los activos universitario.\n\n Error:" + e + "\n\n");
+            return null;
+        }
+    }
 }

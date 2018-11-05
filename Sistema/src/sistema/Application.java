@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import static sistema.Application.SOLICITUDES_CONTROLLER;
 import sistema.logic.Model;
 import sistema.presentation.activos.ActivosController;
+import sistema.presentation.activos.ActivosModel;
+import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
 import sistema.presentation.articulos.ArticulosModel;
 import sistema.presentation.articulos.ArticulosView;
@@ -56,11 +58,11 @@ public class Application {
         LOGIN_CONTROLLER = loginController;
         loginView.setVisible(true);
         
-     //   ActivosModel activosModel = new ActivosModel();
-//        ActivosView activosView = new ActivosView();
-//        principalView.addInternalFrame(activosView);
-     //   ActivosController activosController = new ActivosController(activosModel, activosView, mainMode, sesion);
-     //   ACTIVOS_CONTROLLER = activosController;
+        ActivosModel activosModel = new ActivosModel();
+        ActivosView activosView = new ActivosView();
+        principalView.addInternalFrame(activosView);
+        ActivosController activosController = new ActivosController(activosModel, activosView, mainModel, sesion);
+        ACTIVOS_CONTROLLER = activosController;
      
         ArticulosModel articulosModel = new ArticulosModel();
         ArticulosView articulosView = new ArticulosView();

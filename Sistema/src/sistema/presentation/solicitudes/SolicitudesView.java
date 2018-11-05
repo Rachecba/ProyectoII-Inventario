@@ -125,6 +125,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     public void limpiarErrores(){
         this.searchFld.setForeground(Application.COLOR_OK);
         this.rechazoLbl.setForeground(Application.COLOR_OK);
+        this.categoriaLbl.setForeground(Application.COLOR_OK);
         
         this.rechazoFld.setText("");
     }

@@ -120,7 +120,9 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     public List<Solicitud> findRecibidas(Solicitud filtro){
     
          try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudEstado = :estado and obj.solicitudId LIKE id").setParameter("estado", "Recibida").setParameter("id", filtro.getSolicitudId());
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudEstado = :estado and obj.solicitudId LIKE '%id%' ")
+                    .setParameter("estado", "Recibida")
+                    .setParameter("id", filtro.getSolicitudId());
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperar las solicitudes.\n\n Error:" + e + "\n\n");

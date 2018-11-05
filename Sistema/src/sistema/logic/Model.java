@@ -1,8 +1,4 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+
 package sistema.logic;
 
 import java.util.List;
@@ -115,6 +111,20 @@ public class Model {
          else{
              return this.solicitudDao.findSolicitudes(filtro);
          }
+     }
+     
+     public List<ActivoUniversitario> buscarActivos(String filtro){
+         if(filtro.isEmpty()){
+             return this.activoDao.findAll();
+         }
+         else{
+            // return this.activoDao.findActivo();
+         }
+        return null;
+     }
+     
+     public List<ActivoUniversitario> buscarActivosEtiquetados(){
+         return this.activoDao.findEtiquetados();
      }
      
      public List<Solicitud> buscarSolicitudesSecretario(Solicitud filtro){
@@ -241,6 +251,10 @@ public class Model {
      
      public List<Funcionario> getFuncionariosBox(){
          return this.funcionarioDao.findAll();
+     }
+     
+     public List<Dependencia> getDependenciasBox(){
+         return this.dependenciaDao.findAll();
      }
      
      public List<Puesto> getPuestosBox(){

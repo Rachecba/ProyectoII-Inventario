@@ -11,9 +11,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="logout">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/sistema/presentation/iconos/generales/exit.png"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Logout"/>
               </Properties>
               <Events>
@@ -27,24 +24,12 @@
             <Property name="text" type="java.lang.String" value="Solicitudes"/>
           </Properties>
           <SubComponents>
-<<<<<<< HEAD
             <MenuItem class="javax.swing.JMenuItem" name="verSolicitudes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver Solicitudes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verSolicitudesActionPerformed"/>
-=======
-            <MenuItem class="javax.swing.JMenuItem" name="VerSolicitudes">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/sistema/presentation/iconos/general/clipboard.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Ver Solicitudes"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VerSolicitudesActionPerformed"/>
->>>>>>> 4f9545ff374427b8d8ed3c65ac78b37cd9cd3f74
               </Events>
             </MenuItem>
           </SubComponents>
@@ -53,6 +38,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Activos"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="verActivos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ver Activos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verActivosActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="articulos">
           <Properties>
@@ -80,7 +75,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="verFuncionarios">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/sistema/presentation/iconos/general/user.png"/>
+                  <Image iconType="3" name="/sistema/presentation/iconos/generales/people.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver Funcionarios"/>
                 <Property name="enabled" type="boolean" value="false"/>
