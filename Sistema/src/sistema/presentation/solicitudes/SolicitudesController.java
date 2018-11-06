@@ -36,10 +36,7 @@ public class SolicitudesController {
         
         this.solicitudesView = solicitudesView;
         this.solicitudesModel = solicitudesModel;
-        solicitudesView.setController(this);
-        solicitudesView.setModel(solicitudesModel);
         
-//        this.solicitudesView.inicializaPantalla(); this
         this.solicitudesModel.inicializarFuncionarios(this.mainModel.getFuncionariosBox());
         this.solicitudesModel.inicializaCategorias(mainModel.getCategoriasBox());
         

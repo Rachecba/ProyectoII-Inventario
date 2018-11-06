@@ -26,6 +26,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="verSolicitudes">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/sistema/presentation/iconos/general/user.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ver Solicitudes"/>
               </Properties>
               <Events>
