@@ -31,12 +31,13 @@ public class SolicitudController {
         
         this.solicitudView = solicitudView;
         this.solicitudModel = solicitudModel;
-        solicitudView.setController(this);
-        solicitudView.setModel(solicitudModel);
         
         this.solicitudModel.inicializarTiposDeAdquisicion(this.mainModel.getTipoDeAdquisicionBox());
         this.solicitudModel.inicializarDependencias(this.mainModel.getDependenciasBox());
-        this.solicitudModel.inicializarBienes(new ArrayList<>());
+        
+        this.solicitudView.setController(this);
+        this.solicitudView.setModel(solicitudModel);
+//        this.solicitudModel.inicializarBienes(new ArrayList<>());
     }
     
     //BIEN
