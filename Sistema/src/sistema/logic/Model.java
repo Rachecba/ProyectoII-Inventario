@@ -369,7 +369,6 @@ public class Model {
     }
     
     public void cancelarSolicitud(Solicitud solicitud){
-        solicitud.setSolicitudEstado("Cancelado");
-        solicitudDao.edit(solicitud);
+        solicitudDao.delete(solicitud);
     }
 }

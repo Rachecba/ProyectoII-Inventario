@@ -56,19 +56,19 @@ public class SolicitudesTableModel extends AbstractTableModel {
             case COMPROBANTE: return solicitud.getSolicitudComprobante();
             case DEPENDENCIA: return solicitud.getSolicitudDependencia();
             case REGISTRADOR: return solicitud.getSolicitudRegistradorDeBienes();
-//            case ESTADO: return Solicitud(solicitud);
+            case ESTADO: return Solicitud(solicitud);
             default: return "";
         }
     }    
 
     private Icon Solicitud(Solicitud s){
         String file="";
-        if (s.getSolicitudEstado().equals("Bla")) file="Bla.png" ;
-        if (s.getSolicitudEstado().equals("Bla")) file="Bla.png" ;
-        if (s.getSolicitudEstado().equals("Bla")) file="Bla.png" ;
-        if (s.getSolicitudEstado().equals("Bla")) file="Bla.png" ;
-        if (s.getSolicitudEstado().equals("Bla")) file="Bla.png" ;
-        return new ImageIcon( getClass().getResource( "/personas/presentation/icons/Bla/"+file  ) ); 
+        if (s.getSolicitudEstado().equals("Recibida")) file="recibida.jpeg" ;
+        if (s.getSolicitudEstado().equals("Por verificar")) file="verificar.jpeg" ;
+        if (s.getSolicitudEstado().equals("Rechazada")) file="rechazada.jpeg" ;
+        if (s.getSolicitudEstado().equals("Espera de rotulacion")) file="rotulacion.jpeg" ;
+        if (s.getSolicitudEstado().equals("Procesada")) file="procesada.jpeg" ;
+        return new ImageIcon( getClass().getResource( "/sistema/presentation/iconos/estados/"+file)); 
     }
     
     public Solicitud getRowAt(int row) {
