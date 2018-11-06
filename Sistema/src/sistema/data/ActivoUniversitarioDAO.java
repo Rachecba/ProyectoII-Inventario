@@ -93,8 +93,8 @@ public class ActivoUniversitarioDAO extends AbstractFacade<ActivoUniversitario> 
     
     public List<ActivoUniversitario> getActivo(String filtro){
          try {
-            Query q = em.createQuery("Select a from ActivoUniversitario a where a.activosUniversitarioId like :'%id%'").setParameter("id", filtro);
-            return q.getResultList();
+            Query q = em.createQuery("Select a from ActivoUniversitario a where a.activoUniversitarioCodigo like CONCAT('%',:filtro,'%') or a.activoUniversitarioDescripcion like CONCAT('%',:filtro,'%')")
+                    .setParameter("filtro", filtro);
         } catch (Exception e) {
             System.out.print("Error al recuperando los activo universitarios.\n\n Error:" + e + "\n\n");
         }
