@@ -20,7 +20,7 @@ public class BienTableModel extends AbstractTableModel {
     public  BienTableModel(int[] cols, List<Bien> rows){
         this.cols=cols;
         this.rows=rows;
-        initColNames();
+        this.initColNames();
     }
 
     @Override
@@ -73,4 +73,6 @@ public class BienTableModel extends AbstractTableModel {
         colNames[SOLICITUD]= "Solicitud";
         colNames[CANTIDAD]= "Cantidad";
     }
+    
+    
 }
