@@ -200,24 +200,44 @@ public class PrincipalView extends JFrame implements Observer {
     public void inicializaPermisos() throws Exception{
         
         if(controller.permisoJefeRRHH()){
-            this.verDependencias.setEnabled(true);
-            this.verFuncionarios.setEnabled(true);
+            this.verActivos.setEnabled(false);
+            this.verSolicitudes.setEnabled(false);
+            this.verArticulos.setEnabled(false);
+            
+//            this.verDependencias.setEnabled(true);
+//            this.verFuncionarios.setEnabled(true);
         }else{
             if(controller.permisoAdministrador()){
-                this.verSolicitudes.setEnabled(true);
-                this.verActivos.setEnabled(true);
+                this.verArticulos.setEnabled(false);
+                this.verDependencias.setEnabled(false);
+                this.verFuncionarios.setEnabled(false);
+//                
+//                this.verSolicitudes.setEnabled(true);
+//                this.verActivos.setEnabled(true);
             }else{
                 if(controller.permisoSecretaria()){
-                    this.verSolicitudes.setEnabled(true);
+                    this.verArticulos.setEnabled(false);
+                    this.verDependencias.setEnabled(false);
+                    this.verFuncionarios.setEnabled(false);
+                    this.verActivos.setEnabled(false);
+                    
+//                    this.verSolicitudes.setEnabled(true);
                 }else{
                     if(controller.permisoJefeOCCB()){
-                        this.verSolicitudes.setEnabled(true);
-                        this.verActivos.setEnabled(true);
+                        this.verArticulos.setEnabled(false);
+                        this.verDependencias.setEnabled(false);
+                        this.verFuncionarios.setEnabled(false);
+                        
+//                        this.verSolicitudes.setEnabled(true);
+//                        this.verActivos.setEnabled(true);
                     }else{
                         if(controller.permisoRegistradorBienes()){
-                            this.verArticulos.setEnabled(true);
-                            this.verSolicitudes.setEnabled(true);
-                            this.verActivos.setEnabled(true);
+                            this.verDependencias.setEnabled(false);
+                            this.verFuncionarios.setEnabled(false);
+                            
+//                            this.verArticulos.setEnabled(true);
+//                            this.verSolicitudes.setEnabled(true);
+//                            this.verActivos.setEnabled(true);
                         }
                     }
                 }
