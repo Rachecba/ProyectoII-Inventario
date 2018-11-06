@@ -150,6 +150,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         this.funcionariosDropDown.setVisible(false);
                         this.numSolicitud.setVisible(false);
                         this.numSolicitudTxt.setVisible(false);
+                        this.cancelRegButton.setVisible(false);
                         
                         this.setSize(489, 370);
                     }
