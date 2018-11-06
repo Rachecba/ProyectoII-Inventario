@@ -75,6 +75,8 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         this.tipoDropDown.setModel(model.getTiposDeActivo());
         this.dependenciaDropDwn.setModel(model.getDependencias());
         
+        this.bienesTable.setModel(model.getBienTableModel());
+        
     }
     
     public void updateTablaBienes(){
