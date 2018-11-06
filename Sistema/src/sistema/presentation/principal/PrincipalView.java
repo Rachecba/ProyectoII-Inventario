@@ -190,7 +190,7 @@ public class PrincipalView extends JFrame implements Observer {
     }//GEN-LAST:event_verArticulosActionPerformed
 
     private void verSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verSolicitudesActionPerformed
-      //  controller.showSolicitudes();
+        controller.showSolicitudes();
     }//GEN-LAST:event_verSolicitudesActionPerformed
 
     private void verActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActivosActionPerformed
@@ -199,30 +199,30 @@ public class PrincipalView extends JFrame implements Observer {
 
     public void inicializaPermisos() throws Exception{
         
-//        if(controller.permisoJefeRRHH()){
-//            this.verDependencias.setEnabled(true);
-//            this.verFuncionarios.setEnabled(true);
-//        }else{
-//            if(controller.permisoAdministrador()){
-//                this.verSolicitudes.setEnabled(true);
-//                this.verActivos.setEnabled(true);
-//            }else{
-//                if(controller.permisoSecretaria()){
-//                    this.verSolicitudes.setEnabled(true);
-//                }else{
-//                    if(controller.permisoJefeOCCB()){
-//                        this.verSolicitudes.setEnabled(true);
-//                        this.verActivos.setEnabled(true);
-//                    }else{
-//                        if(controller.permisoRegistradorBienes()){
-//                            this.verArticulos.setEnabled(true);
-//                            this.verSolicitudes.setEnabled(true);
-//                            this.verActivos.setEnabled(true);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        if(controller.permisoJefeRRHH()){
+            this.verDependencias.setEnabled(true);
+            this.verFuncionarios.setEnabled(true);
+        }else{
+            if(controller.permisoAdministrador()){
+                this.verSolicitudes.setEnabled(true);
+                this.verActivos.setEnabled(true);
+            }else{
+                if(controller.permisoSecretaria()){
+                    this.verSolicitudes.setEnabled(true);
+                }else{
+                    if(controller.permisoJefeOCCB()){
+                        this.verSolicitudes.setEnabled(true);
+                        this.verActivos.setEnabled(true);
+                    }else{
+                        if(controller.permisoRegistradorBienes()){
+                            this.verArticulos.setEnabled(true);
+                            this.verSolicitudes.setEnabled(true);
+                            this.verActivos.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }
         
         
     }
