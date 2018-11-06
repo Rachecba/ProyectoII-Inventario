@@ -205,16 +205,16 @@ public class PrincipalView extends JFrame implements Observer {
             this.verSolicitudes.setEnabled(false);
             this.verArticulos.setEnabled(false);
             
-//            this.verDependencias.setEnabled(true);
-//            this.verFuncionarios.setEnabled(true);
+            this.verDependencias.setEnabled(true);
+            this.verFuncionarios.setEnabled(true);
         }else{
             if(controller.permisoAdministrador()){
                 this.verArticulos.setEnabled(false);
                 this.verDependencias.setEnabled(false);
                 this.verFuncionarios.setEnabled(false);
-//                
-//                this.verSolicitudes.setEnabled(true);
-//                this.verActivos.setEnabled(true);
+                
+                this.verSolicitudes.setEnabled(true);
+                this.verActivos.setEnabled(true);
             }else{
                 if(controller.permisoSecretaria()){
                     this.verArticulos.setEnabled(false);
@@ -222,23 +222,30 @@ public class PrincipalView extends JFrame implements Observer {
                     this.verFuncionarios.setEnabled(false);
                     this.verActivos.setEnabled(false);
                     
-//                    this.verSolicitudes.setEnabled(true);
+                    this.verSolicitudes.setEnabled(true);
                 }else{
                     if(controller.permisoJefeOCCB()){
                         this.verArticulos.setEnabled(false);
                         this.verDependencias.setEnabled(false);
                         this.verFuncionarios.setEnabled(false);
                         
-//                        this.verSolicitudes.setEnabled(true);
-//                        this.verActivos.setEnabled(true);
+                        this.verSolicitudes.setEnabled(true);
+                        this.verActivos.setEnabled(true);
                     }else{
                         if(controller.permisoRegistradorBienes()){
                             this.verDependencias.setEnabled(false);
                             this.verFuncionarios.setEnabled(false);
                             
-//                            this.verArticulos.setEnabled(true);
-//                            this.verSolicitudes.setEnabled(true);
-//                            this.verActivos.setEnabled(true);
+                            this.verArticulos.setEnabled(true);
+                            this.verSolicitudes.setEnabled(true);
+                            this.verActivos.setEnabled(true);
+                        }
+                        else{
+                            this.verArticulos.setEnabled(true);
+                            this.verDependencias.setEnabled(true);
+                            this.verFuncionarios.setEnabled(true);
+                            this.verActivos.setEnabled(true);
+                            this.verSolicitudes.setEnabled(true);
                         }
                     }
                 }

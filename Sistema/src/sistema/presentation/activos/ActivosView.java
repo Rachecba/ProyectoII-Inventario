@@ -15,32 +15,32 @@ import sistema.logic.Labor;
  * @author Rachel
  */
 public class ActivosView extends javax.swing.JInternalFrame implements Observer {
-
+    
     ActivosController controller;
     ActivosModel model;
-
+    
     public ActivosController getController() {
         return controller;
     }
-
+    
     public ActivosModel getModel() {
         return model;
     }
-
+    
     public void setController(ActivosController controller) {
         this.controller = controller;
     }
-
+    
     public void setModel(ActivosModel model) {
         this.model = model;
         model.addObserver(this);
     }
-
+    
     public ActivosView() {
         super("Activos",false,true);
         initComponents();
     }
-
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,7 +61,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
         procesadaBttn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/diamond(1).png"))); // NOI18N
 
         searchLbl.setText("Search");
@@ -222,7 +222,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void searchBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBttnActionPerformed
         if(this.searchFld.getText().isEmpty()){
             try{
@@ -241,7 +241,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             }
         } 
     }//GEN-LAST:event_searchBttnActionPerformed
-
+    
     private void etiquetadosBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_etiquetadosBttnActionPerformed
         try{
             controller.buscarEtiquetados();
@@ -250,10 +250,10 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             this.mensaje(ex.getMessage());
         }
     }//GEN-LAST:event_etiquetadosBttnActionPerformed
-
+    
     private void saveBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBttnActionPerformed
-       int fila = this.activosTable.getSelectedRow();
-       
+        int fila = this.activosTable.getSelectedRow();
+        
         try {
             controller.datosUbicacion(fila, (Labor) this.laborBox.getSelectedItem());
             this.mensajeAgregado("Datos agregados con exito.");
@@ -261,9 +261,9 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             mensaje(ex.getMessage());
         }
         
-      
+        
     }//GEN-LAST:event_saveBttnActionPerformed
-
+    
     private void procesadaBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procesadaBttnActionPerformed
         int fila = this.activosTable.getSelectedRow();
         
@@ -274,10 +274,10 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             this.mensaje(ex.getMessage());
         }
     }//GEN-LAST:event_procesadaBttnActionPerformed
-
+    
     private void imprimirBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirBttnActionPerformed
-       int fila = this.activosTable.getSelectedRow();
-       
+        int fila = this.activosTable.getSelectedRow();
+        
         try {
             controller.codigoDeBarras(fila);
             this.mensajeAgregado("Se creo correctamente el PDF para imprimir. El archivo se encuentra en el escritorio.");
@@ -285,15 +285,15 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             mensaje(ex.getMessage());
         }
     }//GEN-LAST:event_imprimirBttnActionPerformed
-
+    
     private void activosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activosTableMouseClicked
         if(evt.getClickCount() == 2){
             
-           controller.setModo(Application.EDITAR);
-        
+            controller.setModo(Application.EDITAR);
+            
         }
     }//GEN-LAST:event_activosTableMouseClicked
-
+    
     /**
      * @param args the command line arguments
      */
@@ -301,8 +301,8 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+        */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -320,7 +320,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             java.util.logging.Logger.getLogger(ActivosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -333,9 +333,9 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
         this.searchFld.setForeground(Application.COLOR_OK);
         
     }
-
+    
     public void inicializaPantalla(){
-  
+        
         this.activosTable.setModel(model.getActivos());
         
         this.laborBox.setModel(model.getLabores());
@@ -352,24 +352,35 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
                 this.saveBttn.setVisible(false);
                 
                 this.setSize(539, 449);
-            
-            }else{
-                if(!controller.permisoJefeOCCB()){
-                    this.etiquetadosBttn.setVisible(false);
-                    this.imprimirBttn.setVisible(false);
-                    this.procesadaBttn.setVisible(false);
-                    this.jSeparator1.setVisible(false);
-                    this.ubicacionLbl.setVisible(false);
-                    this.laborLbl.setVisible(false);
-                    this.laborBox.setVisible(false);
-                    this.saveBttn.setVisible(false);
-                    
-                    this.setSize(539, 449);
                 
-                }
-                       
             }
-        
+            
+            if(!controller.permisoJefeOCCB()){
+                this.etiquetadosBttn.setVisible(false);
+                this.imprimirBttn.setVisible(false);
+                this.procesadaBttn.setVisible(false);
+                this.jSeparator1.setVisible(false);
+                this.ubicacionLbl.setVisible(false);
+                this.laborLbl.setVisible(false);
+                this.laborBox.setVisible(false);
+                this.saveBttn.setVisible(false);
+                
+                this.setSize(539, 449);
+            }
+            
+            if(!controller.permisoRegistrador()){
+                this.etiquetadosBttn.setVisible(true);
+                this.imprimirBttn.setVisible(true);
+                this.procesadaBttn.setVisible(true);
+                this.jSeparator1.setVisible(true);
+                this.ubicacionLbl.setVisible(true);
+                this.laborLbl.setVisible(true);
+                this.laborBox.setVisible(true);
+                this.saveBttn.setVisible(true);
+                
+                this.setSize(1093, 449);
+            }
+            
         }
         
     }
@@ -379,7 +390,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     }
     
     void mensaje(String error){
-        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
+        JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -398,7 +409,7 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     private javax.swing.JLabel searchLbl;
     private javax.swing.JLabel ubicacionLbl;
     // End of variables declaration//GEN-END:variables
-
+    
     @Override
     public void update(Observable o, Object arg) {
         this.limpiarErrores();

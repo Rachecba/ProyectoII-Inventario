@@ -61,7 +61,7 @@ public class ArticulosView extends javax.swing.JInternalFrame implements Observe
         deleteBttn = new javax.swing.JButton();
         addBttn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Articulos");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/category.png"))); // NOI18N
 

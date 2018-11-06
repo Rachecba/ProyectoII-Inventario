@@ -157,6 +157,7 @@ public class ActivosController {
      
     public void mostrar(){
         view.setVisible(true);
+        view.inicializaPantalla();
     }
     
     public boolean getSession(){

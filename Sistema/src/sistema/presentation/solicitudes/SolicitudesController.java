@@ -42,7 +42,7 @@ public class SolicitudesController {
         this.solicitudesModel = solicitudesModel;
         
         this.solicitudesModel.inicializarFuncionarios(this.mainModel.getFuncionariosBox());
-        this.solicitudesModel.inicializaCategorias(mainModel.getCategoriasBox());
+        this.solicitudesModel.inicializaCategorias(this.mainModel.getCategoriasBox());
         
         this.solicitudesView.setController(this);
         this.solicitudesView.setModel(solicitudesModel);

@@ -59,6 +59,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         solicitudesTable.setModel(model.getSolicitudes());
         
         if(controller.getSession() == true){
+            
             if(!controller.permisoRegistrador()){ // si es registrador de bienes
                 
                 this.addButton.setVisible(false);
@@ -76,6 +77,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                 this.numSolicitud.setVisible(false);
                 this.numSolicitudTxt.setVisible(false);
                 this.saveBttn.setVisible(false);
+                this.cancelRegButton.setVisible(false);
                 
                 this.bienesTable.setModel(model.getBienes());
                 this.categoriaBox.setModel(model.getCategorias());
@@ -113,6 +115,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                     this.rechazoFld.setVisible(true);
                     this.saveBttn.setVisible(true);
                     this.saveBttn.setEnabled(false);
+                    this.cancelRegButton.setVisible(false);
                     
                     
                     this.setSize(440, 552);
@@ -137,6 +140,10 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         this.rechazoLbl.setVisible(false);
                         this.jScrollPane3.setVisible(false);
                         this.registradorButton.setVisible(true);
+                        this.rechazarBttn.setVisible(false);
+                        this.aceptarBttn.setVisible(false);
+                        this.saveBttn.setVisible(false);
+                        this.categoriaBttn.setVisible(false);
                         
                         this.setSize(495, 481);
                         
@@ -248,6 +255,8 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
         funcionariosDropDown = new javax.swing.JComboBox<>();
         saveRegButton = new javax.swing.JButton();
         cancelRegButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 
         searchLbl.setText("Search");
 

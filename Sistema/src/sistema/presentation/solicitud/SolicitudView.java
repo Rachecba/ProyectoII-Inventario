@@ -289,6 +289,8 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+
         generalInfoLabel.setText("Información general:");
 
         numCompLabel.setText("Número de comprobante:");

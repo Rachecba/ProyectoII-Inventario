@@ -71,10 +71,8 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     
     public List<Solicitud> findSolicitudes(Solicitud solicitud){
         try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE CONCAT('%',:solicitudId,'%') or obj.solicitudComprobante.comprobanteNumero LIKE CONCAT('%',:solicitudComp,'%') or obj.solicitudRegistradorDeBienes.funcionarioNombre LIKE CONCAT('%',:solicitudFunc,'%')")
-                    .setParameter("solicitudId", solicitud.getSolicitudId())
-                    .setParameter("solicitudComp", solicitud.getSolicitudComprobante().getComprobanteNumero())
-                    .setParameter("solicitudFunc", solicitud.getSolicitudRegistradorDeBienes().getFuncionarioNombre());
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE CONCAT('%',:solicitudId,'%')")
+                    .setParameter("solicitudId", String.valueOf(solicitud.getSolicitudId()));
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");
