@@ -90,5 +90,14 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
         return null;
     }
     
-    
+    public Solicitud buscarSolicitud(Solicitud solicitud){
+        try {
+            Query q = em.createQuery("SELECT s FROM Solicitud s where s.solicitudComprobante.comprobanteId = :comprobanteNum")
+                    .setParameter("comprobanteNum", solicitud.getSolicitudComprobante().getComprobanteId());
+            return (Solicitud) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por numero: " + ex);
+        }
+        return null;
+    }
 }

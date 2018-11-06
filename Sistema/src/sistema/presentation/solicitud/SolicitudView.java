@@ -9,6 +9,10 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 import sistema.Application;
 import sistema.logic.Bien;
+import sistema.logic.Comprobante;
+import sistema.logic.Dependencia;
+import sistema.logic.Solicitud;
+import sistema.logic.TipoDeAdquisicion;
 
 /**
  *
@@ -18,6 +22,8 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
 
     SolicitudController controller;
     SolicitudModel model;
+    Integer cantBienes;
+    Double totalDeBienes;
 
     public SolicitudController getController() {
         return controller;
@@ -38,6 +44,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     @Override
     public void update(java.util.Observable updatedModel,Object parametros){
         this.limpiarErrores();
+        this.inicializaPantalla();
     }
     
     /**
@@ -46,7 +53,10 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     public SolicitudView() {
         super("Solicitudes",false,true);
         initComponents();
-        inicializaPantalla();
+        
+        cantBienTxt.setText("0");
+        totalTxt.setText("0");
+        
     }
     
     public void inicializaPantalla(){
@@ -56,13 +66,24 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         descTxt.setEditable(false);
         marcaTxt.setEditable(false);
         modeloTxt.setEditable(false);
-        precioTxt.setEditable(false);
+        precioTxt.setEnabled(false);
         cantidadSpinner.setEnabled(false);
         
         crearBien.setEnabled(false);
         cancelBien.setEnabled(false);
         
-        this.bienesTable.setModel(model.getBienTableModel());
+        this.tipoDropDown.setModel(model.getTiposDeActivo());
+        this.dependenciaDropDwn.setModel(model.getDependencias());
+        
+    }
+    
+    public void updateTablaBienes(){
+        try {
+            this.controller.setTablaBienes();
+            this.bienesTable.setModel(model.getBienTableModel());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void limpiarErrores(){
@@ -78,14 +99,30 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         this.precioLabel.setForeground(Application.COLOR_OK);
     }  
     
+    public void limpiarSolicitud(){
+        this.numSolicitudTxt.setText("");
+        this.comprobanteTxt.setText("");
+        this.estSolcTxt.setText("");
+        this.fechaTxt.setCalendar(null);
+        this.tipoDropDown.setSelectedIndex(0);
+        this.dependenciaDropDwn.setSelectedIndex(0);
+        
+        this.cantBienTxt.setText("");
+        this.totalTxt.setText("");
+    }
+    
+    public void limpiarBien(){
+        this.descTxt.setText("");
+        this.marcaTxt.setText("");
+        this.modeloTxt.setText("");
+        this.precioTxt.setValue(0);
+        this.cantidadSpinner.setValue(0);
+    }
+    
     boolean validar(){
         boolean error=false;
         
-        this.numSolLabel.setForeground(Application.COLOR_OK);
-        this.numCompLabel.setForeground(Application.COLOR_OK);
-        this.estadoSolLabel.setForeground(Application.COLOR_OK);
-        this.fechaLabel.setForeground(Application.COLOR_OK);
-        this.tipoLabel.setForeground(Application.COLOR_OK);
+        this.limpiarErrores();
         
         if(this.numSolLabel.getText().isEmpty()){
             this.numSolLabel.setForeground(Application.COLOR_ERROR);
@@ -118,28 +155,25 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     boolean validarBien(){
         boolean error=false;
         
-        this.descLabel.setForeground(Application.COLOR_OK);
-        this.marcaLabel.setForeground(Application.COLOR_OK);
-        this.modeloLabel.setForeground(Application.COLOR_OK);
-        this.precioLabel.setForeground(Application.COLOR_OK);
+        this.limpiarErrores();
         
-        if(this.descLabel.getText().isEmpty()){
+        if(this.descTxt.getText().isEmpty()){
             this.descLabel.setForeground(Application.COLOR_ERROR);
             error = true;
         }
         
-        if(this.marcaLabel.getText().isEmpty()){
+        if(this.marcaTxt.getText().isEmpty()){
             this.marcaLabel.setForeground(Application.COLOR_ERROR);
             error = true;
         }
         
-        if(this.modeloLabel.getText().isEmpty()){
+        if(this.modeloTxt.getText().isEmpty()){
             this.modeloLabel.setForeground(Application.COLOR_ERROR);
             error = true;
         }
         
-        if(this.precioLabel.getText().isEmpty()){
-            this.precioLabel.setForeground(Application.COLOR_ERROR);
+        if(Integer.valueOf(this.cantidadSpinner.getValue().toString()) == 0){
+            this.cantidadLbl.setForeground(Application.COLOR_ERROR);
             error = true;
         }
         
@@ -160,10 +194,31 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         nuevo.setBienDescripcion(this.descTxt.getText());
         nuevo.setBienMarca(this.marcaTxt.getText());
         nuevo.setBienModelo(this.modeloTxt.getText());
-        nuevo.setBienPrecio(Double.valueOf(precioTxt.getText()));
+        nuevo.setBienPrecio(Double.valueOf(precioTxt.getValue().toString()));
         nuevo.setBienCantidad(this.cantidadSpinner.getComponentCount());
         
         return nuevo;
+    }
+    
+    public Solicitud solicitud(){
+        Solicitud nuevo = new Solicitud();
+        
+        Comprobante comprobante = this.crearComprobante(new Comprobante(comprobanteTxt.getText(), fechaTxt.getDate(), Integer.valueOf(this.cantBienTxt.getText())
+                , Double.valueOf(this.totalTxt.getText()), (TipoDeAdquisicion) this.tipoDropDown.getSelectedItem()));
+        
+        nuevo.setSolicitudComprobante(comprobante);
+        nuevo.setSolicitudDependencia((Dependencia) dependenciaDropDwn.getSelectedItem());
+        
+        return nuevo;
+    }
+    
+    public Comprobante crearComprobante(Comprobante comprobante){
+        return controller.crearComprobante(comprobante);
+    }
+    
+    public void calcularTotales(Integer i, Double d){
+        this.cantBienTxt.setText(String.valueOf(Integer.valueOf(this.cantBienTxt.getText()) + i));
+        this.totalTxt.setText(String.valueOf(Double.valueOf(this.totalTxt.getText()) + d));
     }
 
     /**
@@ -184,7 +239,6 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         tipoLabel = new javax.swing.JLabel();
         numSolicitudTxt = new javax.swing.JTextField();
         tipoDropDown = new javax.swing.JComboBox<>();
-        fechaTxt = new javax.swing.JTextField();
         infoBienLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         bienesTable = new javax.swing.JTable();
@@ -208,13 +262,16 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         descTxt = new javax.swing.JTextField();
         marcaTxt = new javax.swing.JTextField();
         modeloTxt = new javax.swing.JTextField();
-        precioTxt = new javax.swing.JTextField();
         crearBien = new javax.swing.JButton();
         cancelBien = new javax.swing.JButton();
         crearSolicitud = new javax.swing.JButton();
         cancelarSolicitud = new javax.swing.JButton();
         cantidadLbl = new javax.swing.JLabel();
         cantidadSpinner = new javax.swing.JSpinner();
+        precioTxt = new javax.swing.JSpinner();
+        fechaTxt = new com.toedter.calendar.JDateChooser();
+        dependenciaLabel = new javax.swing.JLabel();
+        dependenciaDropDwn = new javax.swing.JComboBox<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -242,8 +299,6 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                 numSolicitudTxtActionPerformed(evt);
             }
         });
-
-        tipoDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         infoBienLabel.setText("Bienes:");
 
@@ -276,6 +331,12 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         });
 
         cantBienLabel.setText("Cantidad de bienes:");
+
+        cantBienTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cantBienTxtActionPerformed(evt);
+            }
+        });
 
         totalLabel.setText("Total:");
 
@@ -319,8 +380,17 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         });
 
         cancelarSolicitud.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/close.png"))); // NOI18N
+        cancelarSolicitud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarSolicitudActionPerformed(evt);
+            }
+        });
 
         cantidadLbl.setText("Cantidad:");
+
+        fechaTxt.setDateFormatString("d, MMM yyyy");
+
+        dependenciaLabel.setText("Dependencia:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -366,26 +436,23 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(modeloTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(descLabel)
+                                                            .addComponent(marcaLabel))
+                                                        .addGap(51, 51, 51)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(marcaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(descTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                             .addComponent(precioLabel)
                                                             .addComponent(cantidadLbl))
                                                         .addGap(30, 30, 30)
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(precioTxt)
-                                                            .addComponent(cantidadSpinner)))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                            .addComponent(modeloTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                    .addComponent(descLabel)
-                                                                    .addComponent(marcaLabel))
-                                                                .addGap(51, 51, 51)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                    .addComponent(marcaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(descTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                            .addComponent(cantidadSpinner)
+                                                            .addComponent(precioTxt))))
                                                 .addGap(53, 53, 53)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(crearBien, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -407,16 +474,17 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                                 .addGap(75, 75, 75)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(numCompLabel)
-                                    .addComponent(fechaLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(fechaLabel)
+                                    .addComponent(dependenciaLabel))
+                                .addGap(42, 42, 42)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comprobanteTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                    .addComponent(fechaTxt))
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cancelarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(crearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addGap(46, 46, 46))))
+                                    .addComponent(fechaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dependenciaDropDwn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comprobanteTxt))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(crearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cancelarSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(jSeparator1))
                 .addContainerGap())
         );
@@ -425,33 +493,41 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(crearSolicitud)
+                                .addGap(122, 122, 122))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(comprobanteTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(fechaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105))))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(generalInfoLabel)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(numSolicitudTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(numSolLabel)
-                            .addComponent(numCompLabel)
-                            .addComponent(comprobanteTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(crearSolicitud)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fechaLabel)
-                            .addComponent(estadoSolLabel)
-                            .addComponent(estSolcTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fechaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tipoLabel)
-                            .addComponent(tipoDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(cancelarSolicitud)))
-                .addGap(43, 43, 43)
+                            .addComponent(numCompLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(estadoSolLabel)
+                                    .addComponent(estSolcTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fechaLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cancelarSolicitud)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(dependenciaLabel)
+                                        .addComponent(tipoDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tipoLabel)
+                                        .addComponent(dependenciaDropDwn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(54, 54, 54)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -506,7 +582,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 		pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -519,7 +595,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         descTxt.setEditable(true);
         marcaTxt.setEditable(true);
         modeloTxt.setEditable(true);
-        precioTxt.setEditable(true);
+        precioTxt.setEnabled(true);
         cantidadSpinner.setEnabled(true);
         crearBien.setEnabled(true);
         cancelBien.setEnabled(true);
@@ -528,7 +604,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         estSolcTxt.setEditable(false);
         tipoDropDown.setEditable(false);
         comprobanteTxt.setEditable(false);
-        fechaTxt.setEditable(false);
+        fechaTxt.setEnabled(false);
         addButton.setEnabled(false);
         deleteButton.setEnabled(false);
         crearSolicitud.setEnabled(false);
@@ -539,16 +615,22 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         descTxt.setEditable(false);
         marcaTxt.setEditable(false);
         modeloTxt.setEditable(false);
-        precioTxt.setEditable(false);
+        precioTxt.setEnabled(false);
         cantidadSpinner.setEnabled(false);
         crearBien.setEnabled(false);
         cancelBien.setEnabled(false);
+        
+        descTxt.setText("");
+        marcaTxt.setText("");
+        modeloTxt.setText("");
+        precioTxt.setValue(0);
+        cantidadSpinner.setValue(0);
         
         numSolicitudTxt.setEditable(true);
         estSolcTxt.setEditable(true);
         tipoDropDown.setEditable(true);
         comprobanteTxt.setEditable(true);
-        fechaTxt.setEditable(true);
+        fechaTxt.setEnabled(true);
         addButton.setEnabled(true);
         deleteButton.setEnabled(true);
         crearSolicitud.setEnabled(true);
@@ -556,9 +638,13 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     }//GEN-LAST:event_cancelBienActionPerformed
 
     private void crearBienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBienActionPerformed
-        if(!validarBien()){
+        if(validarBien()){
             try{
-                controller.agregarBien(bien());
+                Bien bien = bien();
+                if(controller.agregarBien(bien))
+                    calcularTotales(bien.getBienCantidad(), bien.getBienPrecio());
+                limpiarBien();
+                updateTablaBienes();
             }catch(Exception ex){
                 ex.printStackTrace();
                 this.mensaje(ex.getMessage());
@@ -571,7 +657,10 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     private void crearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearSolicitudActionPerformed
         if(validar()){
             try{
-//                controller.agregarSolicitud(funcionario());
+                Solicitud solicitud = solicitud();
+                controller.crearSolicitud(solicitud);
+                controller.asignarBienes(solicitud);
+                limpiarSolicitud();
             }catch(Exception ex){
                 ex.printStackTrace();
                 this.mensaje(ex.getMessage());
@@ -588,6 +677,20 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void cantBienTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantBienTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cantBienTxtActionPerformed
+
+    private void cancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarSolicitudActionPerformed
+        this.numSolicitudTxt.setText("");
+        this.estSolcTxt.setText("");
+        this.comprobanteTxt.setText("");
+        this.fechaTxt.setCalendar(null);
+        this.tipoDropDown.setSelectedIndex(0);
+        this.dependenciaDropDwn.setSelectedIndex(0);
+        this.controller.cancelarSolicitud();
+    }//GEN-LAST:event_cancelarSolicitudActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JLabel agregarBienLabel;
@@ -602,12 +705,14 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     private javax.swing.JButton crearBien;
     private javax.swing.JButton crearSolicitud;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JComboBox<Dependencia> dependenciaDropDwn;
+    private javax.swing.JLabel dependenciaLabel;
     private javax.swing.JLabel descLabel;
     private javax.swing.JTextField descTxt;
     private javax.swing.JTextField estSolcTxt;
     private javax.swing.JLabel estadoSolLabel;
     private javax.swing.JLabel fechaLabel;
-    private javax.swing.JTextField fechaTxt;
+    private com.toedter.calendar.JDateChooser fechaTxt;
     private javax.swing.JLabel generalInfoLabel;
     private javax.swing.JLabel infoBienLabel;
     private javax.swing.JScrollPane jScrollPane1;
@@ -624,8 +729,8 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
     private javax.swing.JLabel numSolLabel;
     private javax.swing.JTextField numSolicitudTxt;
     private javax.swing.JLabel precioLabel;
-    private javax.swing.JTextField precioTxt;
-    private javax.swing.JComboBox<String> tipoDropDown;
+    private javax.swing.JSpinner precioTxt;
+    private javax.swing.JComboBox<TipoDeAdquisicion> tipoDropDown;
     private javax.swing.JLabel tipoLabel;
     private javax.swing.JLabel totalLabel;
     private javax.swing.JTextField totalTxt;

@@ -37,6 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Comprobante.findAll", query = "SELECT c FROM Comprobante c")})
 public class Comprobante implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "comprobante_numero")
+    private String comprobanteNumero;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,6 +79,14 @@ public class Comprobante implements Serializable {
         this.comprobanteMontoTotal = comprobanteMontoTotal;
     }
 
+    public Comprobante(String comprobanteNumero, Date comprobanteFechaDeAdquisicion, int comprobanteCantBienes, double comprobanteMontoTotal, TipoDeAdquisicion comprobanteTipoDeAdquisicion) {
+        this.comprobanteNumero = comprobanteNumero;
+        this.comprobanteFechaDeAdquisicion = comprobanteFechaDeAdquisicion;
+        this.comprobanteCantBienes = comprobanteCantBienes;
+        this.comprobanteMontoTotal = comprobanteMontoTotal;
+        this.comprobanteTipoDeAdquisicion = comprobanteTipoDeAdquisicion;
+    }
+    
     public Integer getComprobanteId() {
         return comprobanteId;
     }
@@ -155,6 +167,14 @@ public class Comprobante implements Serializable {
     @Override
     public String toString() {
         return "sistema.logic.Comprobante[ comprobanteId=" + comprobanteId + " ]";
+    }
+
+    public String getComprobanteNumero() {
+        return comprobanteNumero;
+    }
+
+    public void setComprobanteNumero(String comprobanteNumero) {
+        this.comprobanteNumero = comprobanteNumero;
     }
     
 }

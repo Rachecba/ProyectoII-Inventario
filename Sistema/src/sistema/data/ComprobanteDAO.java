@@ -67,4 +67,15 @@ public class ComprobanteDAO extends AbstractFacade<Comprobante> implements Seria
         }
         return null;
     }
+    
+    public Comprobante buscarComprobante(Comprobante comprobante){
+        try {
+            Query q = em.createQuery("SELECT c FROM Comprobante c where c.comprobanteNumero = :comprobanteNum")
+                    .setParameter("comprobanteNum", comprobante.getComprobanteNumero());
+            return (Comprobante) q.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Error buscando por numero: " + ex);
+        }
+        return null;
+    }
 }

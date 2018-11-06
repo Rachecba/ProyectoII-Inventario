@@ -267,6 +267,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try {
+            Application.SOLICITUD_CONTROLLER.refrescarPantalla();
             Application.SOLICITUD_CONTROLLER.mostrar();
         } catch (Exception ex) {
             mensaje(ex.getMessage());

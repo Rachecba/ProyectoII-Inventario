@@ -245,15 +245,17 @@ public class Model {
         return this.bienDao.buscarBienes(solicitud);
     }
     
-    public void agregarBien(Bien bien){
+    public boolean agregarBien(Bien bien){
         Bien existe = this.bienDao.buscarBien(bien);
  
         if(existe != null){          
             bien.setBienId(existe.getBienId());
             this.bienDao.edit(bien);
+            return false;
         }
         else{
             this.bienDao.create(bien);
+            return true;
         }
     }
     
@@ -261,4 +263,37 @@ public class Model {
         return this.bienDao.buscarNuevosBienes();
     }
     
+    public void borrarBien(Bien bien){
+        this.bienDao.delete(bien);
+    }
+    
+    public List<TipoDeAdquisicion> getTipoDeAdquisicionBox(){
+        return this.tipoAdquisicionDao.findAll();
+    }
+    
+    public Comprobante agregarComprobante(Comprobante comprobante){
+        Comprobante existe = this.comprobanteDao.buscarComprobante(comprobante);
+ 
+        if(existe != null){          
+            comprobante.setComprobanteId(existe.getComprobanteId());
+            this.comprobanteDao.edit(comprobante);
+        }
+        else{
+            this.comprobanteDao.create(comprobante);
+        }
+        
+        return this.comprobanteDao.buscarComprobante(comprobante);
+    }
+    
+    public void agregarSolicitud(Solicitud solicitud){
+        Solicitud existe = this.solicitudDao.buscarSolicitud(solicitud);
+ 
+        if(existe != null){          
+            solicitud.setSolicitudId(existe.getSolicitudId());
+            this.solicitudDao.edit(solicitud);
+        }
+        else{
+            this.solicitudDao.create(solicitud);
+        }
+    }
 }

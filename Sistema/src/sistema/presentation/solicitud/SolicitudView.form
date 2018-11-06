@@ -88,32 +88,27 @@
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="modeloTxt" alignment="1" min="-2" pref="102" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="descLabel" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="marcaLabel" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="marcaTxt" min="-2" pref="102" max="-2" attributes="0"/>
+                                                          <Component id="descTxt" min="-2" pref="102" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Group type="103" groupAlignment="0" attributes="0">
                                                           <Component id="precioLabel" min="-2" max="-2" attributes="0"/>
                                                           <Component id="cantidadLbl" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                                      <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="precioTxt" max="32767" attributes="0"/>
                                                           <Component id="cantidadSpinner" max="32767" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="modeloTxt" alignment="1" min="-2" pref="102" max="-2" attributes="0"/>
-                                                          <Group type="102" alignment="1" attributes="0">
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="descLabel" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="marcaLabel" min="-2" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="marcaTxt" min="-2" pref="102" max="-2" attributes="0"/>
-                                                                  <Component id="descTxt" min="-2" pref="102" max="-2" attributes="0"/>
-                                                              </Group>
-                                                          </Group>
+                                                          <Component id="precioTxt" max="32767" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                               </Group>
@@ -149,18 +144,19 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="numCompLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="fechaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dependenciaLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="comprobanteTxt" pref="112" max="32767" attributes="0"/>
                                   <Component id="fechaTxt" max="32767" attributes="0"/>
+                                  <Component id="dependenciaDropDwn" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="comprobanteTxt" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="crearSolicitud" min="-2" pref="46" max="-2" attributes="0"/>
                                   <Component id="cancelarSolicitud" min="-2" pref="46" max="-2" attributes="0"/>
-                                  <Component id="crearSolicitud" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -174,7 +170,22 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="crearSolicitud" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="comprobanteTxt" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="fechaTxt" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="generalInfoLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -182,35 +193,32 @@
                           <Component id="numSolicitudTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="numSolLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="numCompLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="comprobanteTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="crearSolicitud" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="estadoSolLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="estSolcTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fechaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="cancelarSolicitud" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="dependenciaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tipoDropDown" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tipoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dependenciaDropDwn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="fechaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="estadoSolLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="estSolcTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="fechaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tipoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tipoDropDown" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="cancelarSolicitud" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -285,7 +293,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -321,19 +329,12 @@
     <Component class="javax.swing.JComboBox" name="tipoDropDown">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TipoDeAdquisicion&gt;"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JTextField" name="fechaTxt">
     </Component>
     <Component class="javax.swing.JLabel" name="infoBienLabel">
       <Properties>
@@ -388,6 +389,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cantBienTxt">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cantBienTxtActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="totalLabel">
       <Properties>
@@ -451,8 +455,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="modeloTxt">
     </Component>
-    <Component class="javax.swing.JTextField" name="precioTxt">
-    </Component>
     <Component class="javax.swing.JButton" name="crearBien">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -489,6 +491,9 @@
           <Image iconType="3" name="/sistema/presentation/iconos/general/close.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarSolicitudActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="cantidadLbl">
       <Properties>
@@ -496,6 +501,28 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="cantidadSpinner">
+    </Component>
+    <Component class="javax.swing.JSpinner" name="precioTxt">
+    </Component>
+    <Component class="com.toedter.calendar.JDateChooser" name="fechaTxt">
+      <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="d, MMM yyyy"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="dependenciaLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dependencia:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="dependenciaDropDwn">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Dependencia&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sistema.data;
 
 import java.io.Serializable;
@@ -65,42 +65,40 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
             Query q = em.createQuery("Select obj from Bien obj");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Error al recuperando los bienes.\n\n Error:" + e + "\n\n");
+            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
     
     public List<Bien> buscarBienes(Solicitud solicitud){
         try {
-            Query q = em.createQuery("Select b from Bien b inner join b.bienSolicitud s where s.solicitudId = :id").setParameter("id", solicitud.getSolicitudId());
+            Query q = em.createQuery("Select b from Bien b inner join b.bienSolicitud c where c.comprobanteId = :id").setParameter("id", solicitud.getSolicitudId());
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Error al recuperar los bienes.\n\n Error:" + e + "\n\n");
+            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
     
     public List<Bien> buscarNuevosBienes(){
         try {
-            Query q = em.createQuery("Select b from Bien b inner join b.bienSolicitud s where s.solicitudId is null");
+            Query q = em.createQuery("Select b from Bien b where b.bienSolicitud is null");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Error al recuperar los bienes.\n\n Error:" + e + "\n\n");
+            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
     
     public Bien buscarBien(Bien bien){
         try {
-            Query q = em.createQuery("SELECT b FROM Bien b where b.bienDescripcion = :desc and b.bienMarca = :marca and b.bienModelo = :modelo and b.bienPrecio = :precio and b.bienCantidad = :cant")
+            Query q = em.createQuery("SELECT b FROM Bien b where b.bienDescripcion = :desc and b.bienMarca = :marca and b.bienModelo = :modelo")
                     .setParameter("desc", bien.getBienDescripcion())
                     .setParameter("marca", bien.getBienMarca())
-                    .setParameter("modelo", bien.getBienModelo())
-                    .setParameter("precio", bien.getBienPrecio())
-                    .setParameter("cant", bien.getBienCantidad());
+                    .setParameter("modelo", bien.getBienModelo());
             return (Bien) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.println("Error buscando por cedula: " + ex);
+            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + ex + "\n\n");
         }
         return null;
     }

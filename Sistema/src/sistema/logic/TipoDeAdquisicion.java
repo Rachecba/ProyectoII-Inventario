@@ -115,7 +115,7 @@ public class TipoDeAdquisicion implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.TipoDeAdquisicion[ tipoDeAdquisicionId=" + tipoDeAdquisicionId + " ]";
+        return tipoDeAdquisicionNombre;
     }
     
 }

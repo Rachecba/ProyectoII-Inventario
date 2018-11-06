@@ -6,10 +6,13 @@
 package sistema.presentation.solicitud;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import sistema.Sesion;
 import sistema.logic.Bien;
+import sistema.logic.Comprobante;
 import sistema.logic.Model;
+import sistema.logic.Solicitud;
 
 /**
  *
@@ -30,6 +33,10 @@ public class SolicitudController {
         this.solicitudModel = solicitudModel;
         solicitudView.setController(this);
         solicitudView.setModel(solicitudModel);
+        
+        this.solicitudModel.inicializarTiposDeAdquisicion(this.mainModel.getTipoDeAdquisicionBox());
+        this.solicitudModel.inicializarDependencias(this.mainModel.getDependenciasBox());
+        this.solicitudModel.inicializarBienes(new ArrayList<>());
     }
     
     //BIEN
@@ -40,32 +47,44 @@ public class SolicitudController {
         solicitudModel.notificar();
     }
 
-    public void agregarBien(Bien bien) throws Exception{
-        mainModel.agregarBien(bien);
-        this.setTablaBienes();
-    }
-    
-    public void editarBien(int row, Point at){
-    
+    public boolean agregarBien(Bien bien) throws Exception{
+        return mainModel.agregarBien(bien);
     }
 
     public void borrarBien(int row){
+        Bien seleccionado = solicitudModel.getBienTableModel().getRowAt(row);
+        
+        try{
+            mainModel.borrarBien(seleccionado);
+        }catch(Exception ex){ throw ex; }
+        
+        List<Bien> lista = mainModel.buscarNuevosBienes();
+        this.solicitudModel.setBienTableModel(lista);
+        this.solicitudModel.notificar();
+    }
     
+    public void asignarBienes(Solicitud solicitud){
+        for(Bien b : mainModel.buscarNuevosBienes()){
+            b.setBienComprobante(solicitud.getSolicitudComprobante());
+            mainModel.agregarBien(b);
+        }
     }
     
     //SOLICITUD
     
-    public void cancelarSolicitud(int row){
-    
+    public void cancelarSolicitud(){
+        solicitudView.setVisible(false);
     } 
     
-    public void crearSolicitud(int row){
+    public void crearSolicitud(Solicitud solicitud){
+        mainModel.agregarSolicitud(solicitud);
+    }
     
-    } 
+    //COMPROBANTE
     
-    public void editarSolicitud(int row){
-    
-    } 
+    public Comprobante crearComprobante(Comprobante comprobante){
+        return mainModel.agregarComprobante(comprobante);
+    }
     
     //GENERAL
     
@@ -81,5 +100,9 @@ public class SolicitudController {
     public void ocultar(){
         solicitudView.setVisible(false);
     } 
+    
+    public void refrescarPantalla(){
+        solicitudView.inicializaPantalla();
+    }
 
 }
