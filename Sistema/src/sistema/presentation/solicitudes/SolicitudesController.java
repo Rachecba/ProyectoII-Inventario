@@ -212,6 +212,16 @@ public class SolicitudesController {
             return false;
     }
     
+    public boolean permisoAdmin(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es secretaria es true, si no es, es false
+       
+        if (Arrays.asList(Application.ADMINISTRADOR).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es secretaria
+            return true;
+        }
+        else
+            return false;
+    }
+    
     public boolean getSession(){
         if(sesion.getAttribute("Usuario") == null)
             return false;

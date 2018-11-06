@@ -55,6 +55,32 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     
     public void inicializaPantalla(Solicitud filtro){
         
+        this.addButton.setVisible(true);
+        this.cancelButton.setVisible(true);
+        this.printButton.setVisible(true);
+        this.aceptarBttn.setVisible(true);
+        this.rechazarBttn.setVisible(true);
+        this.saveBttn.setVisible(true);
+        this.rechazoLbl.setVisible(true);
+        this.rechazoFld.setVisible(true);
+        this.bienesLbl.setVisible(true);
+        this.bienesTable.setVisible(true);
+        this.categoriaLbl.setVisible(true);
+        this.categoriaBox.setVisible(true);
+        this.categoriaBttn.setVisible(true);
+        this.incorporarBttn.setVisible(true);
+        this.jScrollPane3.setVisible(true);
+        this.registradorButton.setVisible(true);
+        this.registradorlLbl.setVisible(true);
+        this.saveRegButton.setVisible(true);
+        this.funcionariosDropDown.setVisible(true);
+        this.numSolicitud.setVisible(true);
+        this.numSolicitudTxt.setVisible(true);
+        this.cancelRegButton.setVisible(true);
+        
+        this.funcionariosDropDown.setModel(model.getFuncionarios());
+        this.categoriaBox.setModel(model.getCategorias());
+        
         this.fromEstado(filtro);
         solicitudesTable.setModel(model.getSolicitudes());
         
@@ -102,18 +128,12 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                     this.addButton.setVisible(false);
                     this.cancelButton.setVisible(false);
                     this.printButton.setVisible(false);
-                    this.rechazoFld.setEditable(false);
                     this.registradorButton.setVisible(false);
                     this.registradorlLbl.setVisible(false);
                     this.saveRegButton.setVisible(false);
                     this.funcionariosDropDown.setVisible(false);
                     this.numSolicitud.setVisible(false);
                     this.numSolicitudTxt.setVisible(false);
-                    this.rechazarBttn.setVisible(true);
-                    this.aceptarBttn.setVisible(true);
-                    this.rechazoLbl.setVisible(true);
-                    this.rechazoFld.setVisible(true);
-                    this.saveBttn.setVisible(true);
                     this.saveBttn.setEnabled(false);
                     this.cancelRegButton.setVisible(false);
                     
@@ -139,7 +159,6 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         this.rechazoFld.setEditable(false);
                         this.rechazoLbl.setVisible(false);
                         this.jScrollPane3.setVisible(false);
-                        this.registradorButton.setVisible(true);
                         this.rechazarBttn.setVisible(false);
                         this.aceptarBttn.setVisible(false);
                         this.saveBttn.setVisible(false);
@@ -148,27 +167,29 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
                         this.setSize(495, 481);
                         
                     }else{
-                        //si es administrador
-                        this.separator.setVisible(false);
-                        this.bienesLbl.setVisible(false);
-                        this.jScrollPane2.setVisible(false);
-                        this.incorporarBttn.setVisible(false);
-                        this.categoriaBox.setVisible(false);
-                        this.categoriaLbl.setVisible(false);
-                        this.aceptarBttn.setVisible(false);
-                        this.rechazarBttn.setVisible(false);
-                        this.saveBttn.setVisible(false);
-                        this.rechazoLbl.setVisible(false);
-                        this.jScrollPane3.setVisible(false);
-                        this.registradorButton.setVisible(false);
-                        this.registradorlLbl.setVisible(false);
-                        this.saveRegButton.setVisible(false);
-                        this.funcionariosDropDown.setVisible(false);
-                        this.numSolicitud.setVisible(false);
-                        this.numSolicitudTxt.setVisible(false);
-                        this.cancelRegButton.setVisible(false);
-                        
-                        this.setSize(489, 370);
+                        if(controller.permisoAdmin()){
+                            //si es administrador
+                            this.separator.setVisible(false);
+                            this.bienesLbl.setVisible(false);
+                            this.jScrollPane2.setVisible(false);
+                            this.incorporarBttn.setVisible(false);
+                            this.categoriaBox.setVisible(false);
+                            this.categoriaLbl.setVisible(false);
+                            this.aceptarBttn.setVisible(false);
+                            this.rechazarBttn.setVisible(false);
+                            this.saveBttn.setVisible(false);
+                            this.rechazoLbl.setVisible(false);
+                            this.jScrollPane3.setVisible(false);
+                            this.registradorButton.setVisible(false);
+                            this.registradorlLbl.setVisible(false);
+                            this.saveRegButton.setVisible(false);
+                            this.funcionariosDropDown.setVisible(false);
+                            this.numSolicitud.setVisible(false);
+                            this.numSolicitudTxt.setVisible(false);
+                            this.cancelRegButton.setVisible(false);
+                            
+                            this.setSize(489, 370);
+                        }
                     }
                 }
             }

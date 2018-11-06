@@ -336,8 +336,17 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     
     public void inicializaPantalla(){
         
-        this.activosTable.setModel(model.getActivos());
+        this.etiquetadosBttn.setVisible(true);
+        this.imprimirBttn.setVisible(true);
+        this.procesadaBttn.setVisible(true);
+        this.jSeparator1.setVisible(true);
+        this.ubicacionLbl.setVisible(true);
+        this.laborLbl.setVisible(true);
+        this.laborBox.setVisible(true);
+        this.saveBttn.setVisible(true);
+        this.activosTable.setVisible(true);
         
+        this.activosTable.setModel(model.getActivos());
         this.laborBox.setModel(model.getLabores());
         
         if(controller.getSession() == true){

@@ -259,6 +259,7 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         try{
             controller.agregar(funcionario());
             this.mensajeAgregado("Funcionario agregado con exito");
+            updateTable();
         }catch(Exception ex){
             ex.printStackTrace();
             this.mensaje(ex.getMessage());
@@ -374,6 +375,10 @@ public class FuncionariosView extends javax.swing.JInternalFrame implements Obse
         this.nombreFld.setText("");
         
         this.recibeGroup.clearSelection();
+    }
+    
+    public void updateTable() throws Exception{
+        controller.setTabla();
     }
     
 //    public void comboBox(){
