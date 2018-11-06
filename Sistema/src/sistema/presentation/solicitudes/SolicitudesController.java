@@ -185,30 +185,30 @@ public class SolicitudesController {
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
        
         if (!Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return false;
+            return true;
         }
         else
-            return true;
+            return false;
     } 
     
     public boolean permisoSecretario(){
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es secretaria es true, si no es, es false
        
         if (Arrays.asList(Application.SECRETARIA).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es secretaria
-            return false;
+            return true;
         }
         else
-            return true;
+            return false;
     }
     
     public boolean permisoJefeOCCB(){
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es secretaria es true, si no es, es false
        
         if (Arrays.asList(Application.JEFE_OCCB).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es secretaria
-            return false;
+            return true;
         }
         else
-            return true;
+            return false;
     }
     
     public boolean getSession(){
