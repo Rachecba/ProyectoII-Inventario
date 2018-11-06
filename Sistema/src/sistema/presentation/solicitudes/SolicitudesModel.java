@@ -8,8 +8,11 @@ package sistema.presentation.solicitudes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import sistema.Application;
 import sistema.logic.Bien;
+import sistema.logic.Funcionario;
 import sistema.logic.Solicitud;
 
 /**
@@ -21,6 +24,7 @@ public class SolicitudesModel extends java.util.Observable{
     SolicitudesTableModel solicitudes;
     BienesTableModel bienes;
     int modo;
+    ComboBoxModel<Funcionario> funcionarios;
 
     public SolicitudesModel() {
         this.reset();
@@ -85,5 +89,18 @@ public class SolicitudesModel extends java.util.Observable{
     public void notificar(){
         setChanged();
         //notifyObservers();       
-    }      
+    }    
+
+    public ComboBoxModel<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = new DefaultComboBoxModel(funcionarios.toArray());
+        this.notificar();
+    }
+    
+    public void inicializarFuncionarios(List<Funcionario> funcionarios){
+        this.setFuncionarios(funcionarios);
+    }
 }

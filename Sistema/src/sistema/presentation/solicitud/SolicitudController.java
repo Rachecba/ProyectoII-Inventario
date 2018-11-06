@@ -70,6 +70,12 @@ public class SolicitudController {
         }
     }
     
+    public void borrarBienesNoAsignados(){
+        for(Bien b : mainModel.buscarNuevosBienes()){
+            mainModel.borrarBien(b);
+        }
+    }
+    
     //SOLICITUD
     
     public void cancelarSolicitud(){

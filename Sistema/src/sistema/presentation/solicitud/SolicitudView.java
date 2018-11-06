@@ -6,6 +6,7 @@
 package sistema.presentation.solicitud;
 
 import java.util.Observer;
+import javax.annotation.PreDestroy;
 import javax.swing.JOptionPane;
 import sistema.Application;
 import sistema.logic.Bien;
@@ -56,7 +57,6 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         
         cantBienTxt.setText("0");
         totalTxt.setText("0");
-        
     }
     
     public void inicializaPantalla(){
@@ -661,6 +661,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                 controller.crearSolicitud(solicitud);
                 controller.asignarBienes(solicitud);
                 limpiarSolicitud();
+                //this update lista de solicitudes
             }catch(Exception ex){
                 ex.printStackTrace();
                 this.mensaje(ex.getMessage());
@@ -681,6 +682,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         // TODO add your handling code here:
     }//GEN-LAST:event_cantBienTxtActionPerformed
 
+    @PreDestroy
     private void cancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarSolicitudActionPerformed
         this.numSolicitudTxt.setText("");
         this.estSolcTxt.setText("");
@@ -688,6 +690,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         this.fechaTxt.setCalendar(null);
         this.tipoDropDown.setSelectedIndex(0);
         this.dependenciaDropDwn.setSelectedIndex(0);
+        this.controller.borrarBienesNoAsignados();
         this.controller.cancelarSolicitud();
     }//GEN-LAST:event_cancelarSolicitudActionPerformed
 

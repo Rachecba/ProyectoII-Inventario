@@ -296,4 +296,9 @@ public class Model {
             this.solicitudDao.create(solicitud);
         }
     }
+    
+    public void cancelarSolicitud(Solicitud solicitud){
+        solicitud.setSolicitudEstado("Cancelado");
+        solicitudDao.edit(solicitud);
+    }
 }
