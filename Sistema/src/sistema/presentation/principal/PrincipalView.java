@@ -89,6 +89,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         solicitudes.setText("Solicitudes");
 
+        verSolicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/user.png"))); // NOI18N
         verSolicitudes.setText("Ver Solicitudes");
         verSolicitudes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
