@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.Barcode128;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import sistema.logic.Funcionario;
 import sistema.logic.Labor;
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
+import sistema.logic.Usuario;
 
 /**
  *
@@ -115,6 +117,36 @@ public class ActivosController {
         }
     }
     
+    public boolean permisoAdmin(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
+       
+        if (!Arrays.asList(Application.ADMINISTRADOR).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    public boolean permisoJefeOCCB(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
+       
+        if (!Arrays.asList(Application.JEFE_OCCB).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    public boolean permisoRegistrador(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
+       
+        if (!Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return true;
+        }
+        else
+            return false;
+    }
+    
     public void setModo(int modo){
          this.model.setModo(modo, "");
      }
@@ -126,5 +158,13 @@ public class ActivosController {
     public void mostrar(){
         view.setVisible(true);
     }
+    
+    public boolean getSession(){
+        if(sesion.getAttribute("Usuario") == null)
+            return false;
+        else
+            return true;
+    }
+    
     
 }

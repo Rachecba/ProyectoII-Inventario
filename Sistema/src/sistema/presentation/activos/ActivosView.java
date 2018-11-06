@@ -335,9 +335,42 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     }
 
     public void inicializaPantalla(){
+  
         this.activosTable.setModel(model.getActivos());
         
         this.laborBox.setModel(model.getLabores());
+        
+        if(controller.getSession() == true){
+            if(!controller.permisoAdmin()){
+                this.etiquetadosBttn.setVisible(false);
+                this.imprimirBttn.setVisible(false);
+                this.procesadaBttn.setVisible(false);
+                this.jSeparator1.setVisible(false);
+                this.ubicacionLbl.setVisible(false);
+                this.laborLbl.setVisible(false);
+                this.laborBox.setVisible(false);
+                this.saveBttn.setVisible(false);
+                
+                this.setSize(539, 449);
+            
+            }else{
+                if(!controller.permisoJefeOCCB()){
+                    this.etiquetadosBttn.setVisible(false);
+                    this.imprimirBttn.setVisible(false);
+                    this.procesadaBttn.setVisible(false);
+                    this.jSeparator1.setVisible(false);
+                    this.ubicacionLbl.setVisible(false);
+                    this.laborLbl.setVisible(false);
+                    this.laborBox.setVisible(false);
+                    this.saveBttn.setVisible(false);
+                    
+                    this.setSize(539, 449);
+                
+                }
+                       
+            }
+        
+        }
         
     }
     
