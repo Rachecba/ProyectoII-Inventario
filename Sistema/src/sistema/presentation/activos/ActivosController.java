@@ -121,30 +121,30 @@ public class ActivosController {
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
        
         if (!Arrays.asList(Application.ADMINISTRADOR).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return true;
+            return false;
         }
         else
-            return false;
+            return true;
     }
     
     public boolean permisoJefeOCCB(){
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
        
         if (!Arrays.asList(Application.JEFE_OCCB).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return true;
+            return false;
         }
         else
-            return false;
+            return true;
     }
     
     public boolean permisoRegistrador(){
         Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
        
         if (!Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return true;
+            return false;
         }
         else
-            return false;
+            return true;
     }
     
     public void setModo(int modo){
