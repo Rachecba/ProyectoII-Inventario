@@ -67,7 +67,7 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
             Query q = em.createQuery("Select obj from Bien obj");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + e + "\n\n");
+            System.out.print("Info: no hay bienes por recuperar. En toda la tabla\n\n Error:" + e + "\n\n");
         }
         return null;
     }
@@ -87,7 +87,7 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
             Query q = em.createQuery("Select b from Bien b where b.bienSolicitud is null");
             return q.getResultList();
         } catch (Exception e) {
-            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + e + "\n\n");
+            System.out.print("Info: no hay nuevos bienes por recuperar.\n\n Error:" + e + "\n\n");
         }
         return null;
     }
@@ -100,7 +100,7 @@ public class BienDAO extends AbstractFacade<Bien> implements Serializable{
                     .setParameter("modelo", bien.getBienModelo());
             return (Bien) q.getSingleResult();
         } catch (Exception ex) {
-            System.out.print("Info: no hay bienes por recuperar.\n\n Error:" + ex + "\n\n");
+            System.out.print("Info: no hay biene por recuperar.\n\n Error:" + ex + "\n\n");
         }
         return null;
     }

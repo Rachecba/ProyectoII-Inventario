@@ -320,7 +320,7 @@ public class Model {
     }
     
     public List<Bien> buscarNuevosBienes(){
-      return null;//  return this.bienDao.buscarNuevosBienes();
+      return bienDao.buscarNuevosBienes();
     }
     
     public void asignarCategoria(Bien bien, Categoria categoria){

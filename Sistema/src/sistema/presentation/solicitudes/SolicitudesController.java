@@ -5,8 +5,12 @@
 */
 package sistema.presentation.solicitudes;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import sistema.Application;
@@ -236,5 +240,37 @@ public class SolicitudesController {
         Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
         this.mainModel.incorporarBienes(solicitud);
         
+    }
+    
+    public void imprimirSolicitud(int fila) throws Exception{
+        Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
+        
+        try {            
+            Document doc = new Document();
+            String userProfile = System.getenv("USERPROFILE");
+            PdfWriter pdf = PdfWriter.getInstance(doc, new FileOutputStream(userProfile + "/Desktop/Solicitud_" + solicitud.getSolicitudId() +".pdf"));
+            
+            doc.open();
+            
+            Paragraph paragraph = new Paragraph();
+            paragraph.add("Id de solicitud:" + solicitud.getSolicitudId()
+                    + "\n\n" + "Estado de la solicitud: " + solicitud.getSolicitudEstado()
+                    + ("Rechazada".equals(solicitud.getSolicitudEstado()) ? "" : "\n\n" + "Razon de rechazo: " + solicitud.getSolicitudDescripcionDeRechazo())
+                    + (solicitud.getSolicitudRegistradorDeBienes() == null ? "" : "\n\n" + "Registrador de la solicitud: " + solicitud.getSolicitudRegistradorDeBienes().getFuncionarioNombre())
+                    + "\n\n" + "Dependencia a la cual pertenece la solicitud: " + solicitud.getSolicitudDependencia().getDependenciaNombre()
+                    + "\n\n" + "Numero de comprobante de la solicitud: " + solicitud.getSolicitudComprobante().getComprobanteNumero()
+                    + "\n\n" + "Fecha de adquisicion: " + solicitud.getSolicitudComprobante().getComprobanteFechaDeAdquisicion()
+                    + "\n\n" + "Tipo de adquisicion: " + solicitud.getSolicitudComprobante().getComprobanteTipoDeAdquisicion().getTipoDeAdquisicionNombre()
+                    + "\n\n" + "Cantidad de bienes: " + solicitud.getSolicitudComprobante().getComprobanteCantBienes()
+                    + "\n\n" + "Total de bienes: " + solicitud.getSolicitudComprobante().getComprobanteMontoTotal());
+            paragraph.setAlignment(Element.ALIGN_JUSTIFIED);
+            
+            doc.add(paragraph);
+            
+            doc.close();
+        
+        } catch (Exception ex) {
+            throw new Exception("Error al imprimir solicitud.");
+        }
     }
 }

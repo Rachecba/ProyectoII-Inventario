@@ -37,7 +37,6 @@ public class SolicitudController {
         
         this.solicitudView.setController(this);
         this.solicitudView.setModel(solicitudModel);
-//        this.solicitudModel.inicializarBienes(new ArrayList<>());
     }
     
     //BIEN

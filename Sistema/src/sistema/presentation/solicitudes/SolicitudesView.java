@@ -556,6 +556,7 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         try {
+            Application.SOLICITUD_CONTROLLER.refrescarPantalla();
             Application.SOLICITUD_CONTROLLER.mostrar();
         } catch (Exception ex) {
             mensaje(ex.getMessage());
@@ -586,7 +587,20 @@ public class SolicitudesView extends javax.swing.JInternalFrame implements Obser
     }//GEN-LAST:event_incorporarBttnActionPerformed
     
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-        // print
+        int fila = this.solicitudesTable.getSelectedRow();
+       
+        try {
+            
+            if(fila != -1){
+                controller.imprimirSolicitud(fila);
+                this.mensajeAgregado("Se creo correctamente el PDF para imprimir. El archivo se encuentra en el escritorio.");
+            }else{
+                mensaje("Escoja una solicitud para imprimir");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            mensaje(ex.getMessage());
+        }
     }//GEN-LAST:event_printButtonActionPerformed
     
     private void solicitudesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudesTableMouseClicked

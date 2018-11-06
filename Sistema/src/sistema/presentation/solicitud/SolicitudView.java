@@ -210,6 +210,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
         
         nuevo.setSolicitudComprobante(comprobante);
         nuevo.setSolicitudDependencia((Dependencia) dependenciaDropDwn.getSelectedItem());
+        nuevo.setSolicitudEstado("Recibida");
         
         return nuevo;
     }
@@ -663,7 +664,7 @@ public final class SolicitudView extends javax.swing.JInternalFrame implements O
                 controller.crearSolicitud(solicitud);
                 controller.asignarBienes(solicitud);
                 limpiarSolicitud();
-                //this update lista de solicitudes
+                updateTablaBienes();
             }catch(Exception ex){
                 ex.printStackTrace();
                 this.mensaje(ex.getMessage());
