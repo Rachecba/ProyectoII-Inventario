@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sistema.presentation.activos;
 
 import java.util.List;
@@ -22,9 +18,9 @@ public class ActivosTableModel extends AbstractTableModel{
     //---------Variables fijas-----------
     public static final int CODIGO = 0;
     public static final int CATEGORIA = 1;
-    public static final int DESCRIPCION = 2;
+    public static final int DESCRIPCION = 4;
     public static final int DEPENDENCIA = 3;
-    public static final int RESPONSABLE = 4;
+    public static final int RESPONSABLE = 2;
     
     public ActivosTableModel(List<ActivoUniversitario> filas, int[] columnas){
         this.filas = filas;
@@ -64,9 +60,15 @@ public class ActivosTableModel extends AbstractTableModel{
           case DESCRIPCION:
               return activo.getActivoUniversitarioDescripcion();
           case DEPENDENCIA:
-              return activo.getActivoUniversitarioBien().getBienComprobante().getSolicitud().getSolicitudDependencia();
+              if(activo.getActivoUniversitarioResponsable() != null)
+                  return activo.getActivoUniversitarioResponsable().getLaborDependencia();
+              else
+                  return "";
           case RESPONSABLE:
-              return activo.getActivoUniversitarioResponsable();
+              if(activo.getActivoUniversitarioResponsable() != null)
+                  return activo.getActivoUniversitarioResponsable().getLaborFuncionario();
+              else
+                  return "";
           default:
               return "";
       }

@@ -101,6 +101,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         activos.setText("Activos");
 
+        verActivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/diamond(1).png"))); // NOI18N
         verActivos.setText("Ver Activos");
         verActivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

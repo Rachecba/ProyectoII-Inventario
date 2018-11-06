@@ -206,8 +206,12 @@ public class Model {
                 nuevo.setActivoUniversitarioBien(bien);
                 nuevo.setActivoUniversitarioCategoria(bien.getBienCategoria());
                 
-                if(!this.activoDao.getCodigo(bien).isEmpty())
-                    nuevo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo()+1));
+                if(!this.activoDao.getCodigo(bien).isEmpty()){
+                    String codigo = this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo();
+                    Integer codigoMasUno = Integer.parseInt(codigo) + 1;
+
+                    nuevo.setActivoUniversitarioCodigo(codigoMasUno.toString());
+                }
                 else
                     nuevo.setActivoUniversitarioCodigo(String.valueOf("1"));
                 //activo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).getActivoUniversitarioCodigo() + 1));
@@ -264,6 +268,10 @@ public class Model {
      public List<Categoria> getCategoriasBox(){
          return this.categoriaDao.findAll();
      }
+     
+     public List<Labor> getLaboresBox(){
+         return this.laborDao.findAll();
+     }
              
      public Dependencia buscarDependencia(String nombre){
          return this.dependenciaDao.buscarDependencia(nombre);
@@ -316,6 +324,12 @@ public class Model {
     public void asignarCategoria(Bien bien, Categoria categoria){
         bien.setBienCategoria(categoria);
         this.bienDao.edit(bien);
+    }
+    
+    public void saveUbicacion(ActivoUniversitario activo, Labor labor){
+        
+        activo.setActivoUniversitarioResponsable(labor);
+        this.activoDao.edit(activo);
     }
     
 }

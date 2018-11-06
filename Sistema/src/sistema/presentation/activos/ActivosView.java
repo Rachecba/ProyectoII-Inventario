@@ -3,9 +3,12 @@ package sistema.presentation.activos;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistema.Application;
 import sistema.logic.ActivoUniversitario;
+import sistema.logic.Labor;
 
 /**
  *
@@ -51,15 +54,15 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
         jLabel1 = new javax.swing.JLabel();
         etiquetadosBttn = new javax.swing.JButton();
         imprimirBttn = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
         ubicacionLbl = new javax.swing.JLabel();
-        dependenciaLbl = new javax.swing.JLabel();
-        dependenciaBox = new javax.swing.JComboBox();
-        responsableLbl = new javax.swing.JLabel();
-        responsableBox = new javax.swing.JComboBox();
+        laborLbl = new javax.swing.JLabel();
+        laborBox = new javax.swing.JComboBox();
         saveBttn = new javax.swing.JButton();
+        procesadaBttn = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/diamond(1).png"))); // NOI18N
 
         searchLbl.setText("Search");
 
@@ -74,6 +77,11 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        activosTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                activosTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(activosTable);
 
         searchBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/search.png"))); // NOI18N
@@ -92,79 +100,86 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
         });
 
         imprimirBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/print.png"))); // NOI18N
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        imprimirBttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirBttnActionPerformed(evt);
+            }
+        });
 
         ubicacionLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/placeholder(1).png"))); // NOI18N
         ubicacionLbl.setText("Registrar/Modificar datos de ubicacion");
 
-        dependenciaLbl.setText("Dependencia");
+        laborLbl.setText("Labor");
 
-        dependenciaBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        responsableLbl.setText("Responsable");
-
-        responsableBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        laborBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         saveBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/save.png"))); // NOI18N
+        saveBttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBttnActionPerformed(evt);
+            }
+        });
+
+        procesadaBttn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/success.png"))); // NOI18N
+        procesadaBttn.setText("Solicitud Procesada");
+        procesadaBttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                procesadaBttnActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(etiquetadosBttn)
-                        .addGap(7, 7, 7)))
-                .addGap(40, 40, 40)
-                .addComponent(imprimirBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(searchLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchFld, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(73, 73, 73))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ubicacionLbl)
-                        .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(responsableLbl)
-                                    .addComponent(dependenciaLbl))
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dependenciaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(responsableBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(saveBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiquetadosBttn)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(90, 90, 90))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(procesadaBttn)
+                    .addComponent(imprimirBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(saveBttn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(laborLbl)
+                                .addGap(26, 26, 26)
+                                .addComponent(laborBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ubicacionLbl)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(imprimirBttn)
-                .addGap(159, 159, 159))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
@@ -175,24 +190,34 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etiquetadosBttn)
-                            .addComponent(searchBttn))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchBttn)))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
                         .addComponent(ubicacionLbl)
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dependenciaLbl)
-                            .addComponent(dependenciaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(responsableBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(responsableLbl))
-                        .addGap(36, 36, 36)
-                        .addComponent(saveBttn))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(imprimirBttn)
+                                .addGap(37, 37, 37)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(procesadaBttn)
+                                    .addComponent(saveBttn))
+                                .addGap(102, 102, 102))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(laborLbl)
+                                    .addComponent(laborBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(187, 187, 187))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jSeparator1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -225,6 +250,49 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
             this.mensaje(ex.getMessage());
         }
     }//GEN-LAST:event_etiquetadosBttnActionPerformed
+
+    private void saveBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBttnActionPerformed
+       int fila = this.activosTable.getSelectedRow();
+       
+        try {
+            controller.datosUbicacion(fila, (Labor) this.laborBox.getSelectedItem());
+            this.mensajeAgregado("Datos agregados con exito.");
+        } catch (Exception ex) {
+            mensaje(ex.getMessage());
+        }
+        
+      
+    }//GEN-LAST:event_saveBttnActionPerformed
+
+    private void procesadaBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procesadaBttnActionPerformed
+        int fila = this.activosTable.getSelectedRow();
+        
+        try {
+            controller.changeEstadoProcesada(fila);
+            this.mensajeAgregado("Solicitud Procesada con exito.");
+        } catch (Exception ex) {
+            this.mensaje(ex.getMessage());
+        }
+    }//GEN-LAST:event_procesadaBttnActionPerformed
+
+    private void imprimirBttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirBttnActionPerformed
+       int fila = this.activosTable.getSelectedRow();
+       
+        try {
+            controller.codigoDeBarras(fila);
+            this.mensajeAgregado("Se creo correctamente el PDF para imprimir. El archivo se encuentra en el escritorio.");
+        } catch (Exception ex) {
+            mensaje(ex.getMessage());
+        }
+    }//GEN-LAST:event_imprimirBttnActionPerformed
+
+    private void activosTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activosTableMouseClicked
+        if(evt.getClickCount() == 2){
+            
+           controller.setModo(Application.EDITAR);
+        
+        }
+    }//GEN-LAST:event_activosTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -269,14 +337,13 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     public void inicializaPantalla(){
         this.activosTable.setModel(model.getActivos());
         
-        this.dependenciaBox.setModel(model.getDependencias());
-        this.responsableBox.setModel(model.getFuncionarios());
+        this.laborBox.setModel(model.getLabores());
+        
     }
     
-//    public ActivoUniversitario filtro(){
-//        ActivoUniversitario filtro = new ActivoUniversitario();
-//        filtro.
-//    }
+    void mensajeAgregado(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje, "", JOptionPane.INFORMATION_MESSAGE);
+    }
     
     void mensaje(String error){
         JOptionPane.showMessageDialog(this, error, "ERROR", JOptionPane.ERROR_MESSAGE); 
@@ -284,15 +351,14 @@ public class ActivosView extends javax.swing.JInternalFrame implements Observer 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable activosTable;
-    private javax.swing.JComboBox dependenciaBox;
-    private javax.swing.JLabel dependenciaLbl;
     private javax.swing.JButton etiquetadosBttn;
     private javax.swing.JButton imprimirBttn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JComboBox responsableBox;
-    private javax.swing.JLabel responsableLbl;
+    private javax.swing.JComboBox laborBox;
+    private javax.swing.JLabel laborLbl;
+    private javax.swing.JButton procesadaBttn;
     private javax.swing.JButton saveBttn;
     private javax.swing.JButton searchBttn;
     private javax.swing.JTextField searchFld;

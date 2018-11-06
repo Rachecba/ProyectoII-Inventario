@@ -3,12 +3,14 @@ package sistema.presentation.activos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import sistema.Application;
 import sistema.logic.ActivoUniversitario;
 import sistema.logic.Dependencia;
 import sistema.logic.Funcionario;
+import sistema.logic.Labor;
 
 /**
  *
@@ -17,8 +19,7 @@ import sistema.logic.Funcionario;
 public class ActivosModel extends java.util.Observable{
     String filtro;
     ActivosTableModel activosTable;
-    ComboBoxModel<Funcionario> funcionarios;
-    ComboBoxModel<Dependencia> dependencias;
+    ComboBoxModel<Labor> labores;
     int modo;
     
      public ActivosModel(){
@@ -34,29 +35,16 @@ public class ActivosModel extends java.util.Observable{
         this.notificar();
     }
      
-    public ComboBoxModel<Funcionario> getFuncionarios() {
-        return funcionarios;
+     public ComboBoxModel<Labor> getLabores() {
+         return labores;
+     }
+     
+     public void inicializaLabores(List<Labor> labores){
+        this.setLabores(labores);
     }
      
-     public void inicializaFuncionarios(List<Funcionario> funcionarios){
-        this.setFuncionarios(funcionarios);
-    }
-     
-     public void setFuncionarios(List<Funcionario> funcionarios) {
-        this.funcionarios = new DefaultComboBoxModel(funcionarios.toArray());
-        this.notificar();
-    }
-     
-    public ComboBoxModel<Dependencia> getDependencias() {
-        return dependencias;
-    }
-     
-     public void inicializaDependencias(List<Dependencia> dependencias){
-        this.setDependencias(dependencias);
-    }
-     
-     public void setDependencias(List<Dependencia> dependencias) {
-        this.dependencias = new DefaultComboBoxModel(dependencias.toArray());
+     public void setLabores(List<Labor> labores) {
+        this.labores = new DefaultComboBoxModel(labores.toArray());
         this.notificar();
     }
      
@@ -92,4 +80,9 @@ public class ActivosModel extends java.util.Observable{
         activosTable = new ActivosTableModel(activos, columnas); 
     }
 
+       @Override
+    public void addObserver(Observer o) {
+        super.addObserver(o);
+        this.notificar();   
+    }
 }
