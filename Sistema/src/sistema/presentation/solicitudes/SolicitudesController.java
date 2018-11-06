@@ -13,6 +13,10 @@ import sistema.Application;
 import sistema.logic.Model;
 import sistema.logic.Solicitud;
 import sistema.Sesion;
+import sistema.logic.Bien;
+import sistema.logic.Categoria;
+import sistema.logic.Comprobante;
+import sistema.logic.Funcionario;
 import sistema.logic.Usuario;
 
 /**
@@ -35,8 +39,12 @@ public class SolicitudesController {
         solicitudesView.setController(this);
         solicitudesView.setModel(solicitudesModel);
         
-        this.solicitudesView.inicializaPantalla();
+//        this.solicitudesView.inicializaPantalla(); this
         this.solicitudesModel.inicializarFuncionarios(this.mainModel.getFuncionariosBox());
+        this.solicitudesModel.inicializaCategorias(mainModel.getCategoriasBox());
+        
+        this.solicitudesView.setController(this);
+        this.solicitudesView.setModel(solicitudesModel);
     }
     
     public void buscar(Solicitud filter) throws Exception{
@@ -50,13 +58,49 @@ public class SolicitudesController {
         this.buscar();
     }
     
-    public void buscar() throws Exception{
-        List<Solicitud> solicitudes = mainModel.buscarSolicitudes(solicitudesModel.getFiltro());
-        solicitudesModel.setTable(solicitudes);
-        solicitudesModel.notificar();
+//    public void buscar() throws Exception{
+//        List<Solicitud> solicitudes = mainModel.buscarSolicitudes(solicitudesModel.getFiltro());
+//        solicitudesModel.setTable(solicitudes);
+//        solicitudesModel.notificar();
+//        
+//        if(solicitudes.isEmpty())
+//            throw new Exception("No existen solicitudes.");
+//    }
+     
+    public void buscar() throws Exception{        
         
-        if(solicitudes.isEmpty())
-            throw new Exception("No existen solicitudes.");
+        if(!this.permisoRegistrador()){ //si es registrador
+            Usuario usuario = (Usuario) sesion.getAttribute("Usuario");
+            Funcionario funcionario = usuario.getUsuarioFuncionario();
+            
+            List<Solicitud> solicitudes = mainModel.buscarSolicitudRegistrador(solicitudesModel.getFiltro(), funcionario);
+            solicitudesModel.setTable(solicitudes);
+            solicitudesModel.notificar();
+            
+            if(solicitudes.isEmpty())
+                throw new Exception("Solicitud no encontrada");
+        }
+        else{
+            if(this.permisoSecretario()){ //es un secretario
+                
+                List<Solicitud> solicitudes = mainModel.buscarSolicitudesSecretario(solicitudesModel.getFiltro());
+                solicitudesModel.setTable(solicitudes);
+                solicitudesModel.notificar();
+                
+                if(solicitudes.isEmpty())
+                    throw new Exception("Solicitud no encontrada");
+            }
+            else{ //es un administrador
+                
+                List<Solicitud> solicitudes = mainModel.buscarSolicitudes(solicitudesModel.getFiltro());
+                solicitudesModel.setTable(solicitudes);
+                solicitudesModel.notificar();
+                
+                if(solicitudes.isEmpty())
+                    throw new Exception("Solicitud no encontrada");
+            }
+        }
+        
     }
     
     public void cancelarSolicitud(int row){
@@ -77,6 +121,49 @@ public class SolicitudesController {
         mainModel.agregarSolicitud(solicitud);
     }
     
+    public void buscarBienes(int fila) throws Exception{
+         Solicitud solicitud = solicitudesModel.getSolicitudes().getRowAt(fila);
+         Comprobante comprobante = solicitud.getSolicitudComprobante();
+         this.setTablaBienes(comprobante);
+        
+    }
+    
+    public void setTablaBienes(Comprobante comprobante) throws Exception{
+         List<Bien> bienes = mainModel.buscarBienes(comprobante);
+         this.solicitudesModel.setBienes(bienes);
+         this.solicitudesModel.notificar();
+         
+         
+         if(this.solicitudesModel.getModo() == Application.EDITAR && bienes.isEmpty())
+             throw new Exception("Bienes no encontrados");
+     }
+     
+    public void changeEstado(int fila, String estado, String rechazo) throws Exception{
+        Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
+        solicitud.setSolicitudEstado(estado);
+        solicitud.setSolicitudDescripcionDeRechazo(rechazo);
+        
+        try{
+            mainModel.cambiarEstadoSolicitud(solicitud);
+        }catch(Exception e){}
+        
+        this.setTablaSolicitudes();
+    }
+    
+    public Solicitud getSolicitud(int fila){
+        return this.solicitudesModel.getSolicitudes().getRowAt(fila);
+    }
+    
+    public void setTablaSolicitudes(/*Dependencia dependencia*/) throws Exception{
+//         List<Labor> labores = mainModel.buscarLabores(dependencia);
+//         mainModel.setFuncionariosTable(labores);
+//         mainModel.notificar();
+//         
+//         
+//         if(mainModel.getModo() == Application.EDITAR && labores.isEmpty())
+//             throw new Exception("Funcionarios no encontrados");
+     }
+
     public void reset(){
         solicitudesModel.reset();
     }
@@ -95,12 +182,23 @@ public class SolicitudesController {
     }
     
     public boolean permisoRegistrador(){
-        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
-        if ( !Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
-            return false;
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es true, no es registrador, si es false si es registrador
+       
+        if (!Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return true;
         }
         else
+            return false;
+    } 
+    
+    public boolean permisoSecretario(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario"); //si es secretaria es true, si no es, es false
+       
+        if (Arrays.asList(Application.SECRETARIA).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es secretaria
             return true;
+        }
+        else
+            return false;
     }
     
     public boolean getSession(){
@@ -111,8 +209,25 @@ public class SolicitudesController {
     }
     
     public void setModo(int modo, int fila){
-        Solicitud seleccionada = solicitudesModel.getSolicitudes().getRowAt(modo);
-        this.solicitudesModel.setModo(modo, seleccionada);
+         Solicitud seleccionada = solicitudesModel.getSolicitudes().getRowAt(fila);
+         this.solicitudesModel.setModo(modo, seleccionada);
+     }
+    
+    public void asignarCategoria(int fila, Categoria categoria, int filaSolicitud) throws Exception{
+        Bien bien = this.solicitudesModel.getBienes().getRowAt(fila);
+        Solicitud solicitud = solicitudesModel.getSolicitudes().getRowAt(filaSolicitud);
+        Comprobante comprobante = solicitud.getSolicitudComprobante();
+        
+        try{
+            mainModel.asignarCategoria(bien, categoria);
+        }catch(Exception e){}
+        
+        this.setTablaBienes(comprobante);
     }
     
+    public void incorporarBienes(int fila){
+        Solicitud solicitud = this.solicitudesModel.getSolicitudes().getRowAt(fila);
+        this.mainModel.incorporarBienes(solicitud);
+        
+    }
 }

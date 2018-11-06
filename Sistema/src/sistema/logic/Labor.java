@@ -121,7 +121,7 @@ public class Labor implements Serializable {
 
     @Override
     public String toString() {
-        return this.laborPuesto.getPuestoNombre();
+        return this.laborFuncionario.getFuncionarioNombre() + " - " + this.laborDependencia.getDependenciaNombre();
     }
     
 }

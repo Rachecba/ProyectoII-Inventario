@@ -53,8 +53,9 @@ public class PrincipalView extends JFrame implements Observer {
         salir = new javax.swing.JMenu();
         logout = new javax.swing.JMenuItem();
         solicitudes = new javax.swing.JMenu();
-        VerSolicitudes = new javax.swing.JMenuItem();
+        verSolicitudes = new javax.swing.JMenuItem();
         activos = new javax.swing.JMenu();
+        verActivos = new javax.swing.JMenuItem();
         articulos = new javax.swing.JMenu();
         verArticulos = new javax.swing.JMenuItem();
         funcionarios = new javax.swing.JMenu();
@@ -76,7 +77,6 @@ public class PrincipalView extends JFrame implements Observer {
 
         salir.setText("Salir");
 
-        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/exit.png"))); // NOI18N
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,18 +88,28 @@ public class PrincipalView extends JFrame implements Observer {
         jMenuBar1.add(salir);
 
         solicitudes.setText("Solicitudes");
-        VerSolicitudes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/clipboard.png"))); // NOI18N
-        VerSolicitudes.setText("Ver Solicitudes");
-        VerSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+
+        verSolicitudes.setText("Ver Solicitudes");
+        verSolicitudes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerSolicitudesActionPerformed(evt);
+                verSolicitudesActionPerformed(evt);
             }
         });
-        solicitudes.add(VerSolicitudes);
+        solicitudes.add(verSolicitudes);
 
         jMenuBar1.add(solicitudes);
 
         activos.setText("Activos");
+
+        verActivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/diamond(1).png"))); // NOI18N
+        verActivos.setText("Ver Activos");
+        verActivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verActivosActionPerformed(evt);
+            }
+        });
+        activos.add(verActivos);
+
         jMenuBar1.add(activos);
 
         articulos.setText("Articulos");
@@ -117,7 +127,7 @@ public class PrincipalView extends JFrame implements Observer {
 
         funcionarios.setText("Funcionarios");
 
-        verFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/general/user.png"))); // NOI18N
+        verFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sistema/presentation/iconos/generales/people.png"))); // NOI18N
         verFuncionarios.setText("Ver Funcionarios");
         verFuncionarios.setEnabled(false);
         verFuncionarios.addActionListener(new java.awt.event.ActionListener() {
@@ -183,11 +193,38 @@ public class PrincipalView extends JFrame implements Observer {
       //  controller.showSolicitudes();
     }//GEN-LAST:event_verSolicitudesActionPerformed
 
+    private void verActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActivosActionPerformed
+        controller.showActivos();
+    }//GEN-LAST:event_verActivosActionPerformed
+
     public void inicializaPermisos() throws Exception{
-        if(controller.permisoJefeRRHH()){
-            this.verDependencias.setEnabled(true);
-            this.verFuncionarios.setEnabled(true);
-        }
+        
+//        if(controller.permisoJefeRRHH()){
+//            this.verDependencias.setEnabled(true);
+//            this.verFuncionarios.setEnabled(true);
+//        }else{
+//            if(controller.permisoAdministrador()){
+//                this.verSolicitudes.setEnabled(true);
+//                this.verActivos.setEnabled(true);
+//            }else{
+//                if(controller.permisoSecretaria()){
+//                    this.verSolicitudes.setEnabled(true);
+//                }else{
+//                    if(controller.permisoJefeOCCB()){
+//                        this.verSolicitudes.setEnabled(true);
+//                        this.verActivos.setEnabled(true);
+//                    }else{
+//                        if(controller.permisoRegistradorBienes()){
+//                            this.verArticulos.setEnabled(true);
+//                            this.verSolicitudes.setEnabled(true);
+//                            this.verActivos.setEnabled(true);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        
     }
     
     @Override
@@ -204,7 +241,6 @@ public class PrincipalView extends JFrame implements Observer {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem VerSolicitudes;
     private javax.swing.JMenu activos;
     private javax.swing.JMenu articulos;
     private javax.swing.JMenu ayuda;
@@ -215,6 +251,7 @@ public class PrincipalView extends JFrame implements Observer {
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenu salir;
     private javax.swing.JMenu solicitudes;
+    private javax.swing.JMenuItem verActivos;
     private javax.swing.JMenuItem verArticulos;
     private javax.swing.JMenuItem verDependencias;
     private javax.swing.JMenuItem verFuncionarios;

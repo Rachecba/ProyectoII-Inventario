@@ -166,7 +166,7 @@ public class Comprobante implements Serializable {
 
     @Override
     public String toString() {
-        return "sistema.logic.Comprobante[ comprobanteId=" + comprobanteId + " ]";
+        return String.valueOf(comprobanteId);
     }
 
     public String getComprobanteNumero() {

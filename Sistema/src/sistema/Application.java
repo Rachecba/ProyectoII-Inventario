@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import static sistema.Application.SOLICITUDES_CONTROLLER;
 import sistema.logic.Model;
 import sistema.presentation.activos.ActivosController;
+import sistema.presentation.activos.ActivosModel;
+import sistema.presentation.activos.ActivosView;
 import sistema.presentation.articulos.ArticulosController;
 import sistema.presentation.articulos.ArticulosModel;
 import sistema.presentation.articulos.ArticulosView;
@@ -56,11 +58,11 @@ public class Application {
         LOGIN_CONTROLLER = loginController;
         loginView.setVisible(true);
         
-     //   ActivosModel activosModel = new ActivosModel();
-//        ActivosView activosView = new ActivosView();
-//        principalView.addInternalFrame(activosView);
-     //   ActivosController activosController = new ActivosController(activosModel, activosView, mainMode, sesion);
-     //   ACTIVOS_CONTROLLER = activosController;
+        ActivosModel activosModel = new ActivosModel();
+        ActivosView activosView = new ActivosView();
+        principalView.addInternalFrame(activosView);
+        ActivosController activosController = new ActivosController(activosModel, activosView, mainModel, sesion);
+        ACTIVOS_CONTROLLER = activosController;
      
         ArticulosModel articulosModel = new ArticulosModel();
         ArticulosView articulosView = new ArticulosView();
@@ -86,11 +88,11 @@ public class Application {
         SolicitudesController solicitudesController = new SolicitudesController(solicitudesModel,solicitudesView,mainModel,sesion);
         SOLICITUDES_CONTROLLER = solicitudesController;
         
-        SolicitudModel solicitudModel = new SolicitudModel();
-        SolicitudView solicitudView = new SolicitudView();
-        principalView.addInternalFrame(solicitudView);
-        SolicitudController solicitudController = new SolicitudController(solicitudModel,solicitudView,mainModel,sesion);
-        SOLICITUD_CONTROLLER = solicitudController;
+//        SolicitudModel solicitudModel = new SolicitudModel();
+//        SolicitudView solicitudView = new SolicitudView();
+//        principalView.addInternalFrame(solicitudView);
+//        SolicitudController solicitudController = new SolicitudController(solicitudModel,solicitudView,mainModel,sesion);
+//        SOLICITUD_CONTROLLER = solicitudController;
     }
     
     //-------------------VARIABLES GLOBALES----------------------------
@@ -119,5 +121,5 @@ public class Application {
 
         //------------------COLORES--------------------
         public static final Color COLOR_ERROR = Color.red;
-        public static final Color COLOR_OK=Color.black;
+        public static final Color COLOR_OK=Color.darkGray;
 }

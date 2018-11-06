@@ -46,7 +46,7 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
         try {
             super.merge(obj);
         } catch (Exception e) {
-            System.out.print("Error al editando la solicitud.\n\n Error:" + e + "\n\n");
+            System.out.print("Error al editar la solicitud.\n\n Error:" + e + "\n\n");
         }
     }
     
@@ -85,7 +85,10 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
     
     public List<Solicitud> findPorRegistrador(Solicitud filtro, Funcionario registrador){
         try {
-            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE CONCAT('%',:solicitudId,'%') and obj.solicitudRegistradorDeBienes = :registrador").setParameter("solicitudId", filtro.getSolicitudId()).setParameter("registrador", registrador.getFuncionarioNombre());
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudId LIKE '%solicitudId%' and obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado ")
+                    .setParameter("solicitudId", filtro.getSolicitudId())
+                    .setParameter("registrador", registrador)
+                    .setParameter("estado", "Recibida");
             return q.getResultList();
         } catch (Exception e) {
             System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");
@@ -103,4 +106,42 @@ public class SolicitudDAO extends AbstractFacade<Solicitud> implements Serializa
         }
         return null;
     }
+
+    public List<Solicitud> findPorRegistradorAll(Funcionario registrador){
+        try {
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudRegistradorDeBienes = :registrador and obj.solicitudEstado = :estado")
+                    .setParameter("registrador", registrador)
+                    .setParameter("estado", "Recibida");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperando las solicitudes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    
+    }
+    
+    public List<Solicitud> findRecibidasAll(){
+        try {
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudEstado = :estado").setParameter("estado", "Recibida");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar las solicitudes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    
+    }
+    
+    public List<Solicitud> findRecibidas(Solicitud filtro){
+    
+         try {
+            Query q = em.createQuery("Select obj from Solicitud obj where obj.solicitudEstado = :estado and obj.solicitudId LIKE '%id%' ")
+                    .setParameter("estado", "Recibida")
+                    .setParameter("id", filtro.getSolicitudId());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.print("Error al recuperar las solicitudes.\n\n Error:" + e + "\n\n");
+        }
+        return null;
+    }
+ 
 }

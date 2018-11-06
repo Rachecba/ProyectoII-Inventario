@@ -1,8 +1,4 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+
 package sistema.logic;
 
 import java.util.List;
@@ -72,13 +68,13 @@ public class Model {
         }
      }
     
-    public List<Funcionario> buscarFuncionarios(Funcionario filtro, Dependencia dependencia){
+    public List<Funcionario> buscarFuncionariosCedula(Funcionario filtro){
         
         if(filtro.getFuncionarioCedula() == null){
-            return this.funcionarioDao.findFuncionariosPorDependencia(dependencia); //arreglar este findAll, es findAll por dependencia
+            return this.funcionarioDao.findAll();
         }
         else{
-            return this.funcionarioDao.findFuncionario(filtro); //find funcionario por dependencia
+            return this.funcionarioDao.findFuncionario(filtro);
         }
         
     }
@@ -99,6 +95,7 @@ public class Model {
     }
      
      public List<Funcionario> buscarFuncionarios(Funcionario filtro){
+         
          if(filtro.getFuncionarioNombre() == null){
              return this.funcionarioDao.findAll();
          }
@@ -113,6 +110,30 @@ public class Model {
          }
          else{
              return this.solicitudDao.findSolicitudes(filtro);
+         }
+     }
+     
+     public List<ActivoUniversitario> buscarActivos(String filtro){
+         if(filtro.isEmpty()){
+             return this.activoDao.findAll();
+         }
+         else{
+            // return this.activoDao.findActivo();
+         }
+        return null;
+     }
+     
+     public List<ActivoUniversitario> buscarActivosEtiquetados(){
+         return this.activoDao.findEtiquetados();
+     }
+     
+     public List<Solicitud> buscarSolicitudesSecretario(Solicitud filtro){
+         
+         if(filtro.getSolicitudId()== null){
+             return this.solicitudDao.findRecibidasAll();
+         }
+         else{
+             return this.solicitudDao.findRecibidas(filtro);
          }
      }
     
@@ -176,19 +197,42 @@ public class Model {
             this.categoriaDao.create(categoria);
         }
     }
+    
+    public void incorporarBienes(Solicitud solicitud){
+        
+        for(Bien bien : solicitud.getSolicitudComprobante().getBienCollection()){
+            for(int i = 0; i < bien.getBienCantidad(); i++){ 
+                ActivoUniversitario nuevo = new ActivoUniversitario();
+                nuevo.setActivoUniversitarioBien(bien);
+                nuevo.setActivoUniversitarioCategoria(bien.getBienCategoria());
+                
+                if(!this.activoDao.getCodigo(bien).isEmpty()){
+                    String codigo = this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo();
+                    Integer codigoMasUno = Integer.parseInt(codigo) + 1;
+
+                    nuevo.setActivoUniversitarioCodigo(codigoMasUno.toString());
+                }
+                else
+                    nuevo.setActivoUniversitarioCodigo(String.valueOf("1"));
+                //activo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).getActivoUniversitarioCodigo() + 1));
+                this.activoDao.create(nuevo);
+            //activo.setActivoUniversitarioCodigo(String.valueOf(this.activoDao.getCodigo(bien).get(0).getActivoUniversitarioCodigo()+1));
+            }
+        }
+    }
      
-     public void eliminarFuncionario(Funcionario funcionario, Dependencia dependencia) throws Exception{
-         //System.out.print("Size Collection>> " + funcionario.getDependenciaCollection().size() + "\n\n");
+     public void eliminarFuncionario(Funcionario funcionario) throws Exception{
          
-         if(dependencia.getDependenciaAdministrador().equals(funcionario))
-             throw new Exception("No se puede eliminar al administrador de la dependencia.");
-         else
-            funcionario.getDependenciaCollection().remove(dependencia); //elimino al funcionario de la dependencia
-         
-         if(funcionario.getDependenciaCollection().isEmpty()) //si ya no esta asociado a ninguna dependencia, se puede eliminar el funcionario por completo
+         if(funcionario.getDependenciaCollection().isEmpty())
              this.funcionarioDao.delete(funcionario);
-         
-         //System.out.print(funcionario.getDependenciaCollection().size());
+         else{
+             for(Dependencia dependencia : funcionario.getDependenciaCollection()){
+                 if(dependencia.getDependenciaAdministrador().getFuncionarioNombre().equals(funcionario.getFuncionarioNombre())){
+                     throw new Exception("No se puede eliminar al administrador de una dependencia.");
+                 }
+             }
+             this.funcionarioDao.delete(funcionario);
+         }
      }
      
      public void eliminarDependencia(Dependencia dependencia){
@@ -209,18 +253,26 @@ public class Model {
          this.laborDao.delete(labor);
      }
      
-     public List<Dependencia> getDependenciasBox(){
-         return this.dependenciaDao.findAll();
-     }
-     
      public List<Funcionario> getFuncionariosBox(){
          return this.funcionarioDao.findAll();
+     }
+     
+     public List<Dependencia> getDependenciasBox(){
+         return this.dependenciaDao.findAll();
      }
      
      public List<Puesto> getPuestosBox(){
          return this.puestoDao.findAll();
      }
      
+     public List<Categoria> getCategoriasBox(){
+         return this.categoriaDao.findAll();
+     }
+     
+     public List<Labor> getLaboresBox(){
+         return this.laborDao.findAll();
+     }
+             
      public Dependencia buscarDependencia(String nombre){
          return this.dependenciaDao.buscarDependencia(nombre);
      }
@@ -238,11 +290,19 @@ public class Model {
     }
     
     public List<Solicitud> buscarSolicitudRegistrador(Solicitud filtro, Funcionario registrador){
-        return this.solicitudDao.findPorRegistrador(filtro, registrador);
+        
+        if(filtro.getSolicitudId() == null)
+            return this.solicitudDao.findPorRegistradorAll(registrador);
+        else
+            return this.solicitudDao.findPorRegistrador(filtro, registrador);
     }
     
-    public List<Bien> buscarBienes(Solicitud solicitud){
-        return this.bienDao.buscarBienes(solicitud);
+    public void cambiarEstadoSolicitud(Solicitud solicitud){
+        this.solicitudDao.edit(solicitud);
+    }
+    
+    public List<Bien> buscarBienes(Comprobante comprobante){
+        return this.bienDao.buscarBienes(comprobante);
     }
     
     public boolean agregarBien(Bien bien){
@@ -260,7 +320,18 @@ public class Model {
     }
     
     public List<Bien> buscarNuevosBienes(){
-        return this.bienDao.buscarNuevosBienes();
+      return null;//  return this.bienDao.buscarNuevosBienes();
+    }
+    
+    public void asignarCategoria(Bien bien, Categoria categoria){
+        bien.setBienCategoria(categoria);
+        this.bienDao.edit(bien);
+    }
+    
+    public void saveUbicacion(ActivoUniversitario activo, Labor labor){
+        
+        activo.setActivoUniversitarioResponsable(labor);
+        this.activoDao.edit(activo);
     }
     
     public void borrarBien(Bien bien){

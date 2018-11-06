@@ -59,7 +59,43 @@ public class PrincipalController {
         else
             return true;
     }
+    
+    public boolean permisoSecretaria(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.SECRETARIA).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de secretaria
+            return false;
+        }
+        else
+            return true;
+    
+    }
+    
+    public boolean permisoRegistradorBienes(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.REGISTRADOR_BIENES).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de registrador de bienes
+            return false;
+        }
+        else
+            return true;
+    }
+    
+    public boolean permisoAdministrador(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.ADMINISTRADOR).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de admin
+            return false;
+        }
+        else
+            return true;
+    }
    
+    public boolean permisoJefeOCCB(){
+        Usuario principal = (Usuario) sesion.getAttribute("Usuario");
+        if ( !Arrays.asList(Application.JEFE_OCCB).contains(principal.getUsuarioRol())){ //verifica si el rol del usuario es de jefeOCCB
+            return false;
+        }
+        else
+            return true;
+    }
     
     // --------------------- ventanas -------------------------------
     
@@ -68,7 +104,7 @@ public class PrincipalController {
     }
     
     public void showActivos(){
-        // Application.ACTIVOS_CONTROLLER.mostrar(); 
+         Application.ACTIVOS_CONTROLLER.mostrar(); 
     }
     
     public void showSolicitudes(){

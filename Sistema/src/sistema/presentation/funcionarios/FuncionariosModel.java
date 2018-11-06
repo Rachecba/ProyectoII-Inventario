@@ -22,7 +22,6 @@ import sistema.logic.Funcionario;
 public class FuncionariosModel extends Observable {
     Funcionario filtro;
     FuncionariosTableModel table;
-    ComboBoxModel<Dependencia> dependencias;
     int modo;
     
     public FuncionariosModel(){
@@ -42,23 +41,9 @@ public class FuncionariosModel extends Observable {
         this.setTable(funcionarios);
         this.notificar();
     }
-    
-    public void inicializaDependencias(List<Dependencia> dependencias){
-        this.setDependencias(dependencias);
-        this.setFiltro(new Funcionario());
-    }
-
-    public ComboBoxModel<Dependencia> getDependencias() {
-        return dependencias;
-    }
 
     public int getModo() {
         return modo;
-    }
-
-    public void setDependencias(List<Dependencia> dependencias) {
-        this.dependencias = new DefaultComboBoxModel(dependencias.toArray());
-        this.notificar();
     }
 
     public void setModo(int modo, Funcionario actual) {
